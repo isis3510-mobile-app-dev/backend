@@ -11,7 +11,11 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
 
+# Load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -73,7 +77,7 @@ DATABASES = {
     "default": {
         'ENGINE': 'django_mongodb_backend',
         'NAME': 'pet_health_db',
-        "HOST": "mongodb+srv://marialeang5:EEXQtEV8e9R4Iarh@moviles.hdlybns.mongodb.net/?retryWrites=true&w=majority&appName=api",
+        "HOST": os.getenv("DATABASE_URL"),
     }
 }
 
