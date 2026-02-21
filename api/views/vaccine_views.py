@@ -1,1 +1,0 @@
-# HTTP views for Vaccine

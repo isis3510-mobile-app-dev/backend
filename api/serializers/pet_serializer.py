@@ -1,1 +1,0 @@
-# Manual serializer for Pet

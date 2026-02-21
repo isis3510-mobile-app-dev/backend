@@ -1,5 +1,0 @@
-django==6.0.1
-django-mongodb-backend
-djangorestframework
-django-cors-headers
-python-dotenv
