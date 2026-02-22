@@ -4,6 +4,9 @@ from api.models import Pet, VaccinationEvent, MedicalRecord
 def create_pet(data):
     return Pet.objects.create(**data)
 
+def list_pets():
+    return Pet.objects.all()
+
 def get_pet(pet_id):
     return Pet.objects.get(id=pet_id)
 

@@ -15,8 +15,14 @@ def create_pet(request):
             return JsonResponse(pet_to_dict(pet), status=201)
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
+    elif request.method == "GET":
+        pets = pet_service.list_pets()
+        pets_data = [pet_to_dict(pet) for pet in pets]
+        return JsonResponse(pets_data, safe=False)
 
     return JsonResponse({"error": "Method not allowed"}, status=405)
+
+
 
 @csrf_exempt
 def pet_detail(request, pet_id):
