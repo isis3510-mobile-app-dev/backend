@@ -11,8 +11,11 @@ def get_pet(pet_id):
     return Pet.objects.get(id=pet_id)
 
 def update_pet(pet_id, data):
-    Pet.objects.filter(id=pet_id).update(**data)
-    return get_pet(pet_id)
+    pet = Pet.objects.get(id=pet_id)
+    for key, value in data.items():
+        setattr(pet, key, value)
+    pet.save()
+    return pet
 
 def delete_pet(pet_id):
     Pet.objects.filter(id=pet_id).delete()

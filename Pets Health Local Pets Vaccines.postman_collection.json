@@ -1,0 +1,280 @@
+{
+  "info": {
+    "_postman_id": "43c49398-30ae-49ec-99f7-6023fd7f4cc0",
+    "name": "Pets Health Local",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "32571299"
+  },
+  "item": [
+    {
+      "name": "Vaccines",
+      "item": [
+        {
+          "name": "Create Vaccine",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Rabies\",\r\n  \"characteristics\": \"Protects against rabies virus\",\r\n  \"application_moment\": \"8 weeks\",\r\n  \"animal_type\": \"dog\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/vaccines/create/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "vaccines",
+                "create",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Vaccines",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/vaccines/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "vaccines",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Vaccine (id)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/vaccines/699bc915d5ed6454e5f261ab",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "vaccines",
+                "699bc915d5ed6454e5f261ab"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Vaccine",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Rabies\",\r\n  \"characteristics\": \"Protects against rabies virus\",\r\n  \"application_moment\": \"12 weeks\",\r\n  \"animal_type\": \"dog\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/vaccines/699bc915d5ed6454e5f261ab/update/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "vaccines",
+                "699bc915d5ed6454e5f261ab",
+                "update",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Vaccine",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/vaccines/699bc915d5ed6454e5f261ab/delete/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "vaccines",
+                "699bc915d5ed6454e5f261ab",
+                "delete",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Pets",
+      "item": [
+        {
+          "name": "Create pet",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Milo\",\r\n  \"species\": \"dog\",\r\n  \"breed\": \"dachshund\",\r\n  \"weight\": 5\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/pets/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "pets",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Dog",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/pets/699bcdff7769bf3b8f0768ab/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "pets",
+                "699bcdff7769bf3b8f0768ab",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update pet",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Milo\",\r\n  \"species\": \"dog\",\r\n  \"breed\": \"dachshund\",\r\n  \"weight\": 4\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/pets/699bcdff7769bf3b8f0768ab/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "pets",
+                "699bcdff7769bf3b8f0768ab",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete pet",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/pets/699bcdd2a80fef7d6a46c383/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "pets",
+                "699bcdd2a80fef7d6a46c383",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
