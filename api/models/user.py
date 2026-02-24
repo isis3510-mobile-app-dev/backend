@@ -4,7 +4,7 @@ from django_mongodb_backend.fields import ObjectIdAutoField, ArrayField
 #Authentication is handled by Firebase, so we only store the Firebase UID and related info here. No passwords or Django auth models are used.
 class User(models.Model):
     id = ObjectIdAutoField(primary_key=True)
-
+    
     # Firebase UID 
     firebase_uid = models.CharField(max_length=128, unique=True)
 
@@ -23,6 +23,10 @@ class User(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    @property
+    def is_authenticated(self):
+        return True
 
     class Meta:
         db_table = "users"

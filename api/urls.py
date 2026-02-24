@@ -12,6 +12,7 @@ from api.views.vaccine_views import (
     delete_vaccine_view,
     list_vaccines_view,
 )
+from api.views.user_views import UserView
 
 urlpatterns = [
     # Pets CRUD
@@ -28,4 +29,5 @@ urlpatterns = [
     path("vaccines/<str:vaccine_id>/", get_vaccine_view, name="get_vaccine"),
     path("vaccines/<str:vaccine_id>/update/", update_vaccine_view, name="update_vaccine"),
     path("vaccines/<str:vaccine_id>/delete/", delete_vaccine_view, name="delete_vaccine"),
+    path("user/", UserView.as_view(), name="user"),
 ]

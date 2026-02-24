@@ -14,3 +14,6 @@ env/
 # IDE settings
 .vscode/
 .idea/
+
+#Firebase Configuration
+firebase_key.json
