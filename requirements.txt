@@ -8,6 +8,7 @@ pymongo==4.16.0
 python-dotenv==1.2.1
 sqlparse==0.5.5
 tzdata==2025.3
+firebase-admin==7.1.0
 django-mongodb-backend
 djangorestframework
 django-cors-headers
