@@ -29,5 +29,7 @@ urlpatterns = [
     path("vaccines/<str:vaccine_id>/", get_vaccine_view, name="get_vaccine"),
     path("vaccines/<str:vaccine_id>/update/", update_vaccine_view, name="update_vaccine"),
     path("vaccines/<str:vaccine_id>/delete/", delete_vaccine_view, name="delete_vaccine"),
+
+    # Users CRUD
     path("user/", UserView.as_view(), name="user"),
 ]

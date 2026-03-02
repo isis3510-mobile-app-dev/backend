@@ -38,9 +38,8 @@ ALLOWED_HOSTS = []
 
 
 INSTALLED_APPS = [
-    'django.contrib.staticfiles',
     'django_mongodb_backend',
-
+    'django.contrib.staticfiles',
     
     'rest_framework',
     'corsheaders',
@@ -126,7 +125,6 @@ DEFAULT_AUTO_FIELD = 'django_mongodb_backend.fields.ObjectIdAutoField'
 MIGRATION_MODULES = {
     'admin': 'mongo_migrations.admin',
     'auth': 'mongo_migrations.auth',
-    'contenttypes': 'mongo_migrations.contenttypes',
     'sessions': 'mongo_migrations.sessions',
 }
 
@@ -137,4 +135,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+    'UNAUTHENTICATED_USER': None,
+    'UNAUTHENTICATED_TOKEN': None,
 }
+
