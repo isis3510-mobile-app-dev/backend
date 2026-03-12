@@ -1,9 +1,12 @@
 from django.urls import path
+from api.models import pet
 from api.views.pet_views import (
-    create_pet,
+    pet_collection,
+    documents,
+    events,
     pet_detail,
-    medical_history,
     vaccinations,
+    notifications
 )
 from api.views.vaccine_views import (
     create_vaccine_view,
@@ -16,12 +19,16 @@ from api.views.user_views import UserView
 
 urlpatterns = [
     # Pets CRUD
-    path("pets/", create_pet, name="pets-list"),
+    path("pets/", pet_collection, name="pets-list"),
     path("pets/<str:pet_id>/", pet_detail, name="pet-detail"),
 
     # Embedded resources
-    path("pets/<str:pet_id>/medical-history/", medical_history),
+    path("pets/<str:pet_id>/events/", events),
     path("pets/<str:pet_id>/vaccinations/", vaccinations),
+    path("pets/<str:pet_id>/notifications/", notifications),
+    path("pets/<str:pet_id>/events/<str:event_id>/documents/", documents),
+    path("pets/<str:pet_id>/vaccinations/<str:vaccine_id>/documents/", documents),
+    
 
     # Vaccines CRUD
      path("vaccines/", list_vaccines_view, name="list_vaccines"),
