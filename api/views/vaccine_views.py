@@ -6,6 +6,7 @@ import json
 from api.services.vaccine_service import (
     create_vaccine,
     get_vaccine,
+    get_all_vaccines,
     update_vaccine,
     delete_vaccine,
 )
@@ -19,6 +20,8 @@ def create_vaccine_view(request):
         data = json.loads(request.body)
         vaccine = create_vaccine(data)
         return JsonResponse(vaccine_to_dict(vaccine), status=201)
+    except ValueError as e:
+        return JsonResponse({"error": str(e)}, status=400)
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=400)
 
@@ -40,10 +43,12 @@ def update_vaccine_view(request, vaccine_id):
         data = json.loads(request.body)
         vaccine = update_vaccine(vaccine_id, data)
         return JsonResponse(vaccine_to_dict(vaccine))
-    except json.JSONDecodeError:
-        return JsonResponse({"error": "Invalid JSON"}, status=400)
     except Vaccine.DoesNotExist:
         return JsonResponse({"error": "Vaccine not found"}, status=404)
+    except ValueError as e:
+        return JsonResponse({"error": str(e)}, status=400)
+    except json.JSONDecodeError:
+        return JsonResponse({"error": "Invalid JSON"}, status=400)
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=400)
 
@@ -62,7 +67,7 @@ def delete_vaccine_view(request, vaccine_id):
 @require_http_methods(["GET"])
 def list_vaccines_view(request):
     try:
-        vaccines = Vaccine.objects.all()
+        vaccines = get_all_vaccines()
         return JsonResponse([vaccine_to_dict(v) for v in vaccines], safe=False)
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=400)
