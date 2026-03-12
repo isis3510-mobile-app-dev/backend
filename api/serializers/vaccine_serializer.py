@@ -3,8 +3,11 @@
 def vaccine_to_dict(vaccine):
     return {
         "id": str(vaccine.id),
+        "schema": vaccine.schema,
         "name": vaccine.name,
-        "characteristics": vaccine.characteristics,
-        "application_moment": vaccine.application_moment,
-        "animal_type": vaccine.animal_type,
+        "species": vaccine.species,
+        "productName": vaccine.productName,
+        "manufacturer": vaccine.manufacturer,
+        "intervalDays": vaccine.intervalDays,
+        "description": vaccine.description,
     }
