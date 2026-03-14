@@ -4,8 +4,10 @@ from django.views.decorators.csrf import csrf_exempt
 
 from api.services import pet_service
 from api.serializers.pet_serializer import pet_to_dict
+from api.authentication.firebase_authentication import firebase_required, is_pet_owner
 
 @csrf_exempt
+@firebase_required
 def pet_collection(request):
     if request.method == "POST":
         try:
@@ -24,6 +26,8 @@ def pet_collection(request):
 
 
 @csrf_exempt
+@firebase_required
+@is_pet_owner
 def pet_detail(request, pet_id):
     if request.method == "GET":
         pet = pet_service.get_pet(pet_id)
@@ -47,6 +51,8 @@ def pet_detail(request, pet_id):
 
 
 @csrf_exempt
+@firebase_required
+@is_pet_owner
 def events(request, pet_id):
     if request.method == "POST":
         try:
@@ -67,6 +73,8 @@ def events(request, pet_id):
     return JsonResponse({"error": "Method not allowed"}, status=405)
 
 @csrf_exempt
+@firebase_required
+@is_pet_owner
 def vaccinations(request, pet_id):
     if request.method == "POST":
         try:
@@ -79,6 +87,8 @@ def vaccinations(request, pet_id):
     return JsonResponse({"error": "Method not allowed"}, status=405)
 
 @csrf_exempt
+@firebase_required
+@is_pet_owner
 def notifications(request, pet_id):
     if request.method == "POST":
         try:
@@ -91,6 +101,8 @@ def notifications(request, pet_id):
     return JsonResponse({"error": "Method not allowed"}, status=405)
 
 @csrf_exempt
+@firebase_required
+@is_pet_owner
 def documents(request, pet_id, record_type, record_id):
     if request.method == "POST":
         try:
