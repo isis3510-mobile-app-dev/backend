@@ -39,7 +39,7 @@ urlpatterns = [
     
 
     #User CRUD
-    path("users/me", MeView.as_view(), name="user-me"),
+    path("users/me/", MeView.as_view(), name="user-me"),
     path("users/<str:firebase_uid>/", UserDetailView.as_view(), name="user-detail")
 
 ]
