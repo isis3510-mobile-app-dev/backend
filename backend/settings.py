@@ -132,9 +132,10 @@ MIGRATION_MODULES = {
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'api.services.firebase_authentication.FirebaseAuthentication',
+        'api.authentication.firebase_authentication.FirebaseAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+    "UNAUTHENTICATED_USER": None,
 }
