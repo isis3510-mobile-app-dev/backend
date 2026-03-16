@@ -63,10 +63,22 @@ def parse_payload_dates(data):
     return data
 
 
-def create_pet(data):
+def create_pet(user, data):
     data = translate_payload(data)
     data = parse_payload_dates(data)
+    
+    if not data.get("owners"):
+        data["owners"] = [user.id]
+    elif user.id not in data["owners"]:
+        data["owners"].append(user.id)
+        
     pet = Pet.objects.create(**data)
+    
+    # Associate pet with user
+    if pet.id not in user.pets:
+        user.pets.append(pet.id)
+        user.save()
+        
     return Pet.objects.get(id=pet.id)
 
 

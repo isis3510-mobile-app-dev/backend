@@ -92,14 +92,20 @@ class TestPetService(TestCase):
 
     @patch("api.services.pet_service.Pet")
     def test_create_pet(self, MockPet):
-        created = _make_pet(name="Luna")
+        mock_user = MagicMock()
+        mock_user.id = ObjectId(USER_ID)
+        mock_user.pets = []
+        
+        created = _make_pet(name="Luna", owners=[mock_user.id])
         MockPet.objects.create.return_value = created
         MockPet.objects.get.return_value = created
         # Payload uses camelCase (as the API receives)
         data = {"name": "Luna", "species": "cat", "breed": "Siamese"}
-        result = pet_service.create_pet(data)
+        result = pet_service.create_pet(mock_user, data)
         self.assertEqual(result.name, "Luna")
         MockPet.objects.create.assert_called_once()
+        mock_user.save.assert_called_once()
+        self.assertIn(created.id, mock_user.pets)
 
     @patch("api.services.pet_service.Pet")
     def test_list_pets(self, MockPet):
