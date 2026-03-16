@@ -21,6 +21,7 @@ from api.views.feature_views import feature_collection, feature_detail
 from api.views.feature_route_views import feature_route_collection, feature_route_detail
 from api.views.feature_execution_log_views import feature_execution_log_collection
 from api.views.feature_clicks_log_views import feature_clicks_log_collection
+from api.views.nfc_views import nfc_public_read, nfc_payload, nfc_sync
 
 urlpatterns = [
     # Pets CRUD
@@ -50,6 +51,11 @@ urlpatterns = [
     # User CRUD
     path("users/me/", MeView.as_view(), name="user-me"),
     path("users/<str:firebase_uid>/", UserDetailView.as_view(), name="user-detail"),
+
+    # NFC endpoints
+    path("nfc/read/<str:pet_id>/", nfc_public_read, name="nfc-public-read"),
+    path("pets/<str:pet_id>/nfc-payload/", nfc_payload, name="nfc-payload"),
+    path("pets/<str:pet_id>/nfc-sync/", nfc_sync, name="nfc-sync"),
 
     ### TELEMETRY ###
 
