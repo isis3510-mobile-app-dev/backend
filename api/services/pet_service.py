@@ -67,7 +67,6 @@ def create_pet(user, data):
     data = translate_payload(data)
     data = parse_payload_dates(data)
     
-    # Ensure owners field is set to current user if not provided or empty
     if not data.get("owners"):
         data["owners"] = [user.id]
     elif user.id not in data["owners"]:
