@@ -3,7 +3,6 @@ from api.models.user import User
 from bson import ObjectId
 
 
-
 class ObjectIdField(serializers.Field):
 
     def to_representation(self, value):
@@ -18,59 +17,79 @@ class ObjectIdField(serializers.Field):
 
 class UserSerializer(serializers.ModelSerializer):
     id = ObjectIdField(read_only=True)
-    pet_ids = serializers.ListField(
+    pets = serializers.ListField(
         child=ObjectIdField(),
         required=False,
         default=list,
     )
-    family_group = serializers.ListField(
+    # Expose snake_case model fields as camelCase JSON keys
+    familyGroup = serializers.ListField(
         child=ObjectIdField(),
+        source="family_group",
         required=False,
         default=list,
     )
+    profilePhoto = serializers.URLField(
+        source="profile_photo",
+        required=False,
+        allow_blank=True,
+    )
+    firebaseUid = serializers.CharField(source="firebase_uid", read_only=True)
+    createdAt = serializers.DateTimeField(source="created_at", read_only=True)
+    updatedAt = serializers.DateTimeField(source="updated_at", read_only=True)
 
     class Meta:
         model = User
         fields = [
             "id",
-            "firebase_uid",
+            "schema",
+            "firebaseUid",
             "name",
             "email",
+            "token",
             "phone",
             "address",
-            "photo_url",
+            "profilePhoto",
             "initials",
-            "pet_ids",
-            "family_group",
-            "created_at",
-            "updated_at",
+            "pets",
+            "familyGroup",
+            "createdAt",
+            "updatedAt",
         ]
         read_only_fields = [
             "id",
-            "firebase_uid",
-            "created_at",
-            "updated_at",
+            "firebaseUid",
+            "createdAt",
+            "updatedAt",
         ]
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
- 
+    # Accept profilePhoto in the request body
+    profilePhoto = serializers.URLField(
+        source="profile_photo",
+        required=False,
+        allow_blank=True,
+    )
+
     class Meta:
         model = User
         fields = [
             "name",
+            "token",
             "phone",
             "address",
-            "photo_url",
+            "profilePhoto",
             "initials",
         ]
 
     def validate_initials(self, value):
         return value.upper()
-    
+
 
 class UserPublicSerializer(serializers.ModelSerializer):
+    profilePhoto = serializers.URLField(source="profile_photo", read_only=True)
 
     class Meta:
         model = User
-        fields = ["id", "name", "photo_url", "initials"]
+        fields = ["id", "name", "profilePhoto", "initials"]

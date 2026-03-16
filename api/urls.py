@@ -1,12 +1,9 @@
 from django.urls import path
-from api.models import pet
 from api.views.pet_views import (
     pet_collection,
-    documents,
-    events,
     pet_detail,
     vaccinations,
-    notifications
+    vaccination_documents,
 )
 from api.views.vaccine_views import (
     create_vaccine_view,
@@ -16,6 +13,8 @@ from api.views.vaccine_views import (
     list_vaccines_view,
 )
 from api.views.user_views import MeView, UserDetailView
+from api.views.event_views import event_collection, event_detail, event_documents
+from api.views.notification_views import notification_collection, notification_detail
 from api.views.screen_views import screen_collection, screen_detail
 from api.views.screen_time_log_views import screen_time_log_collection
 from api.views.feature_views import feature_collection, feature_detail
@@ -28,12 +27,18 @@ urlpatterns = [
     path("pets/", pet_collection, name="pets-list"),
     path("pets/<str:pet_id>/", pet_detail, name="pet-detail"),
 
-    # Embedded resources
-    path("pets/<str:pet_id>/events/", events),
+    # Pet embedded resources
     path("pets/<str:pet_id>/vaccinations/", vaccinations),
-    path("pets/<str:pet_id>/notifications/", notifications),
-    path("pets/<str:pet_id>/events/<str:event_id>/documents/", documents),
-    path("pets/<str:pet_id>/vaccinations/<str:vaccine_id>/documents/", documents),
+    path("pets/<str:pet_id>/vaccinations/<str:vaccination_id>/documents/", vaccination_documents),
+
+    # Events (standalone collection)
+    path("events/", event_collection, name="events-list"),
+    path("events/<str:event_id>/", event_detail, name="event-detail"),
+    path("events/<str:event_id>/documents/", event_documents, name="event-documents"),
+
+    # Notifications (standalone collection)
+    path("notifications/", notification_collection, name="notifications-list"),
+    path("notifications/<str:notification_id>/", notification_detail, name="notification-detail"),
 
     # Vaccines CRUD
     path("vaccines/", list_vaccines_view, name="list_vaccines"),
