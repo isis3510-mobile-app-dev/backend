@@ -7,13 +7,13 @@ class Vaccine(models.Model):
     schema = models.IntegerField(default=1)
     name = models.CharField(max_length=200, default="")
     species = models.JSONField(default=list)  # Array of strings
-    productName = models.CharField(max_length=200, default="")
+    product_name = models.CharField(max_length=200, default="")
     manufacturer = models.CharField(max_length=200, default="")
-    intervalDays = models.IntegerField(default=0)
+    interval_days = models.IntegerField(default=0)
     description = models.TextField(default="")
 
     class Meta:
         db_table = "vaccines"
 
     def __str__(self):
-        return f"{self.name} - {self.productName}"
+        return f"{self.name} - {self.product_name}"

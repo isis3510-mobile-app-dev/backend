@@ -1,46 +1,85 @@
 # CRUD logic for Pet
-from api.models import Pet, Event, Notification, Vaccination, AttachedDocument
-from datetime import datetime
+from api.models import Pet, Vaccination, AttachedDocument
+from datetime import datetime, date
 
-def parse_payload_dates(data):
-    """
-    Recorre el JSON que llega de la app móvil y convierte los textos a fechas reales
-    para que MongoDB los guarde correctamente como ISODate.
-    """
-    date_fields = [
-        'birth_date', 'date_given', 'next_due_date', 
-        'date', 'follow_up_date', 'date_sent', 'date_clicked'
-    ]
-    
+# Mapping of camelCase API payload keys → snake_case model field names
+_CAMEL_TO_SNAKE = {
+    # Pet fields
+    "birthDate": "birth_date",
+    "photoUrl": "photo_url",
+    "isNfcSynced": "is_nfc_synced",
+    "knownAllergies": "known_allergies",
+    "defaultVet": "default_vet",
+    "defaultClinic": "default_clinic",
+    # Vaccination embedded fields
+    "vaccineId": "vaccine_id",
+    "dateGiven": "date_given",
+    "nextDueDate": "next_due_date",
+    "lotNumber": "lot_number",
+    "administeredBy": "administered_by",
+    "attachedDocuments": "attached_documents",
+    # AttachedDocument embedded fields
+    "documentId": "document_id",
+    "fileName": "file_name",
+    "fileUri": "file_uri",
+}
+
+
+def translate_payload(data):
+    """Recursively translate camelCase API payload keys to snake_case model field names."""
     if isinstance(data, dict):
-        for key, value in data.items():
-            if key in date_fields and value is not None and isinstance(value, str):
-                try:
-                    data[key] = datetime.fromisoformat(value.replace('Z', '+00:00'))
-                except ValueError:
-                    pass 
-            else:
-                parse_payload_dates(value)
-    elif isinstance(data, list):
-        for item in data:
-            parse_payload_dates(item)
-            
+        return {_CAMEL_TO_SNAKE.get(k, k): translate_payload(v) for k, v in data.items()}
+    if isinstance(data, list):
+        return [translate_payload(item) for item in data]
     return data
 
+
+def _to_datetime(val):
+    if not val:
+        return None
+    if isinstance(val, (datetime, date)):
+        return val
+    if isinstance(val, str):
+        try:
+            return datetime.fromisoformat(val.replace('Z', '+00:00'))
+        except (ValueError, TypeError):
+            return val
+    return val
+
+
+def parse_payload_dates(data):
+    """Convert date strings in the payload to Python datetime objects."""
+    if isinstance(data, dict):
+        if "birth_date" in data:
+            data["birth_date"] = _to_datetime(data["birth_date"])
+
+        if "vaccinations" in data and isinstance(data["vaccinations"], list):
+            for v in data["vaccinations"]:
+                if isinstance(v, dict):
+                    if "date_given" in v:
+                        v["date_given"] = _to_datetime(v["date_given"])
+                    if "next_due_date" in v:
+                        v["next_due_date"] = _to_datetime(v["next_due_date"])
+    return data
+
+
 def create_pet(data):
+    data = translate_payload(data)
     data = parse_payload_dates(data)
     pet = Pet.objects.create(**data)
-    
-    # se conviertan en objetos EmbeddedModel (Vaccination, Event, etc.)
     return Pet.objects.get(id=pet.id)
+
 
 def list_pets():
     return Pet.objects.all()
 
+
 def get_pet(pet_id):
     return Pet.objects.get(id=pet_id)
 
+
 def update_pet(pet_id, data):
+    data = translate_payload(data)
     data = parse_payload_dates(data)
     pet = Pet.objects.get(id=pet_id)
     for key, value in data.items():
@@ -48,67 +87,33 @@ def update_pet(pet_id, data):
     pet.save()
     return Pet.objects.get(id=pet.id)
 
+
 def delete_pet(pet_id):
     Pet.objects.filter(id=pet_id).delete()
 
+
 def add_vaccination(pet_id, data):
+    data = translate_payload(data)
     data = parse_payload_dates(data)
     pet = Pet.objects.get(id=pet_id)
-    
-    # Seguridad: Si el arreglo está en None, lo inicializamos
+
     if pet.vaccinations is None:
         pet.vaccinations = []
-        
+
     pet.vaccinations.append(data)
     pet.save()
     return Pet.objects.get(id=pet.id)
 
-def add_event(pet_id, data):
-    data = parse_payload_dates(data)
-    pet = Pet.objects.get(id=pet_id)
-    
-    if pet.events is None:
-        pet.events = []
-        
-    pet.events.append(data)
-    pet.save()
-    return Pet.objects.get(id=pet.id)
-
-def add_notification(pet_id, data):
-    data = parse_payload_dates(data)
-    pet = Pet.objects.get(id=pet_id)
-    
-    if pet.notifications is None:
-        pet.notifications = []
-        
-    pet.notifications.append(data)
-    pet.save()
-    return Pet.objects.get(id=pet.id)
 
 def add_document_to_vaccination(pet_id, vaccination_id, document_data):
-    data = parse_payload_dates(document_data)
+    document_data = translate_payload(document_data)
     pet = Pet.objects.get(id=pet_id)
-    
-    for vaccination in (pet.vaccinations or []):
-        if vaccination.vaccine_id == vaccination_id:
-            if vaccination.attached_documents is None:
-                vaccination.attached_documents = []
-            vaccination.attached_documents.append(data)
-            break
-            
-    pet.save()
-    return Pet.objects.get(id=pet.id)
-
-def add_document_to_event(pet_id, event_id, document_data):
-    data = parse_payload_dates(document_data)
-    pet = Pet.objects.get(id=pet_id)
-    
-    for event in (pet.events or []):
-        if event.event_id == event_id:
-            if event.attached_documents is None:
-                event.attached_documents = []
-            event.attached_documents.append(data)
-            break
-            
+    if pet.vaccinations:
+        for vaccination in pet.vaccinations:
+            if vaccination.vaccine_id == vaccination_id:
+                if vaccination.attached_documents is None:
+                    vaccination.attached_documents = []
+                vaccination.attached_documents.append(document_data)
+                break
     pet.save()
     return Pet.objects.get(id=pet.id)

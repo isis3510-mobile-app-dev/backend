@@ -51,7 +51,6 @@ class MeView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
         user.delete()
-
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -62,7 +61,7 @@ class UserDetailView(APIView):
     def get(self, request, firebase_uid: str):
         target = get_object_or_404(User, firebase_uid=firebase_uid)
 
-        # Restricción: solo puedes ver usuarios de tu grupo familiar
+        # Restricción: solo puedes ver usuarios de tu grupo familiar o a ti mismo
         requester_id = str(request.user.id)
         if requester_id not in [str(i) for i in target.family_group] \
                 and target.firebase_uid != request.user.firebase_uid:

@@ -5,11 +5,12 @@ from django.core.validators import RegexValidator
 #Authentication is handled by Firebase, so we only store the Firebase UID and related info here. No passwords or Django auth models are used.
 class User(models.Model):
     id = ObjectIdAutoField(primary_key=True)
-    
+    schema = models.IntegerField(default=1, help_text="Version of the document schema")
+
     # Firebase UID 
     firebase_uid = models.CharField(max_length=128, unique=True)
 
-    pet_ids = ArrayField(
+    pets = ArrayField(
         ObjectIdField(),
         blank=True,
         default=list,
@@ -24,16 +25,8 @@ class User(models.Model):
     )
 
     name = models.CharField(max_length=150)
-    photo_url = models.URLField(blank=True, null=True)
-    initials = models.CharField(max_length=20, null=True, validators=[
-            RegexValidator(
-                regex=r"^[A-ZÁÉÍÓÚÑ]{1,5}$",
-                message="Initials must be on Uppercase (max. 5)",
-            )
-        ])
-
-    email = models.EmailField(max_length=300, default= "user@email.com")
-
+    email = models.EmailField(max_length=300, default="user@email.com")
+    token = models.CharField(max_length=500, blank=True, help_text="Push notification or session token")
     phone = models.CharField(max_length=20, blank=True,
                              validators=[
             RegexValidator(
@@ -42,6 +35,8 @@ class User(models.Model):
             )
         ])
     address = models.CharField(max_length=300, blank=True)
+    profile_photo = models.URLField(max_length=500, blank=True)
+    initials = models.CharField(max_length=5, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

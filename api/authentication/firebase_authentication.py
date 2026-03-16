@@ -39,7 +39,7 @@ class FirebaseAuthentication(BaseAuthentication):
             firebase_uid=uid,
             email=email,
             name=name,
-            photo_url=photo_url,
+            profile_photo=photo_url,
             initials=_make_initials(name),)
 
         return (user, token)  # (user, auth) 
@@ -88,8 +88,8 @@ def is_pet_owner(view_func):
         from bson import ObjectId
         pet_id = kwargs.get("pet_id")
 
-        if pet_id and ObjectId(pet_id) not in request.user.pet_ids:
-            return JsonResponse({"error": "The user doesn't have access to this pet"}, status=403)
+        if str(pet_id) not in [str(p) for p in request.user.pets]:
+            return JsonResponse({"detail": "Not authorized to access this pet."}, status=403)
 
         return view_func(request, *args, **kwargs)
 
