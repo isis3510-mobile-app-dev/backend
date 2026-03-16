@@ -18,6 +18,10 @@ from api.views.vaccine_views import (
 from api.views.user_views import MeView, UserDetailView
 from api.views.screen_views import screen_collection, screen_detail
 from api.views.screen_time_log_views import screen_time_log_collection
+from api.views.feature_views import feature_collection, feature_detail
+from api.views.feature_route_views import feature_route_collection, feature_route_detail
+from api.views.feature_execution_log_views import feature_execution_log_collection
+from api.views.feature_clicks_log_views import feature_clicks_log_collection
 
 urlpatterns = [
     # Pets CRUD
@@ -50,4 +54,18 @@ urlpatterns = [
 
     # Screen Time Logs
     path("screen-time-logs/", screen_time_log_collection, name="screen-time-logs"),
+
+    # Features
+    path("features/", feature_collection, name="features-list"),
+    path("features/<str:feature_id>/", feature_detail, name="feature-detail"),
+
+    # Feature Routes
+    path("feature-routes/", feature_route_collection, name="feature-routes-list"),
+    path("feature-routes/<str:route_id>/", feature_route_detail, name="feature-route-detail"),
+
+    # Feature Execution Logs
+    path("feature-execution-logs/", feature_execution_log_collection, name="feature-execution-logs"),
+
+    # Feature Clicks Logs
+    path("feature-clicks-logs/", feature_clicks_log_collection, name="feature-clicks-logs"),
 ]

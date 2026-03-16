@@ -1,9 +1,7 @@
-# Screen model and embedded documents
 from django.db import models
 from django_mongodb_backend.fields import ObjectIdAutoField, ArrayField, EmbeddedModelField
 from django_mongodb_backend.models import EmbeddedModel
 
-# Monkey patch (same fix as pet.py)
 ArrayField.embedded_model = property(lambda self: getattr(self.base_field, 'embedded_model', None))
 
 

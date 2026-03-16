@@ -1,5 +1,3 @@
-# Manual serializer for Screen
-
 def screen_to_dict(screen):
     return {
         "id": str(screen.id),

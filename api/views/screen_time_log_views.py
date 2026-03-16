@@ -13,7 +13,7 @@ def screen_time_log_collection(request):
     """
     GET  /api/screen-time-logs/  — list logs, no auth (used by analytics pipeline)
         optional query params: ?userId=<id>&screenId=<id>
-        
+
     POST /api/screen-time-logs/  — create a log entry, requires Firebase auth
     """
     if request.method == "GET":
@@ -33,7 +33,6 @@ def screen_time_log_collection(request):
 
 @firebase_required
 def _create_log(request):
-    """Inner handler for POST — enforces Firebase auth."""
     try:
         payload = json.loads(request.body)
         log = screen_time_log_service.create_log(payload)
