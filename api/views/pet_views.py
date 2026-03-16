@@ -12,7 +12,7 @@ def pet_collection(request):
     if request.method == "POST":
         try:
             payload = json.loads(request.body)
-            pet = pet_service.create_pet(payload)
+            pet = pet_service.create_pet(request.user, payload)
             return JsonResponse(pet_to_dict(pet), status=201)
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
