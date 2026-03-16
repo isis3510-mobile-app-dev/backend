@@ -1,0 +1,1061 @@
+{
+  "info": {
+    "_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "name": "Pets Health — Telemetry",
+    "description": "API collection for the telemetry layer: Screens, ScreenTimeLogs, Features, FeatureRoutes, FeatureExecutionLogs and FeatureClicksLogs.\n\n## Variables required\n| Variable | Description |\n|---|---|\n| `base_url` | Base server URL, e.g. `http://127.0.0.1:8000` |\n| `firebase_token` | Valid Firebase JWT for authenticated endpoints |\n| `screen_id` | Auto-populated by the Create Screen test |\n| `feature_id` | Auto-populated by the Create Feature test |\n| `route_id` | Auto-populated by the Create Feature Route test |",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url",      "value": "http://127.0.0.1:8000", "type": "string" },
+    { "key": "firebase_token","value": "",                       "type": "string" },
+    { "key": "screen_id",     "value": "",                       "type": "string" },
+    { "key": "feature_id",    "value": "",                       "type": "string" },
+    { "key": "route_id",      "value": "",                       "type": "string" }
+  ],
+  "item": [
+
+    {
+      "name": "Screens",
+      "item": [
+
+        {
+          "name": "Create Screen",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 201 Created', () => pm.response.to.have.status(201));",
+                  "",
+                  "pm.test('Response has required fields', () => {",
+                  "    const body = pm.response.json();",
+                  "    pm.expect(body).to.have.property('id');",
+                  "    pm.expect(body).to.have.property('name');",
+                  "    pm.expect(body).to.have.property('hasAds');",
+                  "    pm.expect(body).to.have.property('buttons');",
+                  "    pm.expect(body.buttons).to.be.an('array');",
+                  "});",
+                  "",
+                  "pm.test('Name matches request', () => {",
+                  "    pm.expect(pm.response.json().name).to.eql('HomeScreen');",
+                  "});",
+                  "",
+                  "// Persist id for later requests",
+                  "const id = pm.response.json().id;",
+                  "pm.collectionVariables.set('screen_id', id);",
+                  "console.log('Saved screen_id:', id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"schema\": 1,\n  \"name\": \"HomeScreen\",\n  \"hasAds\": false,\n  \"buttons\": [\n    { \"buttonId\": \"btn_add_pet\", \"schema\": 1, \"name\": \"Add Pet\" },\n    { \"buttonId\": \"btn_profile\", \"schema\": 1, \"name\": \"Profile\" }\n  ]\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/screens/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "screens", ""]
+            }
+          },
+          "response": []
+        },
+
+        {
+          "name": "List Screens",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200 OK', () => pm.response.to.have.status(200));",
+                  "",
+                  "pm.test('Response is an array', () => {",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "});",
+                  "",
+                  "pm.test('Each screen has id, name, hasAds, buttons', () => {",
+                  "    const screens = pm.response.json();",
+                  "    if (screens.length > 0) {",
+                  "        const s = screens[0];",
+                  "        pm.expect(s).to.have.all.keys('id','schema','name','hasAds','buttons');",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/screens/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "screens", ""]
+            }
+          },
+          "response": []
+        },
+
+        {
+          "name": "Get Screen by ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200 OK', () => pm.response.to.have.status(200));",
+                  "",
+                  "pm.test('Returned id matches requested id', () => {",
+                  "    pm.expect(pm.response.json().id).to.eql(pm.collectionVariables.get('screen_id'));",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/screens/{{screen_id}}/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "screens", "{{screen_id}}", ""]
+            }
+          },
+          "response": []
+        },
+
+        {
+          "name": "Update Screen",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200 OK', () => pm.response.to.have.status(200));",
+                  "",
+                  "pm.test('Name was updated', () => {",
+                  "    pm.expect(pm.response.json().name).to.eql('HomeScreen v2');",
+                  "});",
+                  "",
+                  "pm.test('hasAds was updated', () => {",
+                  "    pm.expect(pm.response.json().hasAds).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"schema\": 1,\n  \"name\": \"HomeScreen v2\",\n  \"hasAds\": true,\n  \"buttons\": [\n    { \"buttonId\": \"btn_add_pet\", \"schema\": 1, \"name\": \"Add Pet\" }\n  ]\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/screens/{{screen_id}}/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "screens", "{{screen_id}}", ""]
+            }
+          },
+          "response": []
+        },
+
+        {
+          "name": "Delete Screen",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 204 No Content', () => pm.response.to.have.status(204));",
+                  "pm.collectionVariables.set('screen_id', '');"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/screens/{{screen_id}}/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "screens", "{{screen_id}}", ""]
+            }
+          },
+          "response": []
+        },
+
+        {
+          "name": "Get Screen — Not Found (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 404 Not Found', () => pm.response.to.have.status(404));",
+                  "",
+                  "pm.test('Response contains error field', () => {",
+                  "    pm.expect(pm.response.json()).to.have.property('error');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/screens/000000000000000000000000/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "screens", "000000000000000000000000", ""]
+            }
+          },
+          "response": []
+        }
+
+      ]
+    },
+
+    {
+      "name": "Screen Time Logs",
+      "item": [
+
+        {
+          "name": "Create Screen Time Log (Auth)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 201 Created', () => pm.response.to.have.status(201));",
+                  "",
+                  "pm.test('Response has required fields', () => {",
+                  "    const body = pm.response.json();",
+                  "    pm.expect(body).to.have.property('id');",
+                  "    pm.expect(body).to.have.property('userId');",
+                  "    pm.expect(body).to.have.property('screenId');",
+                  "    pm.expect(body).to.have.property('totalTime');",
+                  "    pm.expect(body).to.have.property('startTime');",
+                  "    pm.expect(body).to.have.property('endTime');",
+                  "});",
+                  "",
+                  "pm.test('totalTime is a non-negative number', () => {",
+                  "    pm.expect(pm.response.json().totalTime).to.be.at.least(0);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{firebase_token}}", "type": "string" }]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"schema\": 1,\n  \"userId\": \"000000000000000000000001\",\n  \"screenId\": \"000000000000000000000002\",\n  \"startTime\": \"2026-03-15T10:00:00Z\",\n  \"endTime\":   \"2026-03-15T10:02:30Z\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/screen-time-logs/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "screen-time-logs", ""]
+            }
+          },
+          "response": []
+        },
+
+        {
+          "name": "Create Screen Time Log — No Auth (401)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 401 Unauthorized', () => pm.response.to.have.status(401));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"000000000000000000000001\",\n  \"screenId\": \"000000000000000000000002\",\n  \"startTime\": \"2026-03-15T10:00:00Z\",\n  \"endTime\":   \"2026-03-15T10:02:30Z\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/screen-time-logs/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "screen-time-logs", ""]
+            }
+          },
+          "response": []
+        },
+
+        {
+          "name": "List Screen Time Logs",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Response is an array', () => pm.expect(pm.response.json()).to.be.an('array'));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/screen-time-logs/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "screen-time-logs", ""]
+            }
+          },
+          "response": []
+        },
+
+        {
+          "name": "List Screen Time Logs — Filter by userId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200 OK', () => pm.response.to.have.status(200));",
+                  "",
+                  "pm.test('All logs belong to the requested userId', () => {",
+                  "    const logs = pm.response.json();",
+                  "    logs.forEach(log => {",
+                  "        pm.expect(log.userId).to.eql('000000000000000000000001');",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/screen-time-logs/?userId=000000000000000000000001",
+              "host": ["{{base_url}}"],
+              "path": ["api", "screen-time-logs", ""],
+              "query": [{ "key": "userId", "value": "000000000000000000000001" }]
+            }
+          },
+          "response": []
+        }
+
+      ]
+    },
+
+    {
+      "name": "Features",
+      "item": [
+
+        {
+          "name": "Create Feature",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 201 Created', () => pm.response.to.have.status(201));",
+                  "",
+                  "pm.test('Response has required fields', () => {",
+                  "    const body = pm.response.json();",
+                  "    pm.expect(body).to.have.property('id');",
+                  "    pm.expect(body).to.have.property('name');",
+                  "    pm.expect(body).to.have.property('appType');",
+                  "    pm.expect(body).to.have.property('originButton');",
+                  "    pm.expect(body).to.have.property('originScreen');",
+                  "});",
+                  "",
+                  "pm.test('appType matches request', () => {",
+                  "    pm.expect(pm.response.json().appType).to.eql('Kotlin');",
+                  "});",
+                  "",
+                  "const id = pm.response.json().id;",
+                  "pm.collectionVariables.set('feature_id', id);",
+                  "console.log('Saved feature_id:', id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"schema\": 1,\n  \"name\": \"AddPetFeature\",\n  \"originButton\": \"btn_add_pet\",\n  \"originScreen\": \"000000000000000000000002\",\n  \"appType\": \"Kotlin\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/features/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "features", ""]
+            }
+          },
+          "response": []
+        },
+
+        {
+          "name": "List Features",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Response is an array', () => pm.expect(pm.response.json()).to.be.an('array'));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/features/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "features", ""]
+            }
+          },
+          "response": []
+        },
+
+        {
+          "name": "Get Feature by ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200 OK', () => pm.response.to.have.status(200));",
+                  "",
+                  "pm.test('Returned id matches requested id', () => {",
+                  "    pm.expect(pm.response.json().id).to.eql(pm.collectionVariables.get('feature_id'));",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/features/{{feature_id}}/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "features", "{{feature_id}}", ""]
+            }
+          },
+          "response": []
+        },
+
+        {
+          "name": "Update Feature",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200 OK', () => pm.response.to.have.status(200));",
+                  "",
+                  "pm.test('Name was updated', () => {",
+                  "    pm.expect(pm.response.json().name).to.eql('AddPetFeature v2');",
+                  "});",
+                  "",
+                  "pm.test('appType preserved', () => {",
+                  "    pm.expect(pm.response.json().appType).to.eql('Flutter');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"schema\": 1,\n  \"name\": \"AddPetFeature v2\",\n  \"originButton\": \"btn_add_pet\",\n  \"originScreen\": \"000000000000000000000002\",\n  \"appType\": \"Flutter\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/features/{{feature_id}}/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "features", "{{feature_id}}", ""]
+            }
+          },
+          "response": []
+        },
+
+        {
+          "name": "Delete Feature",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 204 No Content', () => pm.response.to.have.status(204));",
+                  "pm.collectionVariables.set('feature_id', '');"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/features/{{feature_id}}/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "features", "{{feature_id}}", ""]
+            }
+          },
+          "response": []
+        },
+
+        {
+          "name": "Get Feature — Not Found (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 404 Not Found', () => pm.response.to.have.status(404));",
+                  "pm.test('Response contains error field', () => {",
+                  "    pm.expect(pm.response.json()).to.have.property('error');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/features/000000000000000000000000/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "features", "000000000000000000000000", ""]
+            }
+          },
+          "response": []
+        }
+
+      ]
+    },
+
+    {
+      "name": "Feature Routes",
+      "item": [
+
+        {
+          "name": "Create Feature Route",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 201 Created', () => pm.response.to.have.status(201));",
+                  "",
+                  "pm.test('Response has required fields', () => {",
+                  "    const body = pm.response.json();",
+                  "    pm.expect(body).to.have.property('id');",
+                  "    pm.expect(body).to.have.property('name');",
+                  "    pm.expect(body).to.have.property('originButton');",
+                  "    pm.expect(body).to.have.property('originScreen');",
+                  "    pm.expect(body).to.have.property('endButton');",
+                  "    pm.expect(body).to.have.property('endScreen');",
+                  "});",
+                  "",
+                  "const id = pm.response.json().id;",
+                  "pm.collectionVariables.set('route_id', id);",
+                  "console.log('Saved route_id:', id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"schema\": 1,\n  \"name\": \"HomeToAddPet\",\n  \"originButton\": \"btn_add_pet\",\n  \"originScreen\": \"000000000000000000000002\",\n  \"endButton\": \"btn_confirm\",\n  \"endScreen\": \"000000000000000000000003\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/feature-routes/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "feature-routes", ""]
+            }
+          },
+          "response": []
+        },
+
+        {
+          "name": "List Feature Routes",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Response is an array', () => pm.expect(pm.response.json()).to.be.an('array'));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/feature-routes/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "feature-routes", ""]
+            }
+          },
+          "response": []
+        },
+
+        {
+          "name": "Get Feature Route by ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Returned id matches', () => {",
+                  "    pm.expect(pm.response.json().id).to.eql(pm.collectionVariables.get('route_id'));",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/feature-routes/{{route_id}}/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "feature-routes", "{{route_id}}", ""]
+            }
+          },
+          "response": []
+        },
+
+        {
+          "name": "Update Feature Route",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Name was updated', () => {",
+                  "    pm.expect(pm.response.json().name).to.eql('HomeToAddPet v2');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"schema\": 1,\n  \"name\": \"HomeToAddPet v2\",\n  \"originButton\": \"btn_add_pet\",\n  \"originScreen\": \"000000000000000000000002\",\n  \"endButton\": \"btn_save\",\n  \"endScreen\": \"000000000000000000000004\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/feature-routes/{{route_id}}/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "feature-routes", "{{route_id}}", ""]
+            }
+          },
+          "response": []
+        },
+
+        {
+          "name": "Delete Feature Route",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 204 No Content', () => pm.response.to.have.status(204));",
+                  "pm.collectionVariables.set('route_id', '');"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/feature-routes/{{route_id}}/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "feature-routes", "{{route_id}}", ""]
+            }
+          },
+          "response": []
+        },
+
+        {
+          "name": "Get Feature Route — Not Found (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 404 Not Found', () => pm.response.to.have.status(404));",
+                  "pm.test('Response contains error field', () => {",
+                  "    pm.expect(pm.response.json()).to.have.property('error');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/feature-routes/000000000000000000000000/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "feature-routes", "000000000000000000000000", ""]
+            }
+          },
+          "response": []
+        }
+
+      ]
+    },
+
+    {
+      "name": "Feature Execution Logs",
+      "item": [
+
+        {
+          "name": "Create Feature Execution Log (Auth)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 201 Created', () => pm.response.to.have.status(201));",
+                  "",
+                  "pm.test('Response has required fields', () => {",
+                  "    const body = pm.response.json();",
+                  "    pm.expect(body).to.have.property('id');",
+                  "    pm.expect(body).to.have.property('userId');",
+                  "    pm.expect(body).to.have.property('featureId');",
+                  "    pm.expect(body).to.have.property('startTime');",
+                  "    pm.expect(body).to.have.property('endTime');",
+                  "    pm.expect(body).to.have.property('totalTime');",
+                  "    pm.expect(body).to.have.property('downloadSpeed');",
+                  "    pm.expect(body).to.have.property('uploadSpeed');",
+                  "});",
+                  "",
+                  "pm.test('totalTime is non-negative', () => {",
+                  "    pm.expect(pm.response.json().totalTime).to.be.at.least(0);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{firebase_token}}", "type": "string" }]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"schema\": 1,\n  \"userId\": \"000000000000000000000001\",\n  \"featureId\": \"000000000000000000000005\",\n  \"startTime\": \"2026-03-15T10:00:00Z\",\n  \"endTime\":   \"2026-03-15T10:00:05Z\",\n  \"downloadSpeed\": 50000,\n  \"uploadSpeed\": 10000\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/feature-execution-logs/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "feature-execution-logs", ""]
+            }
+          },
+          "response": []
+        },
+
+        {
+          "name": "Create Feature Execution Log — No Auth (401)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 401 Unauthorized', () => pm.response.to.have.status(401));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"000000000000000000000001\",\n  \"featureId\": \"000000000000000000000005\",\n  \"startTime\": \"2026-03-15T10:00:00Z\",\n  \"endTime\":   \"2026-03-15T10:00:05Z\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/feature-execution-logs/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "feature-execution-logs", ""]
+            }
+          },
+          "response": []
+        },
+
+        {
+          "name": "List Feature Execution Logs",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Response is an array', () => pm.expect(pm.response.json()).to.be.an('array'));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/feature-execution-logs/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "feature-execution-logs", ""]
+            }
+          },
+          "response": []
+        },
+
+        {
+          "name": "List Feature Execution Logs — Filter by featureId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200 OK', () => pm.response.to.have.status(200));",
+                  "",
+                  "pm.test('All logs belong to the requested featureId', () => {",
+                  "    const logs = pm.response.json();",
+                  "    logs.forEach(log => {",
+                  "        pm.expect(log.featureId).to.eql('000000000000000000000005');",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/feature-execution-logs/?featureId=000000000000000000000005",
+              "host": ["{{base_url}}"],
+              "path": ["api", "feature-execution-logs", ""],
+              "query": [{ "key": "featureId", "value": "000000000000000000000005" }]
+            }
+          },
+          "response": []
+        }
+
+      ]
+    },
+
+    {
+      "name": "Feature Clicks Logs",
+      "item": [
+
+        {
+          "name": "Create Feature Clicks Log (Auth)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 201 Created', () => pm.response.to.have.status(201));",
+                  "",
+                  "pm.test('Response has required fields', () => {",
+                  "    const body = pm.response.json();",
+                  "    pm.expect(body).to.have.property('id');",
+                  "    pm.expect(body).to.have.property('userId');",
+                  "    pm.expect(body).to.have.property('routeId');",
+                  "    pm.expect(body).to.have.property('timestamp');",
+                  "    pm.expect(body).to.have.property('nClicks');",
+                  "});",
+                  "",
+                  "pm.test('nClicks matches request', () => {",
+                  "    pm.expect(pm.response.json().nClicks).to.eql(5);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{firebase_token}}", "type": "string" }]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"schema\": 1,\n  \"userId\": \"000000000000000000000001\",\n  \"routeId\": \"000000000000000000000006\",\n  \"timestamp\": \"2026-03-15T10:05:00Z\",\n  \"nClicks\": 5\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/feature-clicks-logs/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "feature-clicks-logs", ""]
+            }
+          },
+          "response": []
+        },
+
+        {
+          "name": "Create Feature Clicks Log — No Auth (401)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 401 Unauthorized', () => pm.response.to.have.status(401));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"000000000000000000000001\",\n  \"routeId\": \"000000000000000000000006\",\n  \"timestamp\": \"2026-03-15T10:05:00Z\",\n  \"nClicks\": 5\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/feature-clicks-logs/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "feature-clicks-logs", ""]
+            }
+          },
+          "response": []
+        },
+
+        {
+          "name": "List Feature Clicks Logs",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Response is an array', () => pm.expect(pm.response.json()).to.be.an('array'));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/feature-clicks-logs/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "feature-clicks-logs", ""]
+            }
+          },
+          "response": []
+        },
+
+        {
+          "name": "List Feature Clicks Logs — Filter by routeId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200 OK', () => pm.response.to.have.status(200));",
+                  "",
+                  "pm.test('All logs belong to the requested routeId', () => {",
+                  "    const logs = pm.response.json();",
+                  "    logs.forEach(log => {",
+                  "        pm.expect(log.routeId).to.eql('000000000000000000000006');",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/feature-clicks-logs/?routeId=000000000000000000000006",
+              "host": ["{{base_url}}"],
+              "path": ["api", "feature-clicks-logs", ""],
+              "query": [{ "key": "routeId", "value": "000000000000000000000006" }]
+            }
+          },
+          "response": []
+        }
+
+      ]
+    }
+
+  ]
+}
