@@ -98,11 +98,15 @@ def get_pet(pet_id):
 def update_pet(pet_id, data):
     data = translate_payload(data)
     data = parse_payload_dates(data)
-    pet = Pet.objects.get(id=pet_id)
+
+    update_fields = {}
+
     for key, value in data.items():
-        setattr(pet, key, value)
-    pet.save()
-    return Pet.objects.get(id=pet.id)
+        update_fields[key] = value
+
+    Pet.objects.filter(id=pet_id).update(**update_fields)
+
+    return Pet.objects.get(id=pet_id)
 
 
 def delete_pet(pet_id):
