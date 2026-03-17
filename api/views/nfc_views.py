@@ -28,9 +28,11 @@ def nfc_payload(request, pet_id):
             "petName":  pet.name,
             "species":  pet.species,
             "breed":    pet.breed,
-            # Owner contact
-            "ownerName":  owner.name,
+            "knownAllergies": pet.known_allergies,
+            "ownerName": owner.name,
             "ownerPhone": owner.phone,
+            "appDeepLink": f"petcare://pet/{str(pet.id)}" 
+
         }
         return JsonResponse(payload)
 
@@ -60,7 +62,7 @@ def nfc_public_read(request, pet_id):
             "ownerPhone":    "",
             "ownerInitials": "",
         }
-        if pet.user_ids:
+        if pet.owners:
             try:
                 owner = User.objects.get(id=pet.owners[0])
                 owner_data = {
@@ -78,6 +80,9 @@ def nfc_public_read(request, pet_id):
             "breed":   pet.breed,
             "status":  pet.status or "Unknown",
             "photoUrl": pet.photo_url or "",
+            "knownAllergies": pet.known_allergies,
+            "defaultVet": pet.default_vet,
+            "defaultClinic": pet.default_clinic,
             **owner_data,
         }
         return JsonResponse(response)
