@@ -41,6 +41,7 @@ def _make_vaccination(**kwargs):
     v.lot_number = kwargs.get("lot_number", "LOT123")
     v.status = kwargs.get("status", "completed")
     v.administered_by = kwargs.get("administered_by", "Dr. Smith")
+    v.clinic_name = kwargs.get("clinic_name", "Happy Paws")
     v.attached_documents = kwargs.get("attached_documents", [])
     return v
 

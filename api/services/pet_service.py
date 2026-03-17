@@ -17,6 +17,7 @@ _CAMEL_TO_SNAKE = {
     "nextDueDate": "next_due_date",
     "lotNumber": "lot_number",
     "administeredBy": "administered_by",
+    "clinicName": "clinic_name",
     "attachedDocuments": "attached_documents",
     # AttachedDocument embedded fields
     "documentId": "document_id",

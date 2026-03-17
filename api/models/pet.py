@@ -23,7 +23,7 @@ class Vaccination(EmbeddedModel):
     lot_number = models.CharField(max_length=100, blank=True)
     status = models.CharField(max_length=50, default="completed", help_text="Ex: completed, pending, overdue")
     administered_by = models.CharField(max_length=255, blank=True, help_text="Name of the person or clinic that administered the vaccine")
-
+    clinic_name = models.CharField(max_length=255, blank=True, help_text="Name of the clinic where the vaccine was administered")
     attached_documents = ArrayField(
         EmbeddedModelField(AttachedDocument),
         blank=True,
