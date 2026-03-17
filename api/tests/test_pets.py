@@ -6,6 +6,7 @@ from datetime import date, datetime, timezone
 
 from api.views.pet_views import (
     pet_collection,
+    my_pets,
     pet_detail,
     vaccinations,
     vaccination_documents,
@@ -230,6 +231,49 @@ class TestPetViews(TestCase):
         req = self.factory.get("/api/pets/")
         resp = pet_collection(req)
         self.assertEqual(resp.status_code, 401)
+
+    # --- GET /api/pets/mine/ ---
+
+    @patch("api.views.pet_views.pet_service")
+    @patch("api.authentication.firebase_authentication.auth")
+    def test_my_pets_ok(self, mock_auth, mock_svc):
+        mock_user = self._setup_auth_mocks(mock_auth)
+        with patch("api.authentication.firebase_authentication.User") as MockUser:
+            MockUser.objects.get.return_value = mock_user
+            mock_svc.list_pets_by_owner.return_value = [_make_pet()]
+            req = _auth_request(self.factory, "get", "/api/pets/mine/")
+            resp = my_pets(req)
+        self.assertEqual(resp.status_code, 200)
+        data = json.loads(resp.content)
+        self.assertIsInstance(data, list)
+        self.assertEqual(data[0]["name"], "Buddy")
+        mock_svc.list_pets_by_owner.assert_called_once_with(mock_user.id)
+
+    @patch("api.views.pet_views.pet_service")
+    @patch("api.authentication.firebase_authentication.auth")
+    def test_my_pets_empty_list(self, mock_auth, mock_svc):
+        mock_user = self._setup_auth_mocks(mock_auth)
+        with patch("api.authentication.firebase_authentication.User") as MockUser:
+            MockUser.objects.get.return_value = mock_user
+            mock_svc.list_pets_by_owner.return_value = []
+            req = _auth_request(self.factory, "get", "/api/pets/mine/")
+            resp = my_pets(req)
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(json.loads(resp.content), [])
+
+    def test_my_pets_no_auth_returns_401(self):
+        req = self.factory.get("/api/pets/mine/")
+        resp = my_pets(req)
+        self.assertEqual(resp.status_code, 401)
+
+    def test_my_pets_method_not_allowed(self):
+        with patch("api.authentication.firebase_authentication.auth") as mock_auth:
+            mock_user = self._setup_auth_mocks(mock_auth)
+            with patch("api.authentication.firebase_authentication.User") as MockUser:
+                MockUser.objects.get.return_value = mock_user
+                req = _auth_request(self.factory, "post", "/api/pets/mine/", payload={"name": "x"})
+                resp = my_pets(req)
+        self.assertEqual(resp.status_code, 405)
 
     # --- POST /api/pets/ ---
 

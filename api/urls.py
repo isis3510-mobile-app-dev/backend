@@ -1,6 +1,7 @@
 from django.urls import path
 from api.views.pet_views import (
     pet_collection,
+    my_pets,
     pet_detail,
     vaccinations,
     vaccination_documents,
@@ -26,6 +27,7 @@ from api.views.nfc_views import nfc_public_read, nfc_payload, nfc_sync
 urlpatterns = [
     # Pets CRUD
     path("pets/", pet_collection, name="pets-list"),
+    path("pets/mine/", my_pets, name="pets-mine"),
     path("pets/<str:pet_id>/", pet_detail, name="pet-detail"),
 
     # Pet embedded resources
