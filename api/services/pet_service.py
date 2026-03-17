@@ -60,6 +60,11 @@ def parse_payload_dates(data):
                         v["date_given"] = _to_datetime(v["date_given"])
                     if "next_due_date" in v:
                         v["next_due_date"] = _to_datetime(v["next_due_date"])
+
+        if "date_given" in data:
+            data["date_given"] = _to_datetime(data["date_given"])
+        if "next_due_date" in data:
+            data["next_due_date"] = _to_datetime(data["next_due_date"])
     return data
 
 
