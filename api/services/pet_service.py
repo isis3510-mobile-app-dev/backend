@@ -91,6 +91,10 @@ def list_pets():
     return Pet.objects.all()
 
 
+def list_pets_by_owner(owner_id):
+    return Pet.objects.filter(owners__contains=[owner_id])
+
+
 def get_pet(pet_id):
     return Pet.objects.get(id=pet_id)
 

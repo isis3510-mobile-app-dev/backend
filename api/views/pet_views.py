@@ -27,6 +27,17 @@ def pet_collection(request):
 
 @csrf_exempt
 @firebase_required
+def my_pets(request):
+    if request.method == "GET":
+        pets = pet_service.list_pets_by_owner(request.user.id)
+        pets_data = [pet_to_dict(pet) for pet in pets]
+        return JsonResponse(pets_data, safe=False)
+
+    return JsonResponse({"error": "Method not allowed"}, status=405)
+
+
+@csrf_exempt
+@firebase_required
 @is_pet_owner
 def pet_detail(request, pet_id):
     if request.method == "GET":
