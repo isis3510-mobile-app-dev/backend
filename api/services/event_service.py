@@ -16,7 +16,6 @@ _CAMEL_TO_SNAKE = {
 
 
 def translate_payload(data):
-    """Recursively translate camelCase API payload keys to snake_case model field names."""
     if isinstance(data, dict):
         return {_CAMEL_TO_SNAKE.get(k, k): translate_payload(v) for k, v in data.items()}
     if isinstance(data, list):
@@ -25,9 +24,7 @@ def translate_payload(data):
 
 
 def parse_payload_dates(data):
-    """Convert date strings in the payload to Python datetime objects."""
     date_fields = ['date', 'follow_up_date']
-
     if isinstance(data, dict):
         for key, value in data.items():
             if key in date_fields and value is not None and isinstance(value, str):
@@ -40,7 +37,6 @@ def parse_payload_dates(data):
     elif isinstance(data, list):
         for item in data:
             parse_payload_dates(item)
-
     return data
 
 
@@ -55,6 +51,13 @@ def list_events(filters=None):
     if filters:
         return Event.objects.filter(**filters)
     return Event.objects.all()
+
+
+def list_events_for_pets(pet_ids: list):
+    """Returns all events whose pet_id is in the given list of pet_ids."""
+    if not pet_ids:
+        return Event.objects.none()
+    return Event.objects.filter(pet_id__in=pet_ids)
 
 
 def get_event(event_id):
