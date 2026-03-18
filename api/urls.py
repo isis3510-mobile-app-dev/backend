@@ -86,5 +86,5 @@ urlpatterns = [
     path("feature-clicks-logs/", feature_clicks_log_collection, name="feature-clicks-logs"),
 
     #Smart vaccination feature
-    path("api/pets/<str:pet_id>/smart/", pet_smart_view),
+    path("pets/<str:pet_id>/smart/", pet_smart_view),
 ]

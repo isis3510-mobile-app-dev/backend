@@ -60,7 +60,7 @@ def _analyze_missing_vaccines(
 ) -> list[dict]:
     suggestions = []
 
-    catalog_vaccines = Vaccine.objects.filter(species__contains=species.lower())
+    catalog_vaccines = [v for v in Vaccine.objects.all() if species.lower() in [s.lower() for s in v.species]]
 
     for vaccine in catalog_vaccines:
         vaccine_id_str = str(vaccine.id)
