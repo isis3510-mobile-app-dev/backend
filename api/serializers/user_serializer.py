@@ -77,6 +77,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         fields = [
             "name",
             "token",
+            "email",
             "phone",
             "address",
             "profilePhoto",
