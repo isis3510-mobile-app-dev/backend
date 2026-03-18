@@ -97,7 +97,7 @@ def vaccination_detail(request, pet_id, vaccination_id):
     if request.method == "PUT":
         try:
             payload = json.loads(request.body)
-            pet = pet_service.update_vaccination(pet_id, payload)
+            pet = pet_service.update_vaccination(pet_id, vaccination_id, payload)
             return JsonResponse(pet_to_dict(pet))
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
