@@ -57,3 +57,4 @@ def pet_to_dict(pet):
             for v in (pet.vaccinations or [])
         ],
     }
+

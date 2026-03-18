@@ -62,6 +62,22 @@ def vaccinations(request, pet_id):
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
 
+    if request.method == "PUT":
+        try:
+            payload = json.loads(request.body)
+            pet = pet_service.update_vaccination(pet_id, payload)
+            return JsonResponse(pet_to_dict(pet))
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+
+    if request.method == "DELETE":
+        try:
+            payload = json.loads(request.body)
+            pet = pet_service.delete_vaccination(pet_id, payload)
+            return JsonResponse(pet_to_dict(pet))
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+
     return JsonResponse({"error": "Method not allowed"}, status=405)
 
 
