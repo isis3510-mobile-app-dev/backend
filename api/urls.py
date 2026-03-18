@@ -6,6 +6,7 @@ from api.views.pet_views import (
     vaccinations,
     vaccination_documents,
 )
+from api.views.smart_vaccination_view import pet_smart_view
 from api.views.vaccine_views import (
     create_vaccine_view,
     get_vaccine_view,
@@ -81,4 +82,7 @@ urlpatterns = [
 
     # Feature Clicks Logs
     path("feature-clicks-logs/", feature_clicks_log_collection, name="feature-clicks-logs"),
+
+    #Smart vaccination feature
+    path("api/pets/<str:pet_id>/smart/", pet_smart_view),
 ]
