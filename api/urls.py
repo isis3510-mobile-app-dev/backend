@@ -4,6 +4,7 @@ from api.views.pet_views import (
     my_pets,
     pet_detail,
     vaccinations,
+    vaccination_detail,
     vaccination_documents,
 )
 from api.views.vaccine_views import (
@@ -32,6 +33,7 @@ urlpatterns = [
 
     # Pet embedded resources
     path("pets/<str:pet_id>/vaccinations/", vaccinations),
+    path("pets/<str:pet_id>/vaccinations/<str:vaccination_id>/", vaccination_detail),
     path("pets/<str:pet_id>/vaccinations/<str:vaccination_id>/documents/", vaccination_documents),
 
     # Events (standalone collection)

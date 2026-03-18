@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from api.services import pet_service
-from api.serializers.pet_serializer import pet_to_dict
+from api.serializers.pet_serializer import _to_object_id, pet_to_dict, vaccination_to_api_dict, vaccination_to_dict
 from api.authentication.firebase_authentication import firebase_required, is_pet_owner
 
 @csrf_exempt
@@ -65,6 +65,10 @@ def pet_detail(request, pet_id):
 @firebase_required
 @is_pet_owner
 def vaccinations(request, pet_id):
+    if request.method == "GET":
+        vaccinations = pet_service.list_vaccinations(pet_id)
+        return JsonResponse([vaccination_to_api_dict(v) for v in vaccinations], status=200, safe=False)
+
     if request.method == "POST":
         try:
             payload = json.loads(request.body)
@@ -72,19 +76,35 @@ def vaccinations(request, pet_id):
             return JsonResponse(pet_to_dict(pet), status=201)
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
+        
+    return JsonResponse({"error": "Method not allowed"}, status=405)
 
+@csrf_exempt
+@firebase_required
+@is_pet_owner
+def vaccination_detail(request, pet_id, vaccination_id):
+    if request.method == "GET":
+        pet = pet_service.get_pet(pet_id)
+        if not pet:
+            return JsonResponse({"error": "Pet not found"}, status=404)
+        target_id = _to_object_id(vaccination_id)
+        for v in (pet.vaccinations or []):
+            v_dict = vaccination_to_dict(v)
+            if pet_service._ids_equal(v_dict.get("_id"), target_id):
+                return JsonResponse(vaccination_to_api_dict(v_dict))
+        return JsonResponse({"error": "Vaccination not found"}, status=404)
+            
     if request.method == "PUT":
         try:
             payload = json.loads(request.body)
-            pet = pet_service.update_vaccination(pet_id, payload)
+            pet = pet_service.update_vaccination(pet_id, vaccination_id, payload)
             return JsonResponse(pet_to_dict(pet))
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
 
     if request.method == "DELETE":
         try:
-            payload = json.loads(request.body)
-            pet = pet_service.delete_vaccination(pet_id, payload)
+            pet = pet_service.delete_vaccination(pet_id, vaccination_id)
             return JsonResponse(pet_to_dict(pet))
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
