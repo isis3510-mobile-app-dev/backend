@@ -4,8 +4,10 @@ from api.views.pet_views import (
     my_pets,
     pet_detail,
     vaccinations,
+    vaccination_detail,
     vaccination_documents,
 )
+from api.views.smart_vaccination_view import pet_smart_view
 from api.views.vaccine_views import (
     create_vaccine_view,
     get_vaccine_view,
@@ -32,6 +34,7 @@ urlpatterns = [
 
     # Pet embedded resources
     path("pets/<str:pet_id>/vaccinations/", vaccinations),
+    path("pets/<str:pet_id>/vaccinations/<str:vaccination_id>/", vaccination_detail),
     path("pets/<str:pet_id>/vaccinations/<str:vaccination_id>/documents/", vaccination_documents),
 
     # Events (standalone collection)
@@ -81,4 +84,7 @@ urlpatterns = [
 
     # Feature Clicks Logs
     path("feature-clicks-logs/", feature_clicks_log_collection, name="feature-clicks-logs"),
+
+    #Smart vaccination feature
+    path("api/pets/<str:pet_id>/smart/", pet_smart_view),
 ]

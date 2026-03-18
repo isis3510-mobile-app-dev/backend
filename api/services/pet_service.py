@@ -1,5 +1,6 @@
 # CRUD logic for Pet
 from api.models import Pet, Vaccination, AttachedDocument
+from api.serializers.pet_serializer import vaccination_to_dict, _to_object_id, _to_datetime
 from bson import ObjectId
 from datetime import datetime, date
 
@@ -37,19 +38,6 @@ def translate_payload(data):
     return data
 
 
-def _to_object_id(val):
-    if val is None:
-        return None
-    if isinstance(val, ObjectId):
-        return val
-    if isinstance(val, str):
-        try:
-            return ObjectId(val)
-        except Exception:
-            return val
-    return val
-
-
 def _convert_object_ids(data):
     """Normalize known ObjectId fields inside an already-translated dict."""
     if not isinstance(data, dict):
@@ -78,52 +66,8 @@ def _convert_object_ids(data):
 
     return data
 
-
-def _attached_document_to_dict(doc):
-    if isinstance(doc, dict):
-        normalized = dict(doc)
-        if "document_id" in normalized:
-            normalized["document_id"] = _to_object_id(normalized["document_id"])
-        return normalized
-    return {
-        "document_id": getattr(doc, "document_id", None),
-        "file_name": getattr(doc, "file_name", None),
-        "file_uri": getattr(doc, "file_uri", None),
-    }
-
-
-def _vaccination_to_dict(v):
-    if isinstance(v, dict):
-        normalized = dict(v)
-        if "vaccine_id" in normalized:
-            normalized["vaccine_id"] = _to_object_id(normalized["vaccine_id"])
-        if "date_given" in normalized:
-            normalized["date_given"] = _to_datetime(normalized["date_given"])
-        if "next_due_date" in normalized:
-            normalized["next_due_date"] = _to_datetime(normalized["next_due_date"])
-        if "attached_documents" in normalized and isinstance(normalized["attached_documents"], list):
-            normalized["attached_documents"] = [
-                _attached_document_to_dict(doc)
-                for doc in normalized["attached_documents"]
-            ]
-        return normalized
-    return {
-        "vaccine_id": _to_object_id(getattr(v, "vaccine_id", None)),
-        "date_given": _to_datetime(getattr(v, "date_given", None)),
-        "next_due_date": _to_datetime(getattr(v, "next_due_date", None)),
-        "lot_number": getattr(v, "lot_number", None),
-        "status": getattr(v, "status", None),
-        "administered_by": getattr(v, "administered_by", None),
-        "clinic_name": getattr(v, "clinic_name", None),
-        "attached_documents": [
-            _attached_document_to_dict(doc)
-            for doc in (getattr(v, "attached_documents", None) or [])
-        ],
-    }
-
-
 def _normalize_vaccinations(vaccinations):
-    return [_vaccination_to_dict(v) for v in (vaccinations or [])]
+    return [vaccination_to_dict(v) for v in (vaccinations or [])]
 
 
 def _ids_equal(a, b):
@@ -149,22 +93,6 @@ def _dates_equal(a, b):
     if da is None or db is None:
         return False
     return da == db
-
-
-def _to_datetime(val):
-    if not val:
-        return None
-    if isinstance(val, datetime):
-        return val
-    if isinstance(val, date):
-        return datetime(val.year, val.month, val.day)
-    if isinstance(val, str):
-        try:
-            return datetime.fromisoformat(val.replace('Z', '+00:00'))
-        except (ValueError, TypeError):
-            return val
-    return val
-
 
 def parse_payload_dates(data):
     """Convert date strings in the payload to Python datetime objects."""
@@ -235,6 +163,9 @@ def update_pet(pet_id, data):
 def delete_pet(pet_id):
     Pet.objects.filter(id=pet_id).delete()
 
+def list_vaccinations(pet_id):
+    pet = Pet.objects.get(id=pet_id)
+    return pet.vaccinations or []
 
 def add_vaccination(pet_id, data):
     data = translate_payload(data)
@@ -242,6 +173,10 @@ def add_vaccination(pet_id, data):
     pet = Pet.objects.get(id=pet_id)
 
     pet.vaccinations = _normalize_vaccinations(pet.vaccinations)
+    if "_id" not in data and "id" in data:
+        data["_id"] = _to_object_id(data["id"])
+    if "_id" not in data:
+        data["_id"] = _to_object_id(ObjectId())
     pet.vaccinations.append(data)
     pet.save()
     return Pet.objects.get(id=pet.id)
@@ -254,8 +189,8 @@ def add_document_to_vaccination(pet_id, vaccination_id, document_data):
     if pet.vaccinations:
         normalized = []
         for vaccination in pet.vaccinations:
-            v = _vaccination_to_dict(vaccination)
-            if _ids_equal(v.get("vaccine_id"), target_id):
+            v = vaccination_to_dict(vaccination)
+            if _ids_equal(v.get("_id"), target_id):
                 docs = v.get("attached_documents") or []
                 docs.append(document_data)
                 v["attached_documents"] = docs
@@ -265,32 +200,27 @@ def add_document_to_vaccination(pet_id, vaccination_id, document_data):
     return Pet.objects.get(id=pet.id)
 
 
-def update_vaccination(pet_id, data):
+def update_vaccination(pet_id, vaccination_id, data):
     data = translate_payload(data)
     data = parse_payload_dates(data)
 
-    if "vaccine_id" not in data or "date_given" not in data:
-        raise Exception("vaccineId and dateGiven are required to identify the vaccination")
-
-    target_id = _to_object_id(data["vaccine_id"])
-    target_date = data["date_given"]
-
+    target_id = _to_object_id(vaccination_id)
     pet = Pet.objects.get(id=pet_id)
 
     updated = False
     normalized = []
     for vaccination in (pet.vaccinations or []):
-        v = _vaccination_to_dict(vaccination)
-        if _ids_equal(v.get("vaccine_id"), target_id) and _dates_equal(v.get("date_given"), target_date):
+        v = vaccination_to_dict(vaccination)
+        if _ids_equal(v.get("_id"), target_id):
             for key, value in data.items():
-                if key in ("vaccine_id", "date_given"):
+                if key in ("_id", "id"):
                     continue
                 v[key] = value
             updated = True
         normalized.append(v)
 
     if not updated:
-        raise Exception("Vaccination not found for the given vaccineId and dateGiven")
+        raise Exception("Vaccination not found for the given id")
 
     pet.vaccinations = normalized
     pet.save()
@@ -321,30 +251,22 @@ def update_vaccination_date(pet_id, vaccine_id, old_date, new_date):
     pet.save()
     return Pet.objects.get(id=pet.id)
 
-
-def delete_vaccination(pet_id, data):
-    data = translate_payload(data)
-    data = parse_payload_dates(data)
-
-    if "vaccine_id" not in data or "date_given" not in data:
-        raise Exception("vaccineId and dateGiven are required to identify the vaccination")
-
-    target_id = _to_object_id(data["vaccine_id"])
-    target_date = data["date_given"]
+def delete_vaccination(pet_id, vaccination_id):
+    target_id = _to_object_id(vaccination_id)
 
     pet = Pet.objects.get(id=pet_id)
 
     deleted = False
     normalized = []
     for vaccination in (pet.vaccinations or []):
-        v = _vaccination_to_dict(vaccination)
-        if _ids_equal(v.get("vaccine_id"), target_id) and _dates_equal(v.get("date_given"), target_date):
+        v = vaccination_to_dict(vaccination)
+        if _ids_equal(v.get("_id"), target_id):
             deleted = True
             continue
         normalized.append(v)
 
     if not deleted:
-        raise Exception("Vaccination not found for the given vaccineId and dateGiven")
+        raise Exception("Vaccination not found for the given id")
 
     pet.vaccinations = normalized
     pet.save()
