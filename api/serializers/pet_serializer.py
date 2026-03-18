@@ -44,6 +44,7 @@ def pet_to_dict(pet):
                 "lotNumber": v.lot_number,
                 "status": v.status,
                 "administeredBy": v.administered_by,
+                "clinicName": v.clinic_name,
                 "attachedDocuments": [
                     {
                         "documentId": str(doc.document_id),
@@ -56,3 +57,4 @@ def pet_to_dict(pet):
             for v in (pet.vaccinations or [])
         ],
     }
+

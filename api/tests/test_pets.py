@@ -42,6 +42,7 @@ def _make_vaccination(**kwargs):
     v.lot_number = kwargs.get("lot_number", "LOT123")
     v.status = kwargs.get("status", "completed")
     v.administered_by = kwargs.get("administered_by", "Dr. Smith")
+    v.clinic_name = kwargs.get("clinic_name", "Happy Paws")
     v.attached_documents = kwargs.get("attached_documents", [])
     return v
 
@@ -168,6 +169,69 @@ class TestPetService(TestCase):
         }
         result = pet_service.add_document_to_vaccination(PET_ID, VACCINE_OBJ_ID, doc_data)
         pet.save.assert_called_once()
+
+    @patch("api.services.pet_service.Pet")
+    def test_update_vaccination(self, MockPet):
+        existing = {
+            "vaccine_id": ObjectId(VACCINE_OBJ_ID),
+            "date_given": datetime(2026, 1, 15),
+            "status": "completed",
+            "clinic_name": "Old Clinic",
+        }
+        pet = _make_pet(vaccinations=[existing])
+        updated = _make_pet(vaccinations=[{**existing, "status": "pending", "clinic_name": "New Clinic"}])
+        MockPet.objects.get.side_effect = [pet, updated]
+        payload = {
+            "vaccineId": VACCINE_OBJ_ID,
+            "dateGiven": "2026-01-15",
+            "status": "pending",
+            "clinicName": "New Clinic",
+        }
+        result = pet_service.update_vaccination(PET_ID, payload)
+        pet.save.assert_called_once()
+        self.assertEqual(result.vaccinations[0]["status"], "pending")
+        self.assertEqual(result.vaccinations[0]["clinic_name"], "New Clinic")
+
+    @patch("api.services.pet_service.Pet")
+    def test_update_vaccination_not_found(self, MockPet):
+        pet = _make_pet(vaccinations=[])
+        MockPet.objects.get.return_value = pet
+        payload = {
+            "vaccineId": VACCINE_OBJ_ID,
+            "dateGiven": "2026-01-15",
+            "status": "pending",
+        }
+        with self.assertRaises(Exception):
+            pet_service.update_vaccination(PET_ID, payload)
+
+    @patch("api.services.pet_service.Pet")
+    def test_delete_vaccination(self, MockPet):
+        existing = {
+            "vaccine_id": ObjectId(VACCINE_OBJ_ID),
+            "date_given": datetime(2026, 1, 15),
+            "status": "completed",
+        }
+        pet = _make_pet(vaccinations=[existing])
+        updated = _make_pet(vaccinations=[])
+        MockPet.objects.get.side_effect = [pet, updated]
+        payload = {
+            "vaccineId": VACCINE_OBJ_ID,
+            "dateGiven": "2026-01-15",
+        }
+        result = pet_service.delete_vaccination(PET_ID, payload)
+        pet.save.assert_called_once()
+        self.assertEqual(result.vaccinations, [])
+
+    @patch("api.services.pet_service.Pet")
+    def test_delete_vaccination_not_found(self, MockPet):
+        pet = _make_pet(vaccinations=[])
+        MockPet.objects.get.return_value = pet
+        payload = {
+            "vaccineId": VACCINE_OBJ_ID,
+            "dateGiven": "2026-01-15",
+        }
+        with self.assertRaises(Exception):
+            pet_service.delete_vaccination(PET_ID, payload)
 
     def test_parse_payload_dates_converts_strings(self):
         # Internal snake_case keys (after translation)
@@ -439,6 +503,37 @@ class TestPetViews(TestCase):
             req = _auth_request(self.factory, "post", f"/api/pets/{PET_ID}/vaccinations/{VACCINE_OBJ_ID}/documents/", payload)
             resp = vaccination_documents(req, pet_id=PET_ID, vaccination_id=VACCINE_OBJ_ID)
         self.assertEqual(resp.status_code, 201)
+
+    @patch("api.views.pet_views.pet_service")
+    @patch("api.authentication.firebase_authentication.auth")
+    def test_update_vaccination_ok(self, mock_auth, mock_svc):
+        mock_user = self._setup_auth_mocks(mock_auth)
+        with patch("api.authentication.firebase_authentication.User") as MockUser:
+            MockUser.objects.get.return_value = mock_user
+            mock_svc.update_vaccination.return_value = _make_pet(vaccinations=[_make_vaccination()])
+            payload = {
+                "vaccineId": VACCINE_OBJ_ID,
+                "dateGiven": "2026-01-15",
+                "status": "pending",
+            }
+            req = _auth_request(self.factory, "put", f"/api/pets/{PET_ID}/vaccinations/", payload)
+            resp = vaccinations(req, pet_id=PET_ID)
+        self.assertEqual(resp.status_code, 200)
+
+    @patch("api.views.pet_views.pet_service")
+    @patch("api.authentication.firebase_authentication.auth")
+    def test_delete_vaccination_ok(self, mock_auth, mock_svc):
+        mock_user = self._setup_auth_mocks(mock_auth)
+        with patch("api.authentication.firebase_authentication.User") as MockUser:
+            MockUser.objects.get.return_value = mock_user
+            mock_svc.delete_vaccination.return_value = _make_pet(vaccinations=[])
+            payload = {
+                "vaccineId": VACCINE_OBJ_ID,
+                "dateGiven": "2026-01-15",
+            }
+            req = _auth_request(self.factory, "delete", f"/api/pets/{PET_ID}/vaccinations/", payload)
+            resp = vaccinations(req, pet_id=PET_ID)
+        self.assertEqual(resp.status_code, 200)
 
     # --- Firebase invalid/expired token ---
 
