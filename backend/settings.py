@@ -35,6 +35,7 @@ ALLOWED_HOSTS = ["localhost",
     "127.0.0.1",
     "10.0.2.2",
     "192.168.80.19",
+    "twigless-sabrina-nonexaggeratory.ngrok-free.dev"
     "*"
     ]
 

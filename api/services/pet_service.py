@@ -227,6 +227,30 @@ def update_vaccination(pet_id, vaccination_id, data):
     return Pet.objects.get(id=pet.id)
 
 
+def update_vaccination_date(pet_id, vaccine_id, old_date, new_date):
+    """Update a vaccination, allowing dateGiven to be changed."""
+    vaccine_id = _to_object_id(vaccine_id)
+    old_date = _to_datetime(old_date)
+    new_date = _to_datetime(new_date)
+
+    pet = Pet.objects.get(id=pet_id)
+
+    updated = False
+    normalized = []
+    for vaccination in (pet.vaccinations or []):
+        v = _vaccination_to_dict(vaccination)
+        if _ids_equal(v.get("vaccine_id"), vaccine_id) and _dates_equal(v.get("date_given"), old_date):
+            v["date_given"] = new_date
+            updated = True
+        normalized.append(v)
+
+    if not updated:
+        raise Exception("Vaccination not found for the given vaccineId and dateGiven")
+
+    pet.vaccinations = normalized
+    pet.save()
+    return Pet.objects.get(id=pet.id)
+
 def delete_vaccination(pet_id, vaccination_id):
     target_id = _to_object_id(vaccination_id)
 
