@@ -17,6 +17,7 @@ class AttachedDocument(EmbeddedModel):
 
 class Vaccination(EmbeddedModel):
     """Evento de vacunación embebido dentro de Pet"""
+    id = ObjectIdAutoField(primary_key=True)
     vaccine_id = ObjectIdField()
     date_given = models.DateField()
     next_due_date = models.DateField(null=True, blank=True)
