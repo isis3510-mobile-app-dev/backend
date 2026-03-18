@@ -76,7 +76,23 @@ def vaccinations(request, pet_id):
     if request.method == "PUT":
         try:
             payload = json.loads(request.body)
-            pet = pet_service.update_vaccination(pet_id, payload)
+            # Check if trying to update dateGiven
+            if "newDateGiven" in payload and "dateGiven" in payload:
+                # User wants to change the date
+                pet = pet_service.update_vaccination_date(
+                    pet_id, 
+                    payload["vaccineId"], 
+                    payload["dateGiven"],
+                    payload["newDateGiven"]
+                )
+                # If there are other fields to update, update them too
+                if len(payload) > 3:  # More than vaccineId, dateGiven, newDateGiven
+                    remaining = {k: v for k, v in payload.items() if k not in ("vaccineId", "dateGiven", "newDateGiven")}
+                    remaining["vaccineId"] = payload["vaccineId"]
+                    remaining["dateGiven"] = payload["newDateGiven"]
+                    pet = pet_service.update_vaccination(pet_id, remaining)
+            else:
+                pet = pet_service.update_vaccination(pet_id, payload)
             return JsonResponse(pet_to_dict(pet))
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
