@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 from api.models import Pet, Vaccine
 
 
@@ -15,10 +15,12 @@ def analyze_pet_vaccines(pet_id: str) -> tuple[Pet, list[dict]]:
     for vaccination in pet.vaccinations:
         vaccine_name = _resolve_vaccine_name(vaccination.vaccine_id)
 
-        if not vaccination.next_due_date:
+        due_date = _resolve_due_date(vaccination)
+
+        if not due_date:
             continue
 
-        overdue_days = (today - vaccination.next_due_date).days
+        overdue_days = (today - due_date).days
 
         if overdue_days > 30:
             suggestions.append({
@@ -52,6 +54,22 @@ def analyze_pet_vaccines(pet_id: str) -> tuple[Pet, list[dict]]:
 
     return pet, suggestions
 
+def _resolve_due_date(vaccination):
+   
+    if vaccination.next_due_date:
+        return vaccination.next_due_date
+
+    if not vaccination.date_given:
+        return None
+
+    try:
+        vaccine = Vaccine.objects.get(id=vaccination.vaccine_id)
+        if vaccine.interval_days and vaccine.interval_days > 0:
+            return vaccination.date_given + timedelta(days=vaccine.interval_days)
+    except Vaccine.DoesNotExist:
+        pass
+
+    return None
 
 def _analyze_missing_vaccines(
     species: str,
