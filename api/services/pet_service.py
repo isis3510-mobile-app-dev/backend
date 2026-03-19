@@ -1,5 +1,5 @@
 # CRUD logic for Pet
-from api.models import Pet, Vaccination, AttachedDocument
+from api.models import Pet, Vaccination, AttachedDocument, Event, User
 from api.serializers.pet_serializer import vaccination_to_dict, _to_object_id, _to_datetime
 from bson import ObjectId
 from datetime import datetime, date
@@ -161,7 +161,17 @@ def update_pet(pet_id, data):
 
 
 def delete_pet(pet_id):
-    Pet.objects.filter(id=pet_id).delete()
+    target_pet_id = _to_object_id(pet_id)
+
+    # Remove standalone events that belong to the pet.
+    Event.objects.filter(pet_id=target_pet_id).delete()
+
+    # Keep user->pets references consistent after deleting the pet.
+    for user in User.objects.filter(pets__contains=[target_pet_id]):
+        user.pets = [pid for pid in (user.pets or []) if not _ids_equal(pid, target_pet_id)]
+        user.save()
+
+    Pet.objects.filter(id=target_pet_id).delete()
 
 def list_vaccinations(pet_id):
     pet = Pet.objects.get(id=pet_id)

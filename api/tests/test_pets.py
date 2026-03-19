@@ -136,11 +136,34 @@ class TestPetService(TestCase):
         pet.save.assert_called_once()
         self.assertEqual(result.name, "NewName")
 
+    @patch("api.services.pet_service.User")
+    @patch("api.services.pet_service.Event")
     @patch("api.services.pet_service.Pet")
-    def test_delete_pet(self, MockPet):
+    def test_delete_pet(self, MockPet, MockEvent, MockUser):
+        target_pet_id = ObjectId(PET_ID)
+
+        user_a = MagicMock()
+        user_a.pets = [target_pet_id, ObjectId()]
+
+        user_b = MagicMock()
+        user_b.pets = [ObjectId(), target_pet_id, target_pet_id]
+
+        MockUser.objects.filter.return_value = [user_a, user_b]
+        MockEvent.objects.filter.return_value.delete.return_value = None
         MockPet.objects.filter.return_value.delete.return_value = None
+
         pet_service.delete_pet(PET_ID)
-        MockPet.objects.filter.assert_called_once_with(id=PET_ID)
+
+        MockEvent.objects.filter.assert_called_once_with(pet_id=target_pet_id)
+        MockEvent.objects.filter.return_value.delete.assert_called_once()
+
+        MockUser.objects.filter.assert_called_once_with(pets__contains=[target_pet_id])
+        self.assertTrue(all(str(pid) != PET_ID for pid in user_a.pets))
+        self.assertTrue(all(str(pid) != PET_ID for pid in user_b.pets))
+        user_a.save.assert_called_once()
+        user_b.save.assert_called_once()
+
+        MockPet.objects.filter.assert_called_once_with(id=target_pet_id)
         MockPet.objects.filter.return_value.delete.assert_called_once()
 
     @patch("api.services.pet_service.Pet")
