@@ -2,11 +2,14 @@
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
+from api.authentication.firebase_authentication import firebase_required, is_pet_owner
 from api.models import Pet
 from api.services.smart_vaccination_service import analyze_pet_vaccines
 from api.serializers.smart_vaccination_serializer import smart_response_to_dict
 
 @csrf_exempt
+@firebase_required
+@is_pet_owner
 @require_http_methods(["GET"])
 def pet_smart_view(request, pet_id):
     try:
