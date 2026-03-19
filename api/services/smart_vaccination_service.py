@@ -1,5 +1,7 @@
-from datetime import date, timedelta
-from api.models import Pet, Vaccine
+from datetime import date, datetime, timedelta
+from api.models import Event, Pet, Vaccine
+
+_VET_VISIT_ALERT_DAYS = 60
 
 
 def analyze_pet_vaccines(pet_id: str) -> tuple[Pet, list[dict]]:
@@ -51,6 +53,7 @@ def analyze_pet_vaccines(pet_id: str) -> tuple[Pet, list[dict]]:
         pet_age_days=pet_age_days,
     )
     suggestions.extend(missing_suggestions)
+    suggestions.extend(_analyze_vet_visit_recency(pet))
 
     return pet, suggestions
 
@@ -124,6 +127,70 @@ def _get_age_in_days(birth_date) -> int | None:
     if not birth_date:
         return None
     return (date.today() - birth_date).days
+
+
+def _analyze_vet_visit_recency(pet: Pet) -> list[dict]:
+    relevant_events = [
+        event
+        for event in Event.objects.filter(pet_id=pet.id)
+        if _is_vet_visit_event(event)
+    ]
+
+    if not relevant_events:
+        return [{
+            "type": "info",
+            "title": "No vet visit recorded yet",
+            "message": (
+                "No veterinarian visit has been recorded for your pet yet. "
+                "Consider scheduling a checkup and logging it in the app."
+            ),
+        }]
+
+    latest_event = max(relevant_events, key=_event_sort_key)
+    latest_date = _event_to_date(latest_event.date)
+
+    if latest_date is None:
+        return []
+
+    days_since_last_visit = (date.today() - latest_date).days
+    if days_since_last_visit <= _VET_VISIT_ALERT_DAYS:
+        return []
+
+    return [{
+        "type": "warning",
+        "title": "Time for a new vet checkup",
+        "message": (
+            f"It has been {days_since_last_visit} days since the last recorded "
+            "veterinarian visit. Consider scheduling a new checkup."
+        ),
+    }]
+
+
+def _is_vet_visit_event(event: Event) -> bool:
+    event_type = getattr(event, "event_type", "") or ""
+    if event_type.strip().lower() == "vet_visit":
+        return True
+
+    title = getattr(event, "title", "") or ""
+    normalized_title = title.strip().lower()
+    return "vet" in normalized_title or "check" in normalized_title
+
+
+def _event_sort_key(event: Event) -> datetime:
+    raw_date = getattr(event, "date", None)
+    if isinstance(raw_date, datetime):
+        return raw_date
+    if isinstance(raw_date, date):
+        return datetime.combine(raw_date, datetime.min.time())
+    return datetime.min
+
+
+def _event_to_date(value) -> date | None:
+    if isinstance(value, datetime):
+        return value.date()
+    if isinstance(value, date):
+        return value
+    return None
 
 
 def _resolve_vaccine_name(vaccine_id) -> str:
