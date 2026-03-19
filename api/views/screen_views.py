@@ -16,7 +16,8 @@ def screen_collection(request):
     """
     if request.method == "GET":
         try:
-            screens = screen_service.list_screens()
+            app_type = request.GET.get("appType")
+            screens = screen_service.list_screens(app_type=app_type)
             return JsonResponse([screen_to_dict(s) for s in screens], safe=False)
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)

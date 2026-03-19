@@ -7,4 +7,5 @@ def feature_route_to_dict(route):
         "originScreen": route.originScreen,
         "endButton": route.endButton,
         "endScreen": route.endScreen,
+        "appType": route.appType,
     }

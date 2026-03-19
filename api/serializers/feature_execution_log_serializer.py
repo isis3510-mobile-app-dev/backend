@@ -9,4 +9,5 @@ def feature_execution_log_to_dict(log):
         "totalTime": log.totalTime,
         "downloadSpeed": log.downloadSpeed,
         "uploadSpeed": log.uploadSpeed,
+        "appType": log.appType,
     }

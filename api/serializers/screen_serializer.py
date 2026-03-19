@@ -4,6 +4,7 @@ def screen_to_dict(screen):
         "schema": screen.schema,
         "name": screen.name,
         "hasAds": screen.hasAds,
+        "appType": screen.appType,
         # "avgTimeSpent": screen.avgTimeSpent,
         # "stdTimeSpent": screen.stdTimeSpent,
         # "nScreenTimeEvents": screen.nScreenTimeEvents,

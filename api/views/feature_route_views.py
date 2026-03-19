@@ -15,7 +15,8 @@ def feature_route_collection(request):
     """
     if request.method == "GET":
         try:
-            routes = feature_route_service.list_feature_routes()
+            app_type = request.GET.get("appType")
+            routes = feature_route_service.list_feature_routes(app_type=app_type)
             return JsonResponse([feature_route_to_dict(r) for r in routes], safe=False)
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)

@@ -21,6 +21,10 @@ class Screen(models.Model):
 
     name = models.CharField(max_length=200)
     hasAds = models.BooleanField(default=False)
+    appType = models.CharField(
+        max_length=50,
+        help_text="App platform, e.g. Kotlin, Flutter"
+    )
     # avgTimeSpent = models.IntegerField(default=0, help_text="Average time spent on screen in seconds")
     # stdTimeSpent = models.IntegerField(default=0, help_text="Standard deviation of time spent in seconds")
     # nScreenTimeEvents = models.IntegerField(default=0, help_text="Number of screen time events recorded")

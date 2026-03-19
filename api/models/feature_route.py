@@ -23,6 +23,10 @@ class FeatureRoute(models.Model):
         max_length=24,
         help_text="Reference to Screens._id"
     )
+    appType = models.CharField(
+        max_length=50,
+        help_text="App platform, e.g. Kotlin, Flutter"
+    )
 
     class Meta:
         db_table = "feature_routes"
