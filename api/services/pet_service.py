@@ -225,3 +225,22 @@ def update_vaccination(pet_id, vaccination_id, data):
     pet.vaccinations = normalized
     pet.save()
     return Pet.objects.get(id=pet.id)
+
+def delete_vaccination(pet_id, vaccination_id):
+    """Elimina la vacunación con el _id dado de la lista embebida del pet."""
+    target_id = _to_object_id(vaccination_id)
+    pet = Pet.objects.get(id=pet_id)
+ 
+    original_count = len(pet.vaccinations or [])
+    normalized = [
+        vaccination_to_dict(v)
+        for v in (pet.vaccinations or [])
+        if not _ids_equal(vaccination_to_dict(v).get("_id"), target_id)
+    ]
+ 
+    if len(normalized) == original_count:
+        raise Exception("Vaccination not found for the given id")
+ 
+    pet.vaccinations = normalized
+    pet.save()
+    return Pet.objects.get(id=pet.id)
