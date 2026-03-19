@@ -435,7 +435,7 @@ class TestFeatureExecutionLogService(TestCase):
         MockLog.objects.all.return_value = qs
         qs.filter.return_value = qs
         feature_execution_log_service.list_logs(user_id=USER_ID)
-        qs.filter.assert_called_with(userId=USER_ID)
+        qs.filter.assert_called_with(userId=ObjectId(USER_ID))
 
     @patch("api.services.feature_execution_log_service.FeatureExecutionLog")
     def test_list_logs_filter_feature(self, MockLog):
@@ -443,7 +443,7 @@ class TestFeatureExecutionLogService(TestCase):
         MockLog.objects.all.return_value = qs
         qs.filter.return_value = qs
         feature_execution_log_service.list_logs(feature_id=FEATURE_ID)
-        qs.filter.assert_called_with(featureId=FEATURE_ID)
+        qs.filter.assert_called_with(featureId=ObjectId(FEATURE_ID))
 
     @patch("api.services.feature_execution_log_service.FeatureExecutionLog")
     def test_create_log_auto_total_time(self, MockLog):
@@ -592,7 +592,7 @@ class TestFeatureClicksLogService(TestCase):
         MockLog.objects.all.return_value = qs
         qs.filter.return_value = qs
         feature_clicks_log_service.list_logs(user_id=USER_ID)
-        qs.filter.assert_called_with(userId=USER_ID)
+        qs.filter.assert_called_with(userId=ObjectId(USER_ID))
 
     @patch("api.services.feature_clicks_log_service.FeatureClicksLog")
     def test_list_logs_filter_route(self, MockLog):
@@ -600,7 +600,7 @@ class TestFeatureClicksLogService(TestCase):
         MockLog.objects.all.return_value = qs
         qs.filter.return_value = qs
         feature_clicks_log_service.list_logs(route_id=ROUTE_ID)
-        qs.filter.assert_called_with(routeId=ROUTE_ID)
+        qs.filter.assert_called_with(routeId=ObjectId(ROUTE_ID))
 
     @patch("api.services.feature_clicks_log_service.FeatureClicksLog")
     def test_create_clicks_log_parses_timestamp(self, MockLog):
