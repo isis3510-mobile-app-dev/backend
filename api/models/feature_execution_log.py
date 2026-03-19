@@ -1,13 +1,13 @@
 from django.db import models
-from django_mongodb_backend.fields import ObjectIdAutoField
+from django_mongodb_backend.fields import ObjectIdAutoField, ObjectIdField
 
 
 class FeatureExecutionLog(models.Model):
     id = ObjectIdAutoField(primary_key=True)
     schema = models.IntegerField(default=1)
 
-    userId = models.CharField(max_length=24, help_text="Reference to Users._id")
-    featureId = models.CharField(max_length=24, help_text="Reference to Features._id")
+    userId = ObjectIdField(help_text="Reference to Users._id")
+    featureId = ObjectIdField(help_text="Reference to Features._id")
 
     startTime = models.DateTimeField()
     endTime = models.DateTimeField()
