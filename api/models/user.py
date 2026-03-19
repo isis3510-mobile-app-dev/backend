@@ -1,6 +1,7 @@
 from django.db import models
 from django_mongodb_backend.fields import ObjectIdAutoField, ArrayField, ObjectIdField
 from django.core.validators import RegexValidator
+from .custom_fields import SafeObjectIdField
 
 #Authentication is handled by Firebase, so we only store the Firebase UID and related info here. No passwords or Django auth models are used.
 class User(models.Model):
@@ -11,14 +12,14 @@ class User(models.Model):
     firebase_uid = models.CharField(max_length=128, unique=True)
 
     pets = ArrayField(
-        ObjectIdField(),
+        SafeObjectIdField(),
         blank=True,
         default=list,
         help_text="Id of the pets that belong to this user"
     )
 
     family_group = ArrayField(
-        ObjectIdField(),
+        SafeObjectIdField(),
         blank = True,
         default = list, 
         help_text = "Id of the users in the family group"
