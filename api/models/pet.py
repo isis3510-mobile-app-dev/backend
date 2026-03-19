@@ -54,7 +54,7 @@ class Pet(models.Model):
     birth_date = models.DateField(null=True, blank=True)
     weight = models.FloatField(null=True, blank=True)
     color = models.CharField(max_length=50, blank=True)
-    photo_url = models.URLField(max_length=500, blank=True, null=True)
+    photo_url = models.URLField(max_length=2000, blank=True, null=True)
     status = models.CharField(max_length=50, default="healthy", help_text="Ex: healthy, needs attention, etc.")
     is_nfc_synced = models.BooleanField(default=False, help_text="Indicates if the pet is synced with NFC tag")
     known_allergies = models.TextField(blank=True, help_text="Known allergies or sensitivities")
