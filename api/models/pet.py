@@ -1,6 +1,7 @@
 from django.db import models
 from django_mongodb_backend.fields import ObjectIdAutoField, ArrayField, EmbeddedModelField, ObjectIdField
 from django_mongodb_backend.models import EmbeddedModel
+from .custom_fields import SafeObjectIdField
 
 # --- INICIO DEL MONKEY PATCH (Fix para bug de django-mongodb-backend) ---
 # Le enseñamos al ArrayField a buscar el modelo embebido dentro de su campo base.
@@ -8,9 +9,12 @@ ArrayField.embedded_model = property(lambda self: getattr(self.base_field, 'embe
 # --- FIN DEL MONKEY PATCH ---
 
 
+
+
+
 class AttachedDocument(EmbeddedModel):
     """Documento adjunto embebido dentro de Vaccination y Event"""
-    document_id = ObjectIdField()  # ID of the document in the system
+    document_id = SafeObjectIdField()  # ID of the document in the system
     file_name = models.CharField(max_length=255)
     file_uri = models.URLField(max_length=500, blank=True, null=True)  # URI to access the document
 
@@ -18,7 +22,7 @@ class AttachedDocument(EmbeddedModel):
 class Vaccination(EmbeddedModel):
     """Evento de vacunación embebido dentro de Pet"""
     id = ObjectIdAutoField(primary_key=True)
-    vaccine_id = ObjectIdField()
+    vaccine_id = SafeObjectIdField()
     date_given = models.DateField()
     next_due_date = models.DateField(null=True, blank=True)
     lot_number = models.CharField(max_length=100, blank=True)
@@ -36,7 +40,7 @@ class Pet(models.Model):
     schema = models.IntegerField(default=1, help_text="Version of the document schema")
 
     owners = ArrayField(
-        ObjectIdField(),
+        SafeObjectIdField(),
         blank=True,
         default=list,
         help_text="Ids of the users that own this pet"

@@ -1,5 +1,6 @@
 from django.db import models
 from django_mongodb_backend.fields import ObjectIdAutoField, ObjectIdField
+from .custom_fields import SafeObjectIdField
 
 
 class Notification(models.Model):
@@ -7,7 +8,7 @@ class Notification(models.Model):
     id = ObjectIdAutoField(primary_key=True)
     schema = models.IntegerField(default=1, help_text="Version of the document schema")
 
-    user_id = ObjectIdField()
+    user_id = SafeObjectIdField()
 
     type = models.CharField(max_length=100)
     header = models.CharField(max_length=255)
