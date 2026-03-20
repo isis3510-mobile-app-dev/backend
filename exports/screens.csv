@@ -1,0 +1,76 @@
+id,schema,name,hasAds,appType
+69b782f1640b7b908f640c81,1,HomeScreen,False,
+69bc15e9bf153df7a2f41abd,1,Auth,False,
+69bc15e9bf153df7a2f41abe,1,Home,False,
+69bc15e9bf153df7a2f41abf,1,Pets,False,
+69bc15e9bf153df7a2f41ac0,1,Pet Detail,False,
+69bc15e9bf153df7a2f41ac1,1,Add Pet,False,
+69bc15e9bf153df7a2f41ac2,1,Add Vaccine,False,
+69bc15e9bf153df7a2f41ac3,1,Add Event,False,
+69bc15e9bf153df7a2f41ac4,1,Records,False,
+69bc1667bf153df7a2f41ac5,1,Record Detail,False,
+69bc1667bf153df7a2f41ac6,1,Calendar,False,
+69bc1667bf153df7a2f41ac7,1,NFC,False,
+69bc1667bf153df7a2f41ac8,1,Smart Alerts,False,
+69bc1667bf153df7a2f41ac9,1,Profile,False,
+69bc1667bf153df7a2f41aca,1,Edit Profile,False,
+69bc9f3457adce41b32f4fa9,1,onboarding1,False,Kotlin
+69bc9f3457adce41b32f4faa,1,onboarding2,False,Kotlin
+69bc9f3557adce41b32f4fab,1,onboarding3,False,Kotlin
+69bc9f3557adce41b32f4fac,1,signin,False,Kotlin
+69bc9f3557adce41b32f4fad,1,onboarding1,False,Kotlin
+69bc9f3557adce41b32f4fae,1,signup,False,Kotlin
+69bc9f3657adce41b32f4faf,1,onboarding2,False,Kotlin
+69bc9f3757adce41b32f4fb0,1,home,False,Kotlin
+69bc9f3757adce41b32f4fb1,1,onboarding3,False,Kotlin
+69bc9f3757adce41b32f4fb2,1,pets,False,Kotlin
+69bc9f3857adce41b32f4fb3,1,records,False,Kotlin
+69bc9f3857adce41b32f4fb4,1,signin,False,Kotlin
+69bc9f3857adce41b32f4fb5,1,calendar,False,Kotlin
+69bc9f3857adce41b32f4fb6,1,signup,False,Kotlin
+69bc9f3857adce41b32f4fb7,1,profile,False,Kotlin
+69bc9f3857adce41b32f4fb8,1,home,False,Kotlin
+69bc9f3957adce41b32f4fb9,1,petProfile,False,Kotlin
+69bc9f3957adce41b32f4fba,1,pets,False,Kotlin
+69bc9f3957adce41b32f4fbb,1,vaccineDetails,False,Kotlin
+69bc9f3957adce41b32f4fbc,1,records,False,Kotlin
+69bc9f3957adce41b32f4fbd,1,eventDetails,False,Kotlin
+69bc9f3957adce41b32f4fbe,1,calendar,False,Kotlin
+69bc9f3957adce41b32f4fbf,1,nfc/scan,False,Kotlin
+69bc9f3a57adce41b32f4fc0,1,profile,False,Kotlin
+69bc9f3a57adce41b32f4fc1,1,nfc/scanning,False,Kotlin
+69bc9f3a57adce41b32f4fc2,1,petProfile,False,Kotlin
+69bc9f3a57adce41b32f4fc3,1,nfc/scanSuccess,False,Kotlin
+69bc9f3b57adce41b32f4fc4,1,vaccineDetails,False,Kotlin
+69bc9f3b57adce41b32f4fc5,1,nfc/write,False,Kotlin
+69bc9f3b57adce41b32f4fc6,1,eventDetails,False,Kotlin
+69bc9f3b57adce41b32f4fc7,1,nfc/writing,False,Kotlin
+69bc9f3c57adce41b32f4fc8,1,nfc/scan,False,Kotlin
+69bc9f3c57adce41b32f4fc9,1,nfc/writeSuccess,False,Kotlin
+69bc9f3c57adce41b32f4fca,1,nfc/scanning,False,Kotlin
+69bc9f3c57adce41b32f4fcb,1,addPet1,False,Kotlin
+69bc9f3c57adce41b32f4fcc,1,nfc/scanSuccess,False,Kotlin
+69bc9f3c57adce41b32f4fcd,1,addPet2,False,Kotlin
+69bc9f3d57adce41b32f4fce,1,nfc/write,False,Kotlin
+69bc9f3d57adce41b32f4fcf,1,addPet3,False,Kotlin
+69bc9f3d57adce41b32f4fd0,1,nfc/writing,False,Kotlin
+69bc9f3d57adce41b32f4fd1,1,addVaccine1,False,Kotlin
+69bc9f3d57adce41b32f4fd2,1,nfc/writeSuccess,False,Kotlin
+69bc9f3d57adce41b32f4fd3,1,addVaccine2,False,Kotlin
+69bc9f3d57adce41b32f4fd4,1,addPet1,False,Kotlin
+69bc9f3e57adce41b32f4fd5,1,addVaccine3,False,Kotlin
+69bc9f3e57adce41b32f4fd6,1,addPet2,False,Kotlin
+69bc9f3e57adce41b32f4fd7,1,addEvent1,False,Kotlin
+69bc9f3e57adce41b32f4fd8,1,addPet3,False,Kotlin
+69bc9f3e57adce41b32f4fd9,1,addEvent2,False,Kotlin
+69bc9f3e57adce41b32f4fda,1,addVaccine1,False,Kotlin
+69bc9f3f57adce41b32f4fdb,1,addEvent3,False,Kotlin
+69bc9f3f57adce41b32f4fdc,1,addVaccine2,False,Kotlin
+69bc9f3f57adce41b32f4fde,1,addVaccine3,False,Kotlin
+69bc9f3f57adce41b32f4fdd,1,suggestions,False,Kotlin
+69bc9f3f57adce41b32f4fdf,1,suggestions/{petId}/{petName},False,Kotlin
+69bc9f3f57adce41b32f4fe0,1,addEvent1,False,Kotlin
+69bc9f4057adce41b32f4fe1,1,addEvent2,False,Kotlin
+69bc9f4057adce41b32f4fe3,1,addEvent3,False,Kotlin
+69bc9f4057adce41b32f4fe6,1,suggestions,False,Kotlin
+69bc9f4157adce41b32f4fe7,1,suggestions/{petId}/{petName},False,Kotlin

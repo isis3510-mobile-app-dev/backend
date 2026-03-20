@@ -9,8 +9,11 @@ def get_feature_route(route_id):
     return FeatureRoute.objects.get(id=route_id)
 
 
-def list_feature_routes():
-    return FeatureRoute.objects.all()
+def list_feature_routes(app_type=None):
+    queryset = FeatureRoute.objects.all()
+    if app_type:
+        queryset = queryset.filter(appType=app_type)
+    return queryset
 
 
 def update_feature_route(route_id, data):

@@ -11,6 +11,10 @@ class FeatureClicksLog(models.Model):
 
     timestamp = models.DateTimeField(help_text="When this click event was recorded")
     nClicks = models.IntegerField(default=1, help_text="Number of clicks recorded in this event")
+    appType = models.CharField(
+        max_length=50,
+        help_text="App platform (denormalized), e.g. Kotlin, Flutter"
+    )
 
     class Meta:
         db_table = "feature_clicks_logs"

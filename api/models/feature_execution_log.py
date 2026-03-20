@@ -15,6 +15,10 @@ class FeatureExecutionLog(models.Model):
 
     downloadSpeed = models.IntegerField(default=0, help_text="Download speed in kbps at time of execution")
     uploadSpeed = models.IntegerField(default=0, help_text="Upload speed in kbps at time of execution")
+    appType = models.CharField(
+        max_length=50,
+        help_text="App platform (denormalized), e.g. Kotlin, Flutter"
+    )
 
     class Meta:
         db_table = "feature_execution_logs"

@@ -10,8 +10,11 @@ def get_screen(screen_id):
     return Screen.objects.get(id=screen_id)
 
 
-def list_screens():
-    return Screen.objects.all()
+def list_screens(app_type=None):
+    queryset = Screen.objects.all()
+    if app_type:
+        queryset = queryset.filter(appType=app_type)
+    return queryset
 
 
 def update_screen(screen_id, data):

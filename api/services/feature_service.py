@@ -9,8 +9,11 @@ def get_feature(feature_id):
     return Feature.objects.get(id=feature_id)
 
 
-def list_features():
-    return Feature.objects.all()
+def list_features(app_type=None):
+    queryset = Feature.objects.all()
+    if app_type:
+        queryset = queryset.filter(appType=app_type)
+    return queryset
 
 
 def update_feature(feature_id, data):

@@ -1,0 +1,21 @@
+id,schema,pet_id,owner_id,title,event_type,date,price,provider,clinic,description,follow_up_date
+69b9a3b0d175af1f9b214e54,1,69b9a2bad175af1f9b214e53,69b9a275d175af1f9b214e52,"Sterilization
+Sterilization
+Sterilization",checkup,2026-02-09T00:00:00+00:00,600,Dr. Manuela,Clinica Suba,Sterilization,
+69b9ec90e32a075663172bcb,1,69b9ec5ae32a075663172bca,69b9e0da4ef470521b8998b7,Esterilizacion,checkup,2026-02-09T00:00:00+00:00,100,drm manuela,clínica suba,exitosa,
+69bad1a7e44413a611d804ab,1,69b9d10d7f33e7fd442d742b,69b994252ee87d7a734c9a67,Vet appointment,vet appointment,2026-04-01T03:23:00+00:00,5000,Colmillos,veterinaria 2,cita medica para elli,
+69baf7eb70dfdddf8a07f707,1,69baf7c570dfdddf8a07f706,69b9e0da4ef470521b8998b7,hi,dental,2026-03-19T00:00:00+00:00,50,jdks,ndks,kdks,
+69bafc2b8760b6d07ccefd1b,1,69baf286facf8a27ab6c2ef4,69b9e0da4ef470521b8998b7,Evento,other,2026-03-28T00:00:00+00:00,50,Dr Evento,Clínica Evento PUt,Evento new,
+69bafcf68760b6d07ccefd1d,1,69bafccf8760b6d07ccefd1c,69b9e0da4ef470521b8998b7,Evento prueba,other,2026-03-27T00:00:00+00:00,50,dr Evento,patas,descripcion,
+69bb0cc8a47e2f3631d805ff,1,69b9d10d7f33e7fd442d742b,69b994252ee87d7a734c9a67,Examenes de laboratorio,examenes,2026-03-18T11:10:00+00:00,200,,,,2026-03-22T11:10:00+00:00
+69bb4f956b701b33a5a74571,1,69b9b0a8eda7eb27a771928e,69b89347569f6993f6916dce,cita medica,visita medica,2026-03-26T11:18:00+00:00,120,doctor simon,Santa maria,con cuidado,2026-03-31T11:18:00+00:00
+69bb54ee09c967dd5157a274,1,69bae6d7f1161fd793537d62,69bad2c678e8686ceac1f93d,lol,checkup,2026-03-19T00:00:00+00:00,50,,,,
+69bb657b6b701b33a5a74572,1,69b970b38dd17e197fe2d8a3,69b89347569f6993f6916dce,vet,vet,2026-03-12T02:54:00+00:00,12,aaaa,test,be careful,2026-03-26T02:54:00+00:00
+69bbbb5773ce474f9764c731,1,69bba93958baacd6e229ab2e,69b9e0da4ef470521b8998b7,Doctors Appointment,other,2026-03-21T00:00:00+00:00,,,,,
+69bc1006dd6b229b102cef9b,1,69bb6f626b701b33a5a74573,69baa19cade87d8f92c07011,Vet appointment,vet_visit,2022-03-19T15:02:00+00:00,100,,,,2023-03-08T15:02:00+00:00
+69bc256ca67959a84a0a6daf,1,69bc2523a67959a84a0a6dae,69b994252ee87d7a734c9a67,Cita medica,general,2026-03-20T22:30:00+00:00,100,,,,
+69bc2996eb731b9a5f29281c,1,69b89495e67f7e097caf7855,69b89347569f6993f6916dce,Hearth Surgery,general,2026-05-04T16:50:00+00:00,100000,Dr. Hank,Saint James Vet Hospital,,2026-05-18T16:50:00+00:00
+69bc32868299cc4d80825859,1,69bac061f53e6b4836187cdc,69b8d8bda94011000b69d944,Check up,checkup,2026-03-20T00:00:00+00:00,,,,,
+69bc33418299cc4d8082585b,1,69bac061f53e6b4836187cdc,69b8d8bda94011000b69d944,Check,checkup,2026-03-20T00:00:00+00:00,,,,,
+69bc3a18b19496291de5dcf8,1,69bafccf8760b6d07ccefd1c,69b9e0da4ef470521b8998b7,New,checkup,2026-03-20T00:00:00+00:00,,,,,
+69bc3ab43a2568613150f8e3,1,69bc3a493a2568613150f8e1,69bad2c678e8686ceac1f93d,ir al dentista,dental,2026-03-31T00:00:00+00:00,1000,,odo,dentista,

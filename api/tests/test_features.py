@@ -50,6 +50,7 @@ def _make_route(**kwargs):
     r.originScreen = kwargs.get("originScreen", SCREEN_ID)
     r.endButton    = kwargs.get("endButton", "btn_profile")
     r.endScreen    = kwargs.get("endScreen", SCREEN_ID)
+    r.appType      = kwargs.get("appType", "Kotlin")
     return r
 
 
@@ -65,6 +66,7 @@ def _make_exec_log(**kwargs):
     log.totalTime     = kwargs.get("totalTime", 5)
     log.downloadSpeed = kwargs.get("downloadSpeed", 100)
     log.uploadSpeed   = kwargs.get("uploadSpeed", 50)
+    log.appType       = kwargs.get("appType", "Kotlin")
     return log
 
 
@@ -77,6 +79,7 @@ def _make_clicks_log(**kwargs):
     log.routeId   = kwargs.get("routeId", ROUTE_ID)
     log.timestamp = datetime(2026, 3, 15, 10, 0, 0, tzinfo=timezone.utc)
     log.nClicks   = kwargs.get("nClicks", 3)
+    log.appType   = kwargs.get("appType", "Kotlin")
     return log
 
 
@@ -491,6 +494,66 @@ class TestFeatureExecutionLogService(TestCase):
         feature_execution_log_service.create_log(data)
         call_kwargs = MockLog.objects.create.call_args[1]
         self.assertEqual(call_kwargs["totalTime"], 0)
+
+    @patch("api.services.feature_execution_log_service.FeatureExecutionLog")
+    def test_create_log_defaults_app_type_and_speeds(self, MockLog):
+        created = _make_exec_log(totalTime=5, downloadSpeed=0, uploadSpeed=0, appType="Kotlin")
+        MockLog.objects.create.return_value = created
+        with patch("api.services.feature_execution_log_service.analytics_utils.resolve_user_id") as mock_resolve_user, \
+             patch("api.services.feature_execution_log_service.analytics_utils.resolve_feature_id") as mock_resolve_feature:
+            mock_resolve_user.return_value = ObjectId(USER_ID)
+            mock_resolve_feature.return_value = ObjectId(FEATURE_ID)
+            data = {
+                "userId": "firebase_uid_123",
+                "featureId": "Create Pet",
+                "startTime": "2026-03-15T10:00:00",
+                "endTime":   "2026-03-15T10:00:05",
+            }
+            feature_execution_log_service.create_log(data)
+
+        call_kwargs = MockLog.objects.create.call_args[1]
+        self.assertEqual(call_kwargs["appType"], "Kotlin")
+        self.assertEqual(call_kwargs["downloadSpeed"], 0)
+        self.assertEqual(call_kwargs["uploadSpeed"], 0)
+        mock_resolve_feature.assert_called_once_with("Create Pet", "Kotlin")
+
+    @patch("api.services.feature_execution_log_service.FeatureExecutionLog")
+    def test_create_log_blank_app_type_defaults_to_kotlin(self, MockLog):
+        created = _make_exec_log(appType="Kotlin")
+        MockLog.objects.create.return_value = created
+        with patch("api.services.feature_execution_log_service.analytics_utils.resolve_user_id") as mock_resolve_user, \
+             patch("api.services.feature_execution_log_service.analytics_utils.resolve_feature_id") as mock_resolve_feature:
+            mock_resolve_user.return_value = ObjectId(USER_ID)
+            mock_resolve_feature.return_value = ObjectId(FEATURE_ID)
+            data = {
+                "userId": "firebase_uid_123",
+                "featureId": "Create Pet",
+                "appType": "   ",
+                "startTime": "2026-03-15T10:00:00",
+                "endTime":   "2026-03-15T10:00:05",
+            }
+            feature_execution_log_service.create_log(data)
+
+        call_kwargs = MockLog.objects.create.call_args[1]
+        self.assertEqual(call_kwargs["appType"], "Kotlin")
+        mock_resolve_feature.assert_called_once_with("Create Pet", "Kotlin")
+
+    @patch("api.services.feature_execution_log_service.FeatureExecutionLog")
+    def test_create_log_raises_when_feature_cannot_be_resolved(self, MockLog):
+        MockLog.objects.create.return_value = _make_exec_log()
+        with patch("api.services.feature_execution_log_service.analytics_utils.resolve_user_id") as mock_resolve_user, \
+             patch("api.services.feature_execution_log_service.analytics_utils.resolve_feature_id") as mock_resolve_feature:
+            mock_resolve_user.return_value = ObjectId(USER_ID)
+            mock_resolve_feature.return_value = None
+            data = {
+                "userId": "firebase_uid_123",
+                "featureId": "Unknown Feature",
+                "appType": "Kotlin",
+                "startTime": "2026-03-15T10:00:00",
+                "endTime":   "2026-03-15T10:00:05",
+            }
+            with self.assertRaises(ValueError):
+                feature_execution_log_service.create_log(data)
 
 
 # ===========================================================================

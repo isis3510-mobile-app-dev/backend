@@ -16,7 +16,8 @@ def feature_collection(request):
     """
     if request.method == "GET":
         try:
-            features = feature_service.list_features()
+            app_type = request.GET.get("appType")
+            features = feature_service.list_features(app_type=app_type)
             return JsonResponse([feature_to_dict(f) for f in features], safe=False)
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)

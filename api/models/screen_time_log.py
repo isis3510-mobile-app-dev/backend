@@ -15,6 +15,10 @@ class ScreenTimeLog(models.Model):
         default=0,
         help_text="Total time spent on the screen in seconds"
     )
+    appType = models.CharField(
+        max_length=50,
+        help_text="App platform (denormalized), e.g. Kotlin, Flutter"
+    )
 
     class Meta:
         db_table = "screen_time_logs"

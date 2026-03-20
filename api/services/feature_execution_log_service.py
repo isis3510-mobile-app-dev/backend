@@ -1,6 +1,7 @@
 from datetime import datetime
 from bson import ObjectId
 from api.models import FeatureExecutionLog
+from api.services import analytics_utils
 
 
 def _parse_datetime(value):
@@ -44,15 +45,31 @@ def create_log(data):
 
     if "totalTime" in data:
         data["totalTime"] = _parse_int(data["totalTime"], "totalTime")
-    if "downloadSpeed" in data:
+    if data.get("downloadSpeed") is None:
+        data["downloadSpeed"] = 0
+    else:
         data["downloadSpeed"] = _parse_int(data["downloadSpeed"], "downloadSpeed")
-    if "uploadSpeed" in data:
+    if data.get("uploadSpeed") is None:
+        data["uploadSpeed"] = 0
+    else:
         data["uploadSpeed"] = _parse_int(data["uploadSpeed"], "uploadSpeed")
 
+    raw_app_type = data.get("appType")
+    app_type = raw_app_type.strip() if isinstance(raw_app_type, str) else raw_app_type
+    if not app_type:
+        app_type = "Kotlin"
+    data["appType"] = app_type
     if "userId" in data and data["userId"] is not None:
-        data["userId"] = _to_object_id(data["userId"], "userId")
+        original_u = data["userId"]
+        data["userId"] = analytics_utils.resolve_user_id(original_u)
+        if not data["userId"]:
+            raise ValueError(f"User with firebase_uid '{original_u}' not found in MongoDB. Ensure user is created.")
+
     if "featureId" in data and data["featureId"] is not None:
-        data["featureId"] = _to_object_id(data["featureId"], "featureId")
+        original_f = data["featureId"]
+        data["featureId"] = analytics_utils.resolve_feature_id(original_f, app_type)
+        if not data["featureId"]:
+            raise ValueError(f"Feature '{original_f}' for appType '{app_type}' not found. Please seed analytics data.")
 
     # Auto-compute totalTime if not provided
     if data.get("totalTime") is None and data.get("startTime") and data.get("endTime"):

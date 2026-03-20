@@ -1,0 +1,27 @@
+id,schema,name,species,product_name,manufacturer,interval_days,description
+69b32e337817b03667ee2a46,1,Rabies Vaccine,"['dog', 'cat']",Rabipur,Boehringer Ingelheim,365,Annual rabies vaccination for domestic animals
+69b96b8d8dd17e197fe2d89c,1,Rabies Vaccine,"['dog', 'cat']",Defensor 3,Zoetis,1095,Inactivated rabies virus vaccine with a 3-year duration of immunity confirmation after booster.
+69b96bac8dd17e197fe2d89d,1,Core Canine Vaccine (DHPPI),['dog'],Nobivac DHPPi,MSD Animal Health,365,"Live attenuated vaccine against distemper, hepatitis, parvovirus, and parainfluenza. Annual booster recommended."
+69b96bc18dd17e197fe2d89e,1,Core Canine Vaccine (DHP),['dog'],Vanguard Plus 5,Zoetis,365,"Vaccination for the prevention of distemper, infectious hepatitis, and parvoviral enteritis."
+69b96bd68dd17e197fe2d89f,1,Feline Core Vaccine (RCP),['cat'],Feligen RCP,Virbac,365,"Combined vaccine against feline calicivirus, viral rhinotracheitis, and panleukopenia."
+69b96c038dd17e197fe2d8a0,1,Feline Leukemia Vaccine,['cat'],Purevax Recombinant FeLV,Boehringer Ingelheim,365,Adjuvant-free recombinant leukemia vaccine. Annual revaccination is recommended.
+69b96c148dd17e197fe2d8a1,1,Leptospirosis Vaccine,['dog'],Canigen L4,Virbac,365,Inactivated vaccine against four serogroups of Leptospira. Immunity duration is 1 year.
+69b96c208dd17e197fe2d8a2,1,Bordetella Vaccine,['dog'],Bronchi-Shield Oral,Zoetis,365,Oral vaccine for prevention of infectious tracheobronchitis (kennel cough) caused by B. bronchiseptica.
+69bae546b8fc9ad776db186f,1,Rabies,"['dog', 'cat']",Nobivac Rabies,MSD Animal Health,365,Protects against the rabies virus. Legally required in most countries.
+69bae547b8fc9ad776db1870,1,Distemper,['dog'],Nobivac DHPPi,MSD Animal Health,365,Protects against canine distemper virus. Part of the core polyvalent vaccine.
+69bae547b8fc9ad776db1871,1,Parvovirus,['dog'],Nobivac DHPPi,MSD Animal Health,365,"Protects against canine parvovirus, highly contagious and often fatal."
+69bae548b8fc9ad776db1872,1,Adenovirus (Hepatitis),['dog'],Nobivac DHPPi,MSD Animal Health,365,Protects against infectious canine hepatitis caused by adenovirus type 1 and 2.
+69bae548b8fc9ad776db1873,1,Parainfluenza,['dog'],Nobivac DHPPi,MSD Animal Health,365,"Protects against parainfluenza virus, one of the main agents of kennel cough."
+69bae548b8fc9ad776db1874,1,Leptospirosis,['dog'],Nobivac Lepto 4,MSD Animal Health,365,Protects against 4 Leptospira serogroups. Important for dogs with access to water or rural areas.
+69bae548b8fc9ad776db1875,1,Bordetella (Kennel Cough),['dog'],Nobivac KC,MSD Animal Health,180,Protects against Bordetella bronchiseptica. Recommended for dogs that frequent parks or daycares.
+69bae549b8fc9ad776db1876,1,Canine Coronavirus,['dog'],Vanguard CCV,Zoetis,365,"Protects against canine enteric coronavirus, which causes gastroenteritis."
+69bae549b8fc9ad776db1877,1,Leishmaniasis,['dog'],CaniLeish,Virbac,365,Protects against Leishmania infantum transmitted by sandflies. Recommended in endemic areas.
+69bae54ab8fc9ad776db1878,1,Lyme Disease (Borreliosis),['dog'],Nobivac Lyme,MSD Animal Health,365,Protects against Borrelia burgdorferi transmitted by ticks. Recommended in wooded areas.
+69bae54ab8fc9ad776db1879,1,Feline Panleukopenia (FPV),['cat'],Nobivac Tricat Trio,MSD Animal Health,365,Protects against feline panleukopenia virus (feline parvovirus). Highly contagious and often fatal.
+69bae54ab8fc9ad776db187a,1,Feline Herpesvirus (FHV-1),['cat'],Nobivac Tricat Trio,MSD Animal Health,365,"Protects against feline herpesvirus type 1, a major cause of feline upper respiratory disease."
+69bae54ab8fc9ad776db187b,1,Feline Calicivirus (FCV),['cat'],Nobivac Tricat Trio,MSD Animal Health,365,"Protects against feline calicivirus, which causes respiratory disease and oral ulcers."
+69bae54bb8fc9ad776db187c,1,Feline Leukemia Virus (FeLV),['cat'],Nobivac FeLV,MSD Animal Health,365,Protects against feline leukemia virus. Recommended for cats with outdoor access.
+69bae54bb8fc9ad776db187d,1,Feline Chlamydiosis,['cat'],Nobivac Forcat,MSD Animal Health,365,"Protects against Chlamydophila felis, which causes conjunctivitis and respiratory disease."
+69bae54bb8fc9ad776db187e,1,Feline Immunodeficiency Virus (FIV),['cat'],Fel-O-Vax FIV,Boehringer Ingelheim,365,Protects against feline immunodeficiency virus. Recommended for outdoor cats.
+69bae54cb8fc9ad776db187f,1,Feline Infectious Peritonitis (FIP),['cat'],Primucell FIP,Zoetis,365,Protects against feline coronavirus that causes FIP. Recommended for multi-cat households.
+69bae54cb8fc9ad776db1880,1,Bordetella (Cat),['cat'],Protex-Bb,Elanco,365,Protects against Bordetella bronchiseptica in cats. Recommended for shelters or high-density environments.

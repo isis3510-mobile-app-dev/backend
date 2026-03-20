@@ -1,6 +1,7 @@
 from datetime import datetime
 from bson import ObjectId
 from api.models import FeatureClicksLog
+from api.services import analytics_utils
 
 
 def _parse_datetime(value):
@@ -42,10 +43,18 @@ def create_log(data):
     if "nClicks" in data:
         data["nClicks"] = _parse_int(data["nClicks"], "nClicks")
 
+    app_type = data.get("appType", "Kotlin")
     if "userId" in data and data["userId"] is not None:
-        data["userId"] = _to_object_id(data["userId"], "userId")
+        original_u = data["userId"]
+        data["userId"] = analytics_utils.resolve_user_id(original_u)
+        if not data["userId"]:
+            raise ValueError(f"User with firebase_uid '{original_u}' not found. Ensure user is created.")
+
     if "routeId" in data and data["routeId"] is not None:
-        data["routeId"] = _to_object_id(data["routeId"], "routeId")
+        original_r = data["routeId"]
+        data["routeId"] = analytics_utils.resolve_route_id(original_r, app_type)
+        if not data["routeId"]:
+            raise ValueError(f"FeatureRoute '{original_r}' for appType '{app_type}' not found. Please seed analytics data.")
 
     return FeatureClicksLog.objects.create(**data)
 

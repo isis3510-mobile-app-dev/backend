@@ -24,6 +24,7 @@ def _make_screen(**kwargs):
     s.schema      = kwargs.get("schema", 1)
     s.name        = kwargs.get("name", "HomeScreen")
     s.hasAds      = kwargs.get("hasAds", False)
+    s.appType     = kwargs.get("appType", "Kotlin")
     s.buttons     = kwargs.get("buttons", [])
     return s
 
@@ -37,6 +38,7 @@ def _make_log(**kwargs):
     log.startTime = datetime(2026, 3, 15, 10, 0, 0, tzinfo=timezone.utc)
     log.endTime   = datetime(2026, 3, 15, 10, 2, 30, tzinfo=timezone.utc)
     log.totalTime = kwargs.get("totalTime", 150)
+    log.appType   = kwargs.get("appType", "Kotlin")
     return log
 
 

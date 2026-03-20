@@ -1,0 +1,245 @@
+screen_id,buttonId,schema,name
+69b782f1640b7b908f640c81,btn_add_pet,1,Add Pet
+69b782f1640b7b908f640c81,btn_profile,1,Profile
+69bc15e9bf153df7a2f41abd,auth_google_sign_in,1,Google Sign In
+69bc15e9bf153df7a2f41abd,auth_sign_in,1,Sign In
+69bc15e9bf153df7a2f41abd,auth_sign_up,1,Sign Up
+69bc15e9bf153df7a2f41abd,auth_forgot_password,1,Forgot Password
+69bc15e9bf153df7a2f41abd,auth_toggle_mode,1,Toggle Sign In / Sign Up
+69bc15e9bf153df7a2f41abe,home_nav_home,1,Nav Home
+69bc15e9bf153df7a2f41abe,home_nav_pets,1,Nav Pets
+69bc15e9bf153df7a2f41abe,home_nav_records,1,Nav Records
+69bc15e9bf153df7a2f41abe,home_nav_calendar,1,Nav Calendar
+69bc15e9bf153df7a2f41abe,home_nav_profile,1,Nav Profile
+69bc15e9bf153df7a2f41abe,home_quick_add_pet,1,Quick Add Pet
+69bc15e9bf153df7a2f41abe,home_quick_add_vaccine,1,Quick Add Vaccine
+69bc15e9bf153df7a2f41abe,home_quick_add_event,1,Quick Add Event
+69bc15e9bf153df7a2f41abe,home_open_nfc,1,Open NFC
+69bc15e9bf153df7a2f41abe,home_notifications,1,Notifications
+69bc15e9bf153df7a2f41abe,home_pets_see_all,1,See All Pets
+69bc15e9bf153df7a2f41abe,home_alerts_see_all,1,See All Alerts
+69bc15e9bf153df7a2f41abe,home_vaccines_see_all,1,See All Vaccines
+69bc15e9bf153df7a2f41abe,home_events_see_all,1,See All Events
+69bc15e9bf153df7a2f41abe,home_open_pet_detail,1,Open Pet Detail
+69bc15e9bf153df7a2f41abe,home_add_pet,1,Add Pet
+69bc15e9bf153df7a2f41abe,home_open_vaccine_detail,1,Open Vaccine Detail
+69bc15e9bf153df7a2f41abe,home_open_event_detail,1,Open Event Detail
+69bc15e9bf153df7a2f41abf,pets_nav_home,1,Nav Home
+69bc15e9bf153df7a2f41abf,pets_nav_pets,1,Nav Pets
+69bc15e9bf153df7a2f41abf,pets_nav_records,1,Nav Records
+69bc15e9bf153df7a2f41abf,pets_nav_calendar,1,Nav Calendar
+69bc15e9bf153df7a2f41abf,pets_nav_profile,1,Nav Profile
+69bc15e9bf153df7a2f41abf,pets_filter_all,1,Filter All
+69bc15e9bf153df7a2f41abf,pets_filter_dogs,1,Filter Dogs
+69bc15e9bf153df7a2f41abf,pets_filter_cats,1,Filter Cats
+69bc15e9bf153df7a2f41abf,pets_open_pet_detail,1,Open Pet Detail
+69bc15e9bf153df7a2f41abf,pets_quick_add_pet,1,Quick Add Pet
+69bc15e9bf153df7a2f41abf,pets_quick_add_vaccine,1,Quick Add Vaccine
+69bc15e9bf153df7a2f41abf,pets_quick_add_event,1,Quick Add Event
+69bc15e9bf153df7a2f41abf,pets_retry,1,Retry Load
+69bc15e9bf153df7a2f41ac0,pet_detail_back,1,Back
+69bc15e9bf153df7a2f41ac0,pet_detail_share,1,Share
+69bc15e9bf153df7a2f41ac0,pet_detail_edit,1,Edit
+69bc15e9bf153df7a2f41ac0,pet_detail_more,1,More
+69bc15e9bf153df7a2f41ac0,pet_detail_tab_overview,1,Tab Overview
+69bc15e9bf153df7a2f41ac0,pet_detail_tab_vaccines,1,Tab Vaccines
+69bc15e9bf153df7a2f41ac0,pet_detail_tab_events,1,Tab Events
+69bc15e9bf153df7a2f41ac0,pet_detail_add_vaccine,1,Add Vaccine
+69bc15e9bf153df7a2f41ac0,pet_detail_add_event,1,Add Event
+69bc15e9bf153df7a2f41ac0,pet_detail_toggle_lost_mode,1,Toggle Lost Mode
+69bc15e9bf153df7a2f41ac0,pet_detail_toggle_nfc,1,Toggle NFC
+69bc15e9bf153df7a2f41ac1,add_pet_back,1,Back
+69bc15e9bf153df7a2f41ac1,add_pet_next,1,Next
+69bc15e9bf153df7a2f41ac1,add_pet_save,1,Save
+69bc15e9bf153df7a2f41ac1,add_pet_pick_photo,1,Pick Photo
+69bc15e9bf153df7a2f41ac1,add_pet_remove_photo,1,Remove Photo
+69bc15e9bf153df7a2f41ac1,add_pet_species_dog,1,Select Dog
+69bc15e9bf153df7a2f41ac1,add_pet_species_cat,1,Select Cat
+69bc15e9bf153df7a2f41ac1,add_pet_gender_male,1,Select Male
+69bc15e9bf153df7a2f41ac1,add_pet_gender_female,1,Select Female
+69bc15e9bf153df7a2f41ac1,add_pet_pick_birthdate,1,Pick Birthdate
+69bc15e9bf153df7a2f41ac2,add_vaccine_back,1,Back
+69bc15e9bf153df7a2f41ac2,add_vaccine_next,1,Next
+69bc15e9bf153df7a2f41ac2,add_vaccine_save,1,Save
+69bc15e9bf153df7a2f41ac2,add_vaccine_pick_date,1,Pick Date
+69bc15e9bf153df7a2f41ac2,add_vaccine_add_attachment,1,Add Attachment
+69bc15e9bf153df7a2f41ac3,add_event_back,1,Back
+69bc15e9bf153df7a2f41ac3,add_event_next,1,Next
+69bc15e9bf153df7a2f41ac3,add_event_save,1,Save
+69bc15e9bf153df7a2f41ac3,add_event_pick_date,1,Pick Date
+69bc15e9bf153df7a2f41ac3,add_event_pick_time,1,Pick Time
+69bc15e9bf153df7a2f41ac3,add_event_pick_follow_up,1,Pick Follow-up Date
+69bc15e9bf153df7a2f41ac3,add_event_add_attachment,1,Add Attachment
+69bc15e9bf153df7a2f41ac4,records_nav_home,1,Nav Home
+69bc15e9bf153df7a2f41ac4,records_nav_pets,1,Nav Pets
+69bc15e9bf153df7a2f41ac4,records_nav_records,1,Nav Records
+69bc15e9bf153df7a2f41ac4,records_nav_calendar,1,Nav Calendar
+69bc15e9bf153df7a2f41ac4,records_nav_profile,1,Nav Profile
+69bc15e9bf153df7a2f41ac4,records_filter_all,1,Filter All
+69bc15e9bf153df7a2f41ac4,records_filter_vaccines,1,Filter Vaccines
+69bc15e9bf153df7a2f41ac4,records_filter_events,1,Filter Events
+69bc15e9bf153df7a2f41ac4,records_open_detail,1,Open Record Detail
+69bc15e9bf153df7a2f41ac4,records_quick_add_pet,1,Quick Add Pet
+69bc15e9bf153df7a2f41ac4,records_quick_add_vaccine,1,Quick Add Vaccine
+69bc15e9bf153df7a2f41ac4,records_quick_add_event,1,Quick Add Event
+69bc1667bf153df7a2f41ac5,record_detail_back,1,Back
+69bc1667bf153df7a2f41ac5,record_detail_delete,1,Delete
+69bc1667bf153df7a2f41ac5,record_detail_edit,1,Edit
+69bc1667bf153df7a2f41ac5,record_detail_open_document,1,Open Document
+69bc1667bf153df7a2f41ac6,calendar_nav_home,1,Nav Home
+69bc1667bf153df7a2f41ac6,calendar_nav_pets,1,Nav Pets
+69bc1667bf153df7a2f41ac6,calendar_nav_records,1,Nav Records
+69bc1667bf153df7a2f41ac6,calendar_nav_calendar,1,Nav Calendar
+69bc1667bf153df7a2f41ac6,calendar_nav_profile,1,Nav Profile
+69bc1667bf153df7a2f41ac6,calendar_prev_month,1,Previous Month
+69bc1667bf153df7a2f41ac6,calendar_next_month,1,Next Month
+69bc1667bf153df7a2f41ac6,calendar_select_date,1,Select Date
+69bc1667bf153df7a2f41ac6,calendar_open_event,1,Open Event
+69bc1667bf153df7a2f41ac6,calendar_add_event,1,Add Event
+69bc1667bf153df7a2f41ac7,nfc_nav_home,1,Nav Home
+69bc1667bf153df7a2f41ac7,nfc_nav_pets,1,Nav Pets
+69bc1667bf153df7a2f41ac7,nfc_nav_records,1,Nav Records
+69bc1667bf153df7a2f41ac7,nfc_nav_calendar,1,Nav Calendar
+69bc1667bf153df7a2f41ac7,nfc_nav_profile,1,Nav Profile
+69bc1667bf153df7a2f41ac7,nfc_refresh_pets,1,Refresh Pets
+69bc1667bf153df7a2f41ac7,nfc_select_pet,1,Select Pet
+69bc1667bf153df7a2f41ac7,nfc_toggle_read,1,Toggle Read
+69bc1667bf153df7a2f41ac7,nfc_toggle_write,1,Toggle Write
+69bc1667bf153df7a2f41ac7,nfc_start_scan,1,Start Scanning
+69bc1667bf153df7a2f41ac7,nfc_cancel_scan,1,Cancel Scanning
+69bc1667bf153df7a2f41ac7,nfc_scan_another,1,Scan Another
+69bc1667bf153df7a2f41ac7,nfc_write_another,1,Write Another
+69bc1667bf153df7a2f41ac7,nfc_finish_writing,1,Finish Writing
+69bc1667bf153df7a2f41ac8,smart_alerts_retry,1,Retry
+69bc1667bf153df7a2f41ac8,smart_alerts_select_pet,1,Select Pet
+69bc1667bf153df7a2f41ac8,smart_alerts_clear_pet_filter,1,Clear Pet Filter
+69bc1667bf153df7a2f41ac8,smart_alerts_open_alert,1,Open Alert
+69bc1667bf153df7a2f41ac9,profile_nav_home,1,Nav Home
+69bc1667bf153df7a2f41ac9,profile_nav_pets,1,Nav Pets
+69bc1667bf153df7a2f41ac9,profile_nav_records,1,Nav Records
+69bc1667bf153df7a2f41ac9,profile_nav_calendar,1,Nav Calendar
+69bc1667bf153df7a2f41ac9,profile_nav_profile,1,Nav Profile
+69bc1667bf153df7a2f41ac9,profile_edit,1,Edit Profile
+69bc1667bf153df7a2f41ac9,profile_quick_edit_email,1,Quick Edit Email
+69bc1667bf153df7a2f41ac9,profile_quick_edit_phone,1,Quick Edit Phone
+69bc1667bf153df7a2f41ac9,profile_theme_picker,1,Theme Picker
+69bc1667bf153df7a2f41ac9,profile_sign_out,1,Sign Out
+69bc1667bf153df7a2f41aca,edit_profile_save,1,Save
+69bc1667bf153df7a2f41aca,edit_profile_cancel,1,Cancel
+69bc1667bf153df7a2f41aca,edit_profile_change_photo,1,Change Photo
+69bc9f3457adce41b32f4fa9,btn_next_onb1,1,Next
+69bc9f3457adce41b32f4faa,btn_next_onb2,1,Next
+69bc9f3457adce41b32f4faa,btn_back_onb2,1,Back
+69bc9f3557adce41b32f4fab,btn_get_started,1,Get Started
+69bc9f3557adce41b32f4fab,btn_back_onb3,1,Back
+69bc9f3557adce41b32f4fac,btn_sign_in,1,Sign In
+69bc9f3557adce41b32f4fac,btn_go_signup,1,Go to Sign Up
+69bc9f3557adce41b32f4fad,btn_next_onb1,1,Next
+69bc9f3557adce41b32f4fae,btn_sign_up,1,Sign Up
+69bc9f3557adce41b32f4fae,btn_go_signin,1,Go to Sign In
+69bc9f3657adce41b32f4faf,btn_next_onb2,1,Next
+69bc9f3657adce41b32f4faf,btn_back_onb2,1,Back
+69bc9f3757adce41b32f4fb0,btn_add_pet,1,Add Pet
+69bc9f3757adce41b32f4fb0,btn_view_pet,1,View Pet Card
+69bc9f3757adce41b32f4fb0,btn_view_event,1,View Event
+69bc9f3757adce41b32f4fb0,btn_view_vaccine,1,View Vaccine Alert
+69bc9f3757adce41b32f4fb1,btn_get_started,1,Get Started
+69bc9f3757adce41b32f4fb1,btn_back_onb3,1,Back
+69bc9f3757adce41b32f4fb2,btn_pet_card,1,Pet Card
+69bc9f3757adce41b32f4fb2,btn_add_pet_fab,1,Add Pet FAB
+69bc9f3857adce41b32f4fb3,btn_record_item,1,Record Item
+69bc9f3857adce41b32f4fb4,btn_sign_in,1,Sign In
+69bc9f3857adce41b32f4fb4,btn_go_signup,1,Go to Sign Up
+69bc9f3857adce41b32f4fb5,btn_calendar_event,1,Calendar Event
+69bc9f3857adce41b32f4fb6,btn_sign_up,1,Sign Up
+69bc9f3857adce41b32f4fb6,btn_go_signin,1,Go to Sign In
+69bc9f3857adce41b32f4fb7,btn_edit_profile,1,Edit Profile
+69bc9f3857adce41b32f4fb7,btn_theme_toggle,1,Theme Toggle
+69bc9f3857adce41b32f4fb7,btn_sign_out,1,Sign Out
+69bc9f3857adce41b32f4fb8,btn_add_pet,1,Add Pet
+69bc9f3857adce41b32f4fb8,btn_view_pet,1,View Pet Card
+69bc9f3857adce41b32f4fb8,btn_view_event,1,View Event
+69bc9f3857adce41b32f4fb8,btn_view_vaccine,1,View Vaccine Alert
+69bc9f3957adce41b32f4fb9,btn_edit_pet,1,Edit Pet
+69bc9f3957adce41b32f4fb9,btn_delete_pet,1,Delete Pet
+69bc9f3957adce41b32f4fb9,btn_add_vaccine,1,Add Vaccine
+69bc9f3957adce41b32f4fb9,btn_add_event,1,Add Event
+69bc9f3957adce41b32f4fb9,btn_view_vaccine_detail,1,View Vaccine Detail
+69bc9f3957adce41b32f4fb9,btn_view_event_detail,1,View Event Detail
+69bc9f3957adce41b32f4fb9,btn_nfc_write,1,Write NFC
+69bc9f3957adce41b32f4fb9,btn_nfc_scan,1,Scan NFC
+69bc9f3957adce41b32f4fba,btn_pet_card,1,Pet Card
+69bc9f3957adce41b32f4fba,btn_add_pet_fab,1,Add Pet FAB
+69bc9f3957adce41b32f4fbb,btn_edit_vaccine,1,Edit Vaccine
+69bc9f3957adce41b32f4fbb,btn_delete_vaccine,1,Delete Vaccine
+69bc9f3957adce41b32f4fbb,btn_back_vaccine,1,Back
+69bc9f3957adce41b32f4fbc,btn_record_item,1,Record Item
+69bc9f3957adce41b32f4fbd,btn_edit_event,1,Edit Event
+69bc9f3957adce41b32f4fbd,btn_delete_event,1,Delete Event
+69bc9f3957adce41b32f4fbd,btn_back_event,1,Back
+69bc9f3957adce41b32f4fbe,btn_calendar_event,1,Calendar Event
+69bc9f3957adce41b32f4fbf,btn_start_scan,1,Start Scan
+69bc9f3a57adce41b32f4fc0,btn_edit_profile,1,Edit Profile
+69bc9f3a57adce41b32f4fc0,btn_theme_toggle,1,Theme Toggle
+69bc9f3a57adce41b32f4fc0,btn_sign_out,1,Sign Out
+69bc9f3a57adce41b32f4fc2,btn_edit_pet,1,Edit Pet
+69bc9f3a57adce41b32f4fc2,btn_delete_pet,1,Delete Pet
+69bc9f3a57adce41b32f4fc2,btn_add_vaccine,1,Add Vaccine
+69bc9f3a57adce41b32f4fc2,btn_add_event,1,Add Event
+69bc9f3a57adce41b32f4fc2,btn_view_vaccine_detail,1,View Vaccine Detail
+69bc9f3a57adce41b32f4fc2,btn_view_event_detail,1,View Event Detail
+69bc9f3a57adce41b32f4fc2,btn_nfc_write,1,Write NFC
+69bc9f3a57adce41b32f4fc2,btn_nfc_scan,1,Scan NFC
+69bc9f3a57adce41b32f4fc3,btn_scan_done,1,Done
+69bc9f3b57adce41b32f4fc4,btn_edit_vaccine,1,Edit Vaccine
+69bc9f3b57adce41b32f4fc4,btn_delete_vaccine,1,Delete Vaccine
+69bc9f3b57adce41b32f4fc4,btn_back_vaccine,1,Back
+69bc9f3b57adce41b32f4fc5,btn_start_write,1,Start Write
+69bc9f3b57adce41b32f4fc6,btn_edit_event,1,Edit Event
+69bc9f3b57adce41b32f4fc6,btn_delete_event,1,Delete Event
+69bc9f3b57adce41b32f4fc6,btn_back_event,1,Back
+69bc9f3c57adce41b32f4fc8,btn_start_scan,1,Start Scan
+69bc9f3c57adce41b32f4fc9,btn_write_done,1,Done
+69bc9f3c57adce41b32f4fcb,btn_next_pet1,1,Continue
+69bc9f3c57adce41b32f4fcb,btn_back_pet1,1,Back
+69bc9f3c57adce41b32f4fcc,btn_scan_done,1,Done
+69bc9f3c57adce41b32f4fcd,btn_next_pet2,1,Continue
+69bc9f3c57adce41b32f4fcd,btn_back_pet2,1,Back
+69bc9f3d57adce41b32f4fce,btn_start_write,1,Start Write
+69bc9f3d57adce41b32f4fcf,btn_submit_pet,1,Submit
+69bc9f3d57adce41b32f4fcf,btn_back_pet3,1,Back
+69bc9f3d57adce41b32f4fd1,btn_next_vax1,1,Continue
+69bc9f3d57adce41b32f4fd1,btn_back_vax1,1,Back
+69bc9f3d57adce41b32f4fd2,btn_write_done,1,Done
+69bc9f3d57adce41b32f4fd3,btn_next_vax2,1,Continue
+69bc9f3d57adce41b32f4fd3,btn_back_vax2,1,Back
+69bc9f3d57adce41b32f4fd4,btn_next_pet1,1,Continue
+69bc9f3d57adce41b32f4fd4,btn_back_pet1,1,Back
+69bc9f3e57adce41b32f4fd5,btn_submit_vaccine,1,Submit
+69bc9f3e57adce41b32f4fd5,btn_back_vax3,1,Back
+69bc9f3e57adce41b32f4fd6,btn_next_pet2,1,Continue
+69bc9f3e57adce41b32f4fd6,btn_back_pet2,1,Back
+69bc9f3e57adce41b32f4fd7,btn_next_evt1,1,Continue
+69bc9f3e57adce41b32f4fd7,btn_back_evt1,1,Back
+69bc9f3e57adce41b32f4fd8,btn_submit_pet,1,Submit
+69bc9f3e57adce41b32f4fd8,btn_back_pet3,1,Back
+69bc9f3e57adce41b32f4fd9,btn_next_evt2,1,Continue
+69bc9f3e57adce41b32f4fd9,btn_back_evt2,1,Back
+69bc9f3e57adce41b32f4fda,btn_next_vax1,1,Continue
+69bc9f3e57adce41b32f4fda,btn_back_vax1,1,Back
+69bc9f3f57adce41b32f4fdb,btn_submit_event,1,Submit
+69bc9f3f57adce41b32f4fdb,btn_back_evt3,1,Back
+69bc9f3f57adce41b32f4fdc,btn_next_vax2,1,Continue
+69bc9f3f57adce41b32f4fdc,btn_back_vax2,1,Back
+69bc9f3f57adce41b32f4fde,btn_submit_vaccine,1,Submit
+69bc9f3f57adce41b32f4fde,btn_back_vax3,1,Back
+69bc9f3f57adce41b32f4fdd,btn_suggestion_item,1,Suggestion Item
+69bc9f3f57adce41b32f4fdf,btn_back_suggestion,1,Back
+69bc9f3f57adce41b32f4fe0,btn_next_evt1,1,Continue
+69bc9f3f57adce41b32f4fe0,btn_back_evt1,1,Back
+69bc9f4057adce41b32f4fe1,btn_next_evt2,1,Continue
+69bc9f4057adce41b32f4fe1,btn_back_evt2,1,Back
+69bc9f4057adce41b32f4fe3,btn_submit_event,1,Submit
+69bc9f4057adce41b32f4fe3,btn_back_evt3,1,Back
+69bc9f4057adce41b32f4fe6,btn_suggestion_item,1,Suggestion Item
+69bc9f4157adce41b32f4fe7,btn_back_suggestion,1,Back

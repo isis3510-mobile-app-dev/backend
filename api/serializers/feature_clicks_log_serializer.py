@@ -6,4 +6,5 @@ def feature_clicks_log_to_dict(log):
         "routeId": str(log.routeId) if log.routeId is not None else None,
         "timestamp": log.timestamp.isoformat() if log.timestamp else None,
         "nClicks": log.nClicks,
+        "appType": log.appType,
     }
