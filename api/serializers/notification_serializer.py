@@ -19,4 +19,6 @@ def notification_to_dict(notification):
         "dateSent": format_date(notification.date_sent),
         "dateClicked": format_date(notification.date_clicked),
         "isRead": notification.is_read,
+        "isDismissed": getattr(notification, "is_dismissed", False),
+        "dateDismissed": format_date(getattr(notification, "date_dismissed", None)),
     }

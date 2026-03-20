@@ -16,6 +16,8 @@ class Notification(models.Model):
     date_sent = models.DateTimeField(auto_now_add=True)
     date_clicked = models.DateTimeField(null=True, blank=True)
     is_read = models.BooleanField(default=False)
+    is_dismissed = models.BooleanField(default=False)
+    date_dismissed = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         db_table = "notifications"

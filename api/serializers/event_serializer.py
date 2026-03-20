@@ -1,7 +1,16 @@
+from datetime import timezone
+
+
 def format_date(d):
     if not d:
         return None
-    return d.isoformat() if hasattr(d, "isoformat") else str(d)
+    if hasattr(d, "isoformat"):
+        if getattr(d, "tzinfo", None) is None:
+            d = d.replace(tzinfo=timezone.utc)
+        else:
+            d = d.astimezone(timezone.utc)
+        return d.isoformat().replace("+00:00", "Z")
+    return str(d)
 
 
 def event_to_dict(event):

@@ -8,6 +8,8 @@ _CAMEL_TO_SNAKE = {
     "dateSent": "date_sent",
     "dateClicked": "date_clicked",
     "isRead": "is_read",
+    "isDismissed": "is_dismissed",
+    "dateDismissed": "date_dismissed",
 }
 
 
@@ -22,7 +24,7 @@ def translate_payload(data):
 
 def parse_payload_dates(data):
     """Convert date strings in the payload to Python datetime objects."""
-    date_fields = ['date_sent', 'date_clicked']
+    date_fields = ['date_sent', 'date_clicked', 'date_dismissed']
 
     if isinstance(data, dict):
         for key, value in data.items():
