@@ -1,0 +1,45 @@
+id,schema,name,originButton,originScreen,appType
+69bc1bf92fb48df4a28aaf07,1,Read NFC,nfc_start_scan,69bc1667bf153df7a2f41ac7,Flutter
+69bc446a2fb48df4a28aaf1e,1,Synchronize pet,add_pet_save,69bc15e9bf153df7a2f41ac1,Flutter
+69bc9f4057adce41b32f4fe2,1,Create Pet,btn_submit_pet,addPet3,Kotlin
+69bc9f4057adce41b32f4fe4,1,Edit Pet,btn_edit_pet,petProfile,Kotlin
+69bc9f4057adce41b32f4fe5,1,Delete Pet,btn_delete_pet,petProfile,Kotlin
+69bc9f4157adce41b32f4fe8,1,Add Vaccination,btn_submit_vaccine,addVaccine3,Kotlin
+69bc9f4157adce41b32f4fe9,1,Edit Vaccination,btn_edit_vaccine,vaccineDetails,Kotlin
+69bc9f4157adce41b32f4fea,1,Create Pet,btn_submit_pet,addPet3,Kotlin
+69bc9f4157adce41b32f4feb,1,Delete Vaccination,btn_delete_vaccine,vaccineDetails,Kotlin
+69bc9f4157adce41b32f4fec,1,Edit Pet,btn_edit_pet,petProfile,Kotlin
+69bc9f4157adce41b32f4fed,1,Create Event,btn_submit_event,addEvent3,Kotlin
+69bc9f4157adce41b32f4fee,1,Delete Pet,btn_delete_pet,petProfile,Kotlin
+69bc9f4257adce41b32f4fef,1,Edit Event,btn_edit_event,eventDetails,Kotlin
+69bc9f4257adce41b32f4ff0,1,Add Vaccination,btn_submit_vaccine,addVaccine3,Kotlin
+69bc9f4257adce41b32f4ff2,1,Edit Vaccination,btn_edit_vaccine,vaccineDetails,Kotlin
+69bc9f4257adce41b32f4ff1,1,Delete Event,btn_delete_event,eventDetails,Kotlin
+69bc9f4257adce41b32f4ff3,1,NFC Write,btn_start_write,nfc/write,Kotlin
+69bc9f4257adce41b32f4ff4,1,Delete Vaccination,btn_delete_vaccine,vaccineDetails,Kotlin
+69bc9f4257adce41b32f4ff5,1,NFC Scan,btn_start_scan,nfc/scan,Kotlin
+69bc9f4257adce41b32f4ff6,1,Create Event,btn_submit_event,addEvent3,Kotlin
+69bc9f4357adce41b32f4ff7,1,Sign In,btn_sign_in,signin,Kotlin
+69bc9f4357adce41b32f4ff8,1,Edit Event,btn_edit_event,eventDetails,Kotlin
+69bc9f4357adce41b32f4ffa,1,Delete Event,btn_delete_event,eventDetails,Kotlin
+69bc9f4357adce41b32f4ff9,1,Sign Up,btn_sign_up,signup,Kotlin
+69bc9f4357adce41b32f4ffc,1,Load Home Data,system,home,Kotlin
+69bc9f4357adce41b32f4ffb,1,NFC Write,btn_start_write,nfc/write,Kotlin
+69bc9f4457adce41b32f4ffe,1,NFC Scan,btn_start_scan,nfc/scan,Kotlin
+69bc9f4457adce41b32f4ffd,1,Load My Pets,system,pets,Kotlin
+69bc9f4457adce41b32f4fff,1,Load Pet Profile,btn_view_pet,home,Kotlin
+69bc9f4457adce41b32f5000,1,Sign In,btn_sign_in,signin,Kotlin
+69bc9f4457adce41b32f5001,1,Load User Profile,system,profile,Kotlin
+69bc9f4457adce41b32f5002,1,Sign Up,btn_sign_up,signup,Kotlin
+69bc9f4457adce41b32f5003,1,Update User Profile,btn_edit_profile,profile,Kotlin
+69bc9f4457adce41b32f5004,1,Load Home Data,system,home,Kotlin
+69bc9f4557adce41b32f5005,1,Load My Pets,system,pets,Kotlin
+69bc9f4557adce41b32f5006,1,Delete Account,btn_sign_out,profile,Kotlin
+69bc9f4557adce41b32f5007,1,Load Event Details,btn_view_event,home,Kotlin
+69bc9f4557adce41b32f5008,1,Load Pet Profile,btn_view_pet,home,Kotlin
+69bc9f4557adce41b32f500a,1,Load Vaccination Details,btn_view_vaccine,home,Kotlin
+69bc9f4557adce41b32f5009,1,Load User Profile,system,profile,Kotlin
+69bc9f4657adce41b32f500b,1,Update User Profile,btn_edit_profile,profile,Kotlin
+69bc9f4657adce41b32f500d,1,Delete Account,btn_sign_out,profile,Kotlin
+69bc9f4657adce41b32f500f,1,Load Event Details,btn_view_event,home,Kotlin
+69bc9f4657adce41b32f5011,1,Load Vaccination Details,btn_view_vaccine,home,Kotlin

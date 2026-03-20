@@ -1,0 +1,28 @@
+id,schema,name,originButton,originScreen,endButton,endScreen,appType
+69bc1d2f2fb48df4a28aaf0a,1,Add Event,home_quick_add_event,69bc15e9bf153df7a2f41abe,add_event_save,69bc15e9bf153df7a2f41ac3,
+69bc9f4657adce41b32f500c,1,Add Pet Flow,btn_add_pet,home,btn_submit_pet,addPet3,Kotlin
+69bc9f4657adce41b32f500e,1,Add Pet Flow (FAB),btn_add_pet_fab,pets,btn_submit_pet,addPet3,Kotlin
+69bc9f4657adce41b32f5010,1,Add Vaccine Flow,btn_add_vaccine,petProfile,btn_submit_vaccine,addVaccine3,Kotlin
+69bc9f4657adce41b32f5012,1,Add Event Flow,btn_add_event,petProfile,btn_submit_event,addEvent3,Kotlin
+69bc9f4757adce41b32f5014,1,Add Pet Flow,btn_add_pet,home,btn_submit_pet,addPet3,Kotlin
+69bc9f4757adce41b32f5013,1,NFC Write Flow,btn_nfc_write,petProfile,btn_write_done,nfc/writeSuccess,Kotlin
+69bc9f4757adce41b32f5015,1,Add Pet Flow (FAB),btn_add_pet_fab,pets,btn_submit_pet,addPet3,Kotlin
+69bc9f4757adce41b32f5016,1,NFC Scan Flow,btn_nfc_scan,petProfile,btn_scan_done,nfc/scanSuccess,Kotlin
+69bc9f4757adce41b32f5017,1,Onboarding Flow,btn_next_onb1,onboarding1,btn_get_started,onboarding3,Kotlin
+69bc9f4757adce41b32f5018,1,Add Vaccine Flow,btn_add_vaccine,petProfile,btn_submit_vaccine,addVaccine3,Kotlin
+69bc9f4857adce41b32f501a,1,Edit Pet Flow,btn_edit_pet,petProfile,btn_submit_pet_edit,petProfile,Kotlin
+69bc9f4857adce41b32f5019,1,Add Event Flow,btn_add_event,petProfile,btn_submit_event,addEvent3,Kotlin
+69bc9f4857adce41b32f501c,1,NFC Write Flow,btn_nfc_write,petProfile,btn_write_done,nfc/writeSuccess,Kotlin
+69bc9f4857adce41b32f501b,1,Delete Pet Flow,btn_delete_pet,petProfile,btn_confirm_delete_pet,pets,Kotlin
+69bc9f4857adce41b32f501e,1,Edit Vaccination Flow,btn_edit_vaccine,vaccineDetails,btn_save_vaccine_edit,vaccineDetails,Kotlin
+69bc9f4857adce41b32f501d,1,NFC Scan Flow,btn_nfc_scan,petProfile,btn_scan_done,nfc/scanSuccess,Kotlin
+69bc9f4957adce41b32f501f,1,Delete Vaccination Flow,btn_delete_vaccine,vaccineDetails,btn_confirm_delete_vax,petProfile,Kotlin
+69bc9f4957adce41b32f5020,1,Onboarding Flow,btn_next_onb1,onboarding1,btn_get_started,onboarding3,Kotlin
+69bc9f4957adce41b32f5021,1,Edit Event Flow,btn_edit_event,eventDetails,btn_save_event_edit,eventDetails,Kotlin
+69bc9f4957adce41b32f5022,1,Edit Pet Flow,btn_edit_pet,petProfile,btn_submit_pet_edit,petProfile,Kotlin
+69bc9f4957adce41b32f5023,1,Delete Event Flow,btn_delete_event,eventDetails,btn_confirm_delete_evt,petProfile,Kotlin
+69bc9f4957adce41b32f5024,1,Delete Pet Flow,btn_delete_pet,petProfile,btn_confirm_delete_pet,pets,Kotlin
+69bc9f4a57adce41b32f5025,1,Edit Vaccination Flow,btn_edit_vaccine,vaccineDetails,btn_save_vaccine_edit,vaccineDetails,Kotlin
+69bc9f4a57adce41b32f5026,1,Delete Vaccination Flow,btn_delete_vaccine,vaccineDetails,btn_confirm_delete_vax,petProfile,Kotlin
+69bc9f4a57adce41b32f5027,1,Edit Event Flow,btn_edit_event,eventDetails,btn_save_event_edit,eventDetails,Kotlin
+69bc9f4a57adce41b32f5028,1,Delete Event Flow,btn_delete_event,eventDetails,btn_confirm_delete_evt,petProfile,Kotlin

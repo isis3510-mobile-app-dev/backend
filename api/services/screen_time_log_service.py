@@ -1,6 +1,7 @@
 # CRUD logic for ScreenTimeLog
 from datetime import datetime
 from api.models import ScreenTimeLog
+from api.services import analytics_utils
 
 
 def _parse_datetime(value):
@@ -12,6 +13,12 @@ def _parse_datetime(value):
 
 def create_log(data):
     data = dict(data)  # Shallow copy to avoid mutating the original
+    app_type = data.get("appType", "Kotlin")
+
+    if "userId" in data and data["userId"]:
+        data["userId"] = str(analytics_utils.resolve_user_id(data["userId"]) or data["userId"])
+    if "screenId" in data and data["screenId"]:
+        data["screenId"] = str(analytics_utils.resolve_screen_id(data["screenId"], app_type) or data["screenId"])
 
     # Parse datetime strings coming from the mobile app
     if "startTime" in data:
