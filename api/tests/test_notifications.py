@@ -35,6 +35,8 @@ def _make_notification(**kwargs):
     n.date_sent = kwargs.get("date_sent", datetime(2026, 3, 10))
     n.date_clicked = kwargs.get("date_clicked", None)
     n.is_read = kwargs.get("is_read", False)
+    n.is_dismissed = kwargs.get("is_dismissed", False)
+    n.date_dismissed = kwargs.get("date_dismissed", None)
     return n
 
 
@@ -51,6 +53,20 @@ class TestNotificationService(TestCase):
         data = {"header": "New Notif", "userId": USER_ID}
         result = notification_service.create_notification(data)
         self.assertEqual(result.header, "New Notif")
+
+    @patch("api.services.notification_service.Notification")
+    def test_update_notification_translates_dismiss_fields(self, MockNotif):
+        notif = _make_notification()
+        MockNotif.objects.get.return_value = notif
+
+        payload = {
+            "isDismissed": True,
+            "dateDismissed": "2026-03-20T12:00:00Z",
+        }
+        result = notification_service.update_notification(NOTIF_ID, payload)
+
+        self.assertTrue(result.is_dismissed)
+        self.assertIsNotNone(result.date_dismissed)
 
 
 class TestNotificationViews(TestCase):
@@ -109,4 +125,7 @@ class TestNotificationSerializer(TestCase):
         self.assertIn("dateSent", result)
         self.assertIn("dateClicked", result)
         self.assertIn("isRead", result)
+        self.assertIn("isDismissed", result)
+        self.assertIn("dateDismissed", result)
         self.assertFalse(result["isRead"])
+        self.assertFalse(result["isDismissed"])
