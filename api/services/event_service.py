@@ -14,6 +14,13 @@ _CAMEL_TO_SNAKE = {
     "fileUri": "file_uri",
 }
 
+_DATETIME_FALLBACK_FORMATS = [
+    "%Y-%m-%d",
+    "%d/%m/%Y",
+    "%Y-%m-%d %H:%M",
+    "%Y-%m-%d %H:%M:%S",
+]
+
 
 def translate_payload(data):
     if isinstance(data, dict):
@@ -28,16 +35,35 @@ def parse_payload_dates(data):
     if isinstance(data, dict):
         for key, value in data.items():
             if key in date_fields and value is not None and isinstance(value, str):
-                try:
-                    data[key] = datetime.fromisoformat(value.replace('Z', '+00:00'))
-                except ValueError:
-                    pass
+                data[key] = _parse_datetime_value(key, value)
             else:
                 parse_payload_dates(value)
     elif isinstance(data, list):
         for item in data:
             parse_payload_dates(item)
     return data
+
+
+def _parse_datetime_value(field_name: str, raw_value: str):
+    value = (raw_value or "").strip()
+    if not value:
+        return None
+
+    try:
+        return datetime.fromisoformat(value.replace('Z', '+00:00'))
+    except ValueError:
+        pass
+
+    for fmt in _DATETIME_FALLBACK_FORMATS:
+        try:
+            return datetime.strptime(value, fmt)
+        except ValueError:
+            continue
+
+    raise ValueError(
+        f"Invalid {field_name} format. Expected ISO datetime (for example "
+        f"'2026-03-20T14:30:00Z') or date formats YYYY-MM-DD / DD/MM/YYYY."
+    )
 
 
 def create_event(data):
