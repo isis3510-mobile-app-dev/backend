@@ -1,6 +1,6 @@
 id,schema,name,originButton,originScreen,appType
 69bc1bf92fb48df4a28aaf07,1,Read NFC,nfc_start_scan,69bc1667bf153df7a2f41ac7,Flutter
-69bc446a2fb48df4a28aaf1e,1,Synchronize pet,add_pet_save,69bc15e9bf153df7a2f41ac1,Flutter
+69bc446a2fb48df4a28aaf1e,1,Create Pet,add_pet_save,69bc15e9bf153df7a2f41ac1,Flutter
 69bc9f4057adce41b32f4fe2,1,Create Pet,btn_submit_pet,addPet3,Kotlin
 69bc9f4057adce41b32f4fe4,1,Edit Pet,btn_edit_pet,petProfile,Kotlin
 69bc9f4057adce41b32f4fe5,1,Delete Pet,btn_delete_pet,petProfile,Kotlin
@@ -43,3 +43,4 @@ id,schema,name,originButton,originScreen,appType
 69bc9f4657adce41b32f500d,1,Delete Account,btn_sign_out,profile,Kotlin
 69bc9f4657adce41b32f500f,1,Load Event Details,btn_view_event,home,Kotlin
 69bc9f4657adce41b32f5011,1,Load Vaccination Details,btn_view_vaccine,home,Kotlin
+69bd781c3bc6bfe99e3d4b2a,1,Edit pet,edit_pet_save,69bc15e9bf153df7a2f41ac1,Flutter

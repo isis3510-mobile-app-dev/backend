@@ -1,1 +1,36 @@
 id,schema,user_id,type,header,text,date_sent,date_clicked,is_read
+69bd721991f432a9d4d690cd,1,69bcb387094700f7b22a8a69,EVENT_WEEK,Upcoming event in 1 week,dentista for carlos is coming up soon.,2026-03-20T16:13:13.621000+00:00,,False
+69bd721a91f432a9d4d690ce,1,69bcb387094700f7b22a8a69,EVENT_H12,Upcoming event in 12 hours,test noti for carlos is coming up soon.,2026-03-20T16:13:14.337000+00:00,,False
+69bd721b91f432a9d4d690cf,1,69bcb387094700f7b22a8a69,EVENT_H12,Upcoming event in 12 hours,test noti 2 for carlos is coming up soon.,2026-03-20T16:13:15.002000+00:00,,False
+69bd72fd91f432a9d4d690dd,1,69bcb387094700f7b22a8a69,EVENT_WEEK,Upcoming event in 1 week,test noti 2 for carlos is coming up soon.,2026-03-20T16:17:01.649000+00:00,,False
+69bd73fc57d1285dabdab2d3,1,69bcb387094700f7b22a8a69,EVENT_H12,Upcoming event in 12 hours,lol for carlos is coming up soon.,2026-03-20T16:21:16.433000+00:00,,False
+69bd7bb2b6ffbf97beccf2bd,1,69bd6e98982704c4111ddb0e,EVENT_DAY,Upcoming event in 1 day,Dr New for Canela is coming up soon.,2026-03-20T16:54:10.559000+00:00,,False
+69bd7bb3b6ffbf97beccf2c1,1,69bd6e98982704c4111ddb0e,EVENT_H2,Upcoming event in 2 hours,Dr new for Canela is coming up soon.,2026-03-20T16:54:11.879000+00:00,,False
+69bd7e45b6ffbf97beccf34b,1,69bd7c47b6ffbf97beccf2cb,EVENT_H2,Upcoming event in 2 hours,Doci for Buddy is coming up soon.,2026-03-20T17:05:09.937000+00:00,,False
+69bd7eb2b6ffbf97beccf35f,1,69bd7c47b6ffbf97beccf2cb,EVENT_H2,Upcoming event in 2 hours,Notificaciones for Buddy is coming up soon.,2026-03-20T17:06:58.169000+00:00,,False
+69bd8cefa777d43c76536fec,1,69bcb387094700f7b22a8a69,VACCINE_URGENT,Urgent vaccine recommendation,victor: Missing vaccine: 'Rabies Vaccine',2026-03-20T18:07:43.697000+00:00,,False
+69bd8cf0a777d43c76536fed,1,69bcb387094700f7b22a8a69,VACCINE_URGENT,Urgent vaccine recommendation,victor: Missing vaccine: 'Feline Core Vaccine (RCP)',2026-03-20T18:07:44.267000+00:00,,False
+69bd8cf0a777d43c76536fef,1,69bcb387094700f7b22a8a69,VACCINE_URGENT,Urgent vaccine recommendation,victor: Missing vaccine: 'Feline Leukemia Vaccine',2026-03-20T18:07:44.735000+00:00,,False
+69bd8cf1a777d43c76536ff0,1,69bcb387094700f7b22a8a69,VACCINE_URGENT,Urgent vaccine recommendation,victor: Missing vaccine: 'Rabies',2026-03-20T18:07:45.348000+00:00,,False
+69bd8cf1a777d43c76536ff1,1,69bcb387094700f7b22a8a69,VACCINE_URGENT,Urgent vaccine recommendation,victor: Missing vaccine: 'Feline Panleukopenia (FPV)',2026-03-20T18:07:45.902000+00:00,,False
+69bd8cf2a777d43c76536ff2,1,69bcb387094700f7b22a8a69,VACCINE_URGENT,Urgent vaccine recommendation,victor: Missing vaccine: 'Feline Herpesvirus (FHV-1)',2026-03-20T18:07:46.404000+00:00,,False
+69bd8cf3a777d43c76536ff3,1,69bcb387094700f7b22a8a69,VACCINE_URGENT,Urgent vaccine recommendation,victor: Missing vaccine: 'Feline Calicivirus (FCV)',2026-03-20T18:07:47.040000+00:00,,False
+69bd8cf3a777d43c76536ff4,1,69bcb387094700f7b22a8a69,VACCINE_URGENT,Urgent vaccine recommendation,victor: Missing vaccine: 'Feline Leukemia Virus (FeLV)',2026-03-20T18:07:47.704000+00:00,,False
+69bd8cf4a777d43c76536ff5,1,69bcb387094700f7b22a8a69,VACCINE_URGENT,Urgent vaccine recommendation,victor: Missing vaccine: 'Feline Chlamydiosis',2026-03-20T18:07:48.304000+00:00,,False
+69bd8cf4a777d43c76536ff6,1,69bcb387094700f7b22a8a69,VACCINE_URGENT,Urgent vaccine recommendation,victor: Missing vaccine: 'Feline Immunodeficiency Virus (FIV)',2026-03-20T18:07:48.856000+00:00,,False
+69bd8cf5a777d43c76536ff7,1,69bcb387094700f7b22a8a69,VACCINE_URGENT,Urgent vaccine recommendation,victor: Missing vaccine: 'Feline Infectious Peritonitis (FIP)',2026-03-20T18:07:49.495000+00:00,,False
+69bd8cf6a777d43c76536ff8,1,69bcb387094700f7b22a8a69,VACCINE_URGENT,Urgent vaccine recommendation,victor: Missing vaccine: 'Bordetella (Cat)',2026-03-20T18:07:50.186000+00:00,,False
+69bd8ead40335bb3466aa2dd,1,69bcb387094700f7b22a8a69,VACCINE_URGENT,Urgent vaccine recommendation,marina: Missing vaccine: 'Rabies Vaccine',2026-03-20T18:15:09.585000+00:00,,False
+69bd8eae40335bb3466aa2de,1,69bcb387094700f7b22a8a69,VACCINE_URGENT,Urgent vaccine recommendation,marina: Missing vaccine: 'Rabies Vaccine',2026-03-20T18:15:10.178000+00:00,,False
+69bd8eae40335bb3466aa2df,1,69bcb387094700f7b22a8a69,VACCINE_URGENT,Urgent vaccine recommendation,marina: Missing vaccine: 'Feline Core Vaccine (RCP)',2026-03-20T18:15:10.777000+00:00,,False
+69bd8eaf40335bb3466aa2e0,1,69bcb387094700f7b22a8a69,VACCINE_URGENT,Urgent vaccine recommendation,marina: Missing vaccine: 'Feline Leukemia Vaccine',2026-03-20T18:15:11.411000+00:00,,False
+69bd8eb040335bb3466aa2e1,1,69bcb387094700f7b22a8a69,VACCINE_URGENT,Urgent vaccine recommendation,marina: Missing vaccine: 'Rabies',2026-03-20T18:15:12.052000+00:00,,False
+69bd8eb040335bb3466aa2e2,1,69bcb387094700f7b22a8a69,VACCINE_URGENT,Urgent vaccine recommendation,marina: Missing vaccine: 'Feline Panleukopenia (FPV)',2026-03-20T18:15:12.655000+00:00,,False
+69bd8eb140335bb3466aa2e3,1,69bcb387094700f7b22a8a69,VACCINE_URGENT,Urgent vaccine recommendation,marina: Missing vaccine: 'Feline Herpesvirus (FHV-1)',2026-03-20T18:15:13.367000+00:00,,False
+69bd8eb140335bb3466aa2e4,1,69bcb387094700f7b22a8a69,VACCINE_URGENT,Urgent vaccine recommendation,marina: Missing vaccine: 'Feline Calicivirus (FCV)',2026-03-20T18:15:13.948000+00:00,,False
+69bd8eb240335bb3466aa2e5,1,69bcb387094700f7b22a8a69,VACCINE_URGENT,Urgent vaccine recommendation,marina: Missing vaccine: 'Feline Leukemia Virus (FeLV)',2026-03-20T18:15:14.606000+00:00,,False
+69bd8eb340335bb3466aa2e6,1,69bcb387094700f7b22a8a69,VACCINE_URGENT,Urgent vaccine recommendation,marina: Missing vaccine: 'Feline Chlamydiosis',2026-03-20T18:15:15.275000+00:00,,False
+69bd8eb340335bb3466aa2e7,1,69bcb387094700f7b22a8a69,VACCINE_URGENT,Urgent vaccine recommendation,marina: Missing vaccine: 'Feline Immunodeficiency Virus (FIV)',2026-03-20T18:15:15.951000+00:00,,False
+69bd8eb440335bb3466aa2e8,1,69bcb387094700f7b22a8a69,VACCINE_URGENT,Urgent vaccine recommendation,marina: Missing vaccine: 'Feline Infectious Peritonitis (FIP)',2026-03-20T18:15:16.495000+00:00,,False
+69bd8eb540335bb3466aa2e9,1,69bcb387094700f7b22a8a69,VACCINE_URGENT,Urgent vaccine recommendation,marina: Missing vaccine: 'Bordetella (Cat)',2026-03-20T18:15:17.108000+00:00,,False
+69bd96e2e24dd546cd810055,1,69bd7c47b6ffbf97beccf2cb,VET_VISIT_STALE,Time for a new vet checkup,It has been 64 days since the last recorded vet visit for Duraznito.,2026-03-20T18:50:10.352000+00:00,,False
