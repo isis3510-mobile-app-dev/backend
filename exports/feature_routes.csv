@@ -1,5 +1,5 @@
 id,schema,name,originButton,originScreen,endButton,endScreen,appType
-69bc1d2f2fb48df4a28aaf0a,1,Add Event,home_quick_add_event,69bc15e9bf153df7a2f41abe,add_event_save,69bc15e9bf153df7a2f41ac3,
+69bc1d2f2fb48df4a28aaf0a,1,Add Event,home_quick_add_event,69bc15e9bf153df7a2f41abe,add_event_save,69bc15e9bf153df7a2f41ac3,Flutter
 69bc9f4657adce41b32f500c,1,Add Pet Flow,btn_add_pet,home,btn_submit_pet,addPet3,Kotlin
 69bc9f4657adce41b32f500e,1,Add Pet Flow (FAB),btn_add_pet_fab,pets,btn_submit_pet,addPet3,Kotlin
 69bc9f4657adce41b32f5010,1,Add Vaccine Flow,btn_add_vaccine,petProfile,btn_submit_vaccine,addVaccine3,Kotlin

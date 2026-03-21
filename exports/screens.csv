@@ -1,5 +1,5 @@
 id,schema,name,hasAds,appType
-69b782f1640b7b908f640c81,1,HomeScreen,False,
+69b782f1640b7b908f640c81,1,Welcome,False,
 69bc15e9bf153df7a2f41abd,1,Auth,False,
 69bc15e9bf153df7a2f41abe,1,Home,False,
 69bc15e9bf153df7a2f41abf,1,Pets,False,

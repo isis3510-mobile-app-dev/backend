@@ -1,6 +1,6 @@
 screen_id,buttonId,schema,name
-69b782f1640b7b908f640c81,btn_add_pet,1,Add Pet
-69b782f1640b7b908f640c81,btn_profile,1,Profile
+69b782f1640b7b908f640c81,welcome_continue,1,Continue
+69b782f1640b7b908f640c81,welcome_skip,1,Skip
 69bc15e9bf153df7a2f41abd,auth_google_sign_in,1,Google Sign In
 69bc15e9bf153df7a2f41abd,auth_sign_in,1,Sign In
 69bc15e9bf153df7a2f41abd,auth_sign_up,1,Sign Up
