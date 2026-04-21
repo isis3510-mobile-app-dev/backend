@@ -34,6 +34,9 @@ class FirebaseAuthentication(BaseAuthentication):
         # get_or_create
         try:
             user = User.objects.get(firebase_uid=uid)
+            if email and user.email != email:
+                user.email = email
+                user.save(update_fields=["email", "updated_at"])
         except User.DoesNotExist:
             user = User.objects.create(
             firebase_uid=uid,
@@ -74,6 +77,10 @@ def firebase_required(view_func):
 
         try:
             user = User.objects.get(firebase_uid=uid)
+            email = decoded.get("email", "")
+            if email and user.email != email:
+                user.email = email
+                user.save(update_fields=["email", "updated_at"])
         except User.DoesNotExist:
             return JsonResponse({"error": "User not found"}, status=404)
 
