@@ -13,10 +13,8 @@ _CAMEL_TO_SNAKE = {
     "knownAllergies": "known_allergies",
     "defaultVet": "default_vet",
     "defaultClinic": "default_clinic",
-    "clientMutationId": "client_mutation_id",
     # Vaccination embedded fields
     "vaccineId": "vaccine_id",
-    "vaccineName": "vaccine_name",
     "dateGiven": "date_given",
     "nextDueDate": "next_due_date",
     "lotNumber": "lot_number",
@@ -128,15 +126,6 @@ def create_pet(user, data):
     data = translate_payload(data)
     data = parse_payload_dates(data)
 
-    client_mutation_id = data.get("client_mutation_id")
-    if client_mutation_id:
-        existing = Pet.objects.filter(
-            owners__contains=[user.id],
-            client_mutation_id=client_mutation_id,
-        ).first()
-        if existing:
-            return existing
-    
     if not data.get("owners"):
         data["owners"] = [user.id]
     elif user.id not in data["owners"]:
@@ -203,12 +192,6 @@ def add_vaccination(pet_id, data):
     _ensure_not_before_birth(pet, data.get("date_given"), "Vaccination")
 
     pet.vaccinations = _normalize_vaccinations(pet.vaccinations)
-    client_mutation_id = data.get("client_mutation_id")
-    if client_mutation_id:
-        for existing in pet.vaccinations:
-            if existing.get("client_mutation_id") == client_mutation_id:
-                return Pet.objects.get(id=pet.id)
-
     if "_id" not in data and "id" in data:
         data["_id"] = _to_object_id(data["id"])
     if "_id" not in data:
