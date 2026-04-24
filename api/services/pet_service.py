@@ -1,5 +1,5 @@
 # CRUD logic for Pet
-from api.models import Pet, Vaccination, AttachedDocument, Event, User
+from api.models import Pet, Vaccination, AttachedDocument, Event, User, WeightLog
 from api.serializers.pet_serializer import vaccination_to_dict, _to_object_id, _to_datetime
 from bson import ObjectId
 from datetime import datetime, date
@@ -13,8 +13,10 @@ _CAMEL_TO_SNAKE = {
     "knownAllergies": "known_allergies",
     "defaultVet": "default_vet",
     "defaultClinic": "default_clinic",
+    "clientMutationId": "client_mutation_id",
     # Vaccination embedded fields
     "vaccineId": "vaccine_id",
+    "vaccineName": "vaccine_name",
     "dateGiven": "date_given",
     "nextDueDate": "next_due_date",
     "lotNumber": "lot_number",
@@ -94,6 +96,13 @@ def _dates_equal(a, b):
         return False
     return da == db
 
+
+def _ensure_not_before_birth(pet, target_date, entity_label):
+    target = _date_part(target_date)
+    birth = _date_part(getattr(pet, "birth_date", None))
+    if target is not None and birth is not None and target < birth:
+        raise ValueError(f"{entity_label} date cannot be before pet birth date ({birth.isoformat()}).")
+
 def parse_payload_dates(data):
     """Convert date strings in the payload to Python datetime objects."""
     if isinstance(data, dict):
@@ -118,6 +127,15 @@ def parse_payload_dates(data):
 def create_pet(user, data):
     data = translate_payload(data)
     data = parse_payload_dates(data)
+
+    client_mutation_id = data.get("client_mutation_id")
+    if client_mutation_id:
+        existing = Pet.objects.filter(
+            owners__contains=[user.id],
+            client_mutation_id=client_mutation_id,
+        ).first()
+        if existing:
+            return existing
     
     if not data.get("owners"):
         data["owners"] = [user.id]
@@ -165,6 +183,7 @@ def delete_pet(pet_id):
 
     # Remove standalone events that belong to the pet.
     Event.objects.filter(pet_id=target_pet_id).delete()
+    WeightLog.objects.filter(pet_id=target_pet_id).delete()
 
     # Keep user->pets references consistent after deleting the pet.
     for user in User.objects.filter(pets__contains=[target_pet_id]):
@@ -181,8 +200,15 @@ def add_vaccination(pet_id, data):
     data = translate_payload(data)
     data = parse_payload_dates(data)
     pet = Pet.objects.get(id=pet_id)
+    _ensure_not_before_birth(pet, data.get("date_given"), "Vaccination")
 
     pet.vaccinations = _normalize_vaccinations(pet.vaccinations)
+    client_mutation_id = data.get("client_mutation_id")
+    if client_mutation_id:
+        for existing in pet.vaccinations:
+            if existing.get("client_mutation_id") == client_mutation_id:
+                return Pet.objects.get(id=pet.id)
+
     if "_id" not in data and "id" in data:
         data["_id"] = _to_object_id(data["id"])
     if "_id" not in data:
@@ -216,6 +242,8 @@ def update_vaccination(pet_id, vaccination_id, data):
 
     target_id = _to_object_id(vaccination_id)
     pet = Pet.objects.get(id=pet_id)
+    if "date_given" in data:
+        _ensure_not_before_birth(pet, data.get("date_given"), "Vaccination")
 
     updated = False
     normalized = []

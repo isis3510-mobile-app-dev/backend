@@ -52,10 +52,13 @@ class TestEventService(TestCase):
         created.title = "New Event"
         MockEvent.objects.create.return_value = created
         MockEvent.objects.get.return_value = created
+        mock_user = MagicMock()
+        mock_user.id = OWNER_ID
+        mock_user.pets = [PET_ID]
 
         # API sends camelCase; service must translate before ORM
         data = {"title": "New Event", "petId": PET_ID, "ownerId": OWNER_ID}
-        result = event_service.create_event(data)
+        result = event_service.create_event(mock_user, data)
         self.assertEqual(result.title, "New Event")
 
     @patch("api.services.event_service.Event")

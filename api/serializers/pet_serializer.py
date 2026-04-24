@@ -38,6 +38,7 @@ def pet_to_dict(pet):
         "knownAllergies": pet.known_allergies,
         "defaultVet": pet.default_vet,
         "defaultClinic": pet.default_clinic,
+        "clientMutationId": pet.client_mutation_id,
         "vaccinations": [vaccination_to_api_dict(v) for v in (pet.vaccinations or [])],
     }
 
@@ -105,12 +106,14 @@ def vaccination_to_dict(v):
     return {
         "_id": _to_object_id(getattr(v, "id", None)),
         "vaccine_id": _to_object_id(getattr(v, "vaccine_id", None)),
+        "vaccine_name": getattr(v, "vaccine_name", None),
         "date_given": _to_datetime(getattr(v, "date_given", None)),
         "next_due_date": _to_datetime(getattr(v, "next_due_date", None)),
         "lot_number": getattr(v, "lot_number", None),
         "status": getattr(v, "status", None),
         "administered_by": getattr(v, "administered_by", None),
         "clinic_name": getattr(v, "clinic_name", None),
+        "client_mutation_id": getattr(v, "client_mutation_id", None),
         "attached_documents": [
             _attached_document_to_dict(doc)
             for doc in (getattr(v, "attached_documents", None) or [])
@@ -123,12 +126,14 @@ def vaccination_to_api_dict(v):
     return {
         "id": str(v_dict["_id"]) if v_dict.get("_id") is not None else None,
         "vaccineId": str(v_dict["vaccine_id"]) if v_dict.get("vaccine_id") is not None else None,
+        "vaccineName": v_dict.get("vaccine_name"),
         "dateGiven": format_date(v_dict.get("date_given")),
         "nextDueDate": format_date(v_dict.get("next_due_date")),
         "lotNumber": v_dict.get("lot_number"),
         "status": v_dict.get("status"),
         "administeredBy": v_dict.get("administered_by"),
         "clinicName": v_dict.get("clinic_name"),
+        "clientMutationId": v_dict.get("client_mutation_id"),
         "attachedDocuments": [
             {
                 "documentId": str(doc.get("document_id")) if doc.get("document_id") is not None else None,

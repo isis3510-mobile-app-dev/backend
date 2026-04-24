@@ -23,12 +23,14 @@ class Vaccination(EmbeddedModel):
     """Evento de vacunación embebido dentro de Pet"""
     id = ObjectIdAutoField(primary_key=True)
     vaccine_id = SafeObjectIdField()
+    vaccine_name = models.CharField(max_length=255, blank=True)
     date_given = models.DateField()
     next_due_date = models.DateField(null=True, blank=True)
     lot_number = models.CharField(max_length=100, blank=True)
     status = models.CharField(max_length=50, default="completed", help_text="Ex: completed, pending, overdue")
     administered_by = models.CharField(max_length=255, blank=True, help_text="Name of the person or clinic that administered the vaccine")
     clinic_name = models.CharField(max_length=255, blank=True, help_text="Name of the clinic where the vaccine was administered")
+    client_mutation_id = models.CharField(max_length=120, blank=True, null=True)
     attached_documents = ArrayField(
         EmbeddedModelField(AttachedDocument),
         blank=True,
@@ -60,6 +62,7 @@ class Pet(models.Model):
     known_allergies = models.TextField(blank=True, help_text="Known allergies or sensitivities")
     default_vet = models.CharField(max_length=255, blank=True, help_text="Name of the default veterinarian")
     default_clinic = models.CharField(max_length=255, blank=True, help_text="Name of the default clinic")
+    client_mutation_id = models.CharField(max_length=120, blank=True, null=True)
 
     # Embedded data
     vaccinations = ArrayField(
