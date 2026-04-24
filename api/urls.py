@@ -17,6 +17,7 @@ from api.views.vaccine_views import (
 )
 from api.views.user_views import MeView, UserDetailView
 from api.views.event_views import event_collection, event_detail, event_documents
+from api.views.weight_log_views import weight_log_collection, weight_log_detail
 from api.views.notification_views import notification_collection, notification_detail
 from api.views.screen_views import screen_collection, screen_detail
 from api.views.screen_time_log_views import screen_time_log_collection
@@ -36,6 +37,8 @@ urlpatterns = [
     path("pets/<str:pet_id>/vaccinations/", vaccinations),
     path("pets/<str:pet_id>/vaccinations/<str:vaccination_id>/", vaccination_detail),
     path("pets/<str:pet_id>/vaccinations/<str:vaccination_id>/documents/", vaccination_documents),
+    path("pets/<str:pet_id>/weight-logs/", weight_log_collection, name="weight-logs"),
+    path("pets/<str:pet_id>/weight-logs/<str:weight_log_id>/", weight_log_detail, name="weight-log-detail"),
 
     # Events (standalone collection)
     path("events/", event_collection, name="events-list"),

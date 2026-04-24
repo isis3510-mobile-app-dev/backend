@@ -24,7 +24,7 @@ import django  # noqa: E402
 django.setup()
 
 from api.models import (  # noqa: E402
-    User, Pet, Vaccine, Event, Notification,
+    User, Pet, Vaccine, Event, WeightLog, Notification,
     Screen, ScreenTimeLog, Feature, FeatureRoute,
     FeatureExecutionLog, FeatureClicksLog,
 )
@@ -146,6 +146,11 @@ EXPORT_REGISTRY = [
         ["id", "schema", "pet_id", "owner_id", "title", "event_type",
          "date", "price", "provider", "clinic", "description",
          "follow_up_date"],
+    ),
+    (
+        "weight_logs", "Weight Logs", WeightLog,
+        ["id", "schema", "pet_id", "owner_id", "weight", "logged_at",
+         "client_mutation_id", "created_at", "updated_at"],
     ),
     (
         "notifications", "Notifications", Notification,

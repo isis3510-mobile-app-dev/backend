@@ -2,6 +2,7 @@ from .pet import Pet, Vaccination, AttachedDocument
 from .user import User
 from .vaccine import Vaccine
 from .event import Event
+from .weight_log import WeightLog
 from .notification import Notification
 from .screen import Screen, Button
 from .screen_time_log import ScreenTimeLog

@@ -1,6 +1,8 @@
 # CRUD logic for Event
 from api.models.event import Event
-from datetime import datetime
+from api.models.pet import Pet
+from api.serializers.pet_serializer import _to_object_id
+from datetime import datetime, date
 
 # Mapping of camelCase API payload keys → snake_case model field names
 _CAMEL_TO_SNAKE = {
@@ -66,9 +68,34 @@ def _parse_datetime_value(field_name: str, raw_value: str):
     )
 
 
-def create_event(data):
+def _date_part(value):
+    if value is None:
+        return None
+    if isinstance(value, datetime):
+        return value.date()
+    if isinstance(value, date):
+        return value
+    return None
+
+
+def _ensure_event_date_not_before_birth(pet_id, event_date):
+    if not pet_id or not event_date:
+        return
+    pet = Pet.objects.get(id=_to_object_id(pet_id))
+    event_day = _date_part(event_date)
+    birth_day = _date_part(getattr(pet, "birth_date", None))
+    if event_day is not None and birth_day is not None and event_day < birth_day:
+        raise ValueError(f"Event date cannot be before pet birth date ({birth_day.isoformat()}).")
+
+
+def create_event(user, data):
     data = translate_payload(data)
     data = parse_payload_dates(data)
+    data["owner_id"] = user.id
+    pet_id = data.get("pet_id")
+    if str(pet_id) not in [str(pid) for pid in (user.pets or [])]:
+        raise PermissionError("Not authorized to create events for this pet")
+    _ensure_event_date_not_before_birth(pet_id, data.get("date"))
     event = Event.objects.create(**data)
     return Event.objects.get(id=event.id)
 
@@ -94,7 +121,12 @@ def update_event(event_id, data):
     data = translate_payload(data)
     data = parse_payload_dates(data)
     event = Event.objects.get(id=event_id)
+    next_pet_id = data.get("pet_id", event.pet_id)
+    next_date = data.get("date", event.date)
+    _ensure_event_date_not_before_birth(next_pet_id, next_date)
     for key, value in data.items():
+        if key == "owner_id":
+            continue
         setattr(event, key, value)
     event.save()
     return Event.objects.get(id=event.id)

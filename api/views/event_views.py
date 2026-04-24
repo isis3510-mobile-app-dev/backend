@@ -13,8 +13,10 @@ def event_collection(request):
     if request.method == "POST":
         try:
             payload = json.loads(request.body)
-            event = event_service.create_event(payload)
+            event = event_service.create_event(request.user, payload)
             return JsonResponse(event_to_dict(event), status=201)
+        except PermissionError as e:
+            return JsonResponse({"error": str(e)}, status=403)
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
 
