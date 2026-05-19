@@ -32,6 +32,17 @@ def _make_notification(**kwargs):
     n.type = kwargs.get("type", "alert")
     n.header = kwargs.get("header", "Vaccine Due")
     n.text = kwargs.get("text", "Buddy needs a vaccine.")
+    n.action_label = kwargs.get("action_label", "")
+    n.action_phone = kwargs.get("action_phone", "")
+    n.action_whatsapp = kwargs.get("action_whatsapp", "")
+    n.action_report_id = kwargs.get("action_report_id", "")
+    n.action_pet_id = kwargs.get("action_pet_id", "")
+    n.action_pet_name = kwargs.get("action_pet_name", "")
+    n.action_pet_photo_url = kwargs.get("action_pet_photo_url", "")
+    n.action_reporter_name = kwargs.get("action_reporter_name", "")
+    n.action_location = kwargs.get("action_location", "")
+    n.action_latitude = kwargs.get("action_latitude", None)
+    n.action_longitude = kwargs.get("action_longitude", None)
     n.date_sent = kwargs.get("date_sent", datetime(2026, 3, 10))
     n.date_clicked = kwargs.get("date_clicked", None)
     n.is_read = kwargs.get("is_read", False)
@@ -93,14 +104,13 @@ class TestNotificationViews(TestCase):
 
     @patch("api.views.notification_views.notification_service")
     @patch("api.authentication.firebase_authentication.auth")
-    def test_create_notification_ok(self, mock_auth, mock_svc):
+    def test_create_notification_rejected(self, mock_auth, mock_svc):
         mock_user = MagicMock(spec=User)
         mock_user.firebase_uid = "uid123"
         mock_auth.verify_id_token.return_value = {"uid": "uid123"}
 
         with patch("api.authentication.firebase_authentication.User") as MockUser:
             MockUser.objects.get.return_value = mock_user
-            mock_svc.create_notification.return_value = _make_notification()
             # Payload uses camelCase keys
             payload = {
                 "userId": USER_ID,
@@ -111,7 +121,8 @@ class TestNotificationViews(TestCase):
             req = _auth_request(self.factory, "post", "/api/notifications/", payload)
             resp = notification_collection(req)
 
-        self.assertEqual(resp.status_code, 201)
+        self.assertEqual(resp.status_code, 405)
+        mock_svc.create_notification.assert_not_called()
 
 
 class TestNotificationSerializer(TestCase):
@@ -127,5 +138,8 @@ class TestNotificationSerializer(TestCase):
         self.assertIn("isRead", result)
         self.assertIn("isDismissed", result)
         self.assertIn("dateDismissed", result)
+        self.assertIn("actionPetName", result)
+        self.assertIn("actionPetPhotoUrl", result)
+        self.assertIn("actionReporterName", result)
         self.assertFalse(result["isRead"])
         self.assertFalse(result["isDismissed"])

@@ -1,5 +1,7 @@
-from datetime import datetime
+from datetime import datetime, timezone as dt_timezone
 from bson import ObjectId
+from django.utils import timezone
+
 from api.models import FeatureExecutionLog
 from api.services import analytics_utils
 
@@ -7,9 +9,17 @@ from api.services import analytics_utils
 def _parse_datetime(value):
     if isinstance(value, str):
         try:
-            return datetime.fromisoformat(value.replace("Z", "+00:00"))
+            return _ensure_aware_datetime(datetime.fromisoformat(value.replace("Z", "+00:00")))
         except ValueError as e:
             raise ValueError("startTime/endTime must be ISO 8601 strings") from e
+    return _ensure_aware_datetime(value)
+
+
+def _ensure_aware_datetime(value):
+    if value is None or not isinstance(value, datetime):
+        return value
+    if timezone.is_naive(value):
+        return timezone.make_aware(value, dt_timezone.utc)
     return value
 
 

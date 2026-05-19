@@ -1,4 +1,5 @@
 from .pet import Pet, Vaccination, AttachedDocument
+from .lost_pet import EmergencyContact, LostPetReport, LostPetSighting
 from .user import User
 from .vaccine import Vaccine
 from .event import Event

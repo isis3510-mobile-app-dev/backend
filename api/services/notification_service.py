@@ -10,6 +10,17 @@ _CAMEL_TO_SNAKE = {
     "isRead": "is_read",
     "isDismissed": "is_dismissed",
     "dateDismissed": "date_dismissed",
+    "actionLabel": "action_label",
+    "actionPhone": "action_phone",
+    "actionWhatsapp": "action_whatsapp",
+    "actionReportId": "action_report_id",
+    "actionPetId": "action_pet_id",
+    "actionPetName": "action_pet_name",
+    "actionPetPhotoUrl": "action_pet_photo_url",
+    "actionReporterName": "action_reporter_name",
+    "actionLocation": "action_location",
+    "actionLatitude": "action_latitude",
+    "actionLongitude": "action_longitude",
 }
 
 
