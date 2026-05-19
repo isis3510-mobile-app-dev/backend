@@ -17,6 +17,7 @@ from api.views.vaccine_views import (
 )
 from api.views.user_views import MeView, UserDetailView
 from api.views.event_views import event_collection, event_detail, event_documents
+from api.views.medicine_views import medicine_collection, medicine_detail
 from api.views.weight_log_views import weight_log_collection, weight_log_detail
 from api.views.notification_views import notification_collection, notification_detail
 from api.views.screen_views import screen_collection, screen_detail
@@ -56,6 +57,10 @@ urlpatterns = [
     path("events/", event_collection, name="events-list"),
     path("events/<str:event_id>/", event_detail, name="event-detail"),
     path("events/<str:event_id>/documents/", event_documents, name="event-documents"),
+
+    # Medicines (standalone collection like events)
+    path("medicines/", medicine_collection, name="medicines-list"),
+    path("medicines/<str:medicine_id>/", medicine_detail, name="medicine-detail"),
 
     # Notifications (standalone collection)
     path("notifications/", notification_collection, name="notifications-list"),
