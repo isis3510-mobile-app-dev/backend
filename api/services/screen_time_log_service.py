@@ -1,5 +1,7 @@
 # CRUD logic for ScreenTimeLog
-from datetime import datetime
+from datetime import datetime, timezone as dt_timezone
+from django.utils import timezone
+
 from api.models import ScreenTimeLog
 from api.services import analytics_utils
 
@@ -7,7 +9,15 @@ from api.services import analytics_utils
 def _parse_datetime(value):
     """Convert an ISO string to a datetime object if needed."""
     if isinstance(value, str):
-        return datetime.fromisoformat(value.replace("Z", "+00:00"))
+        return _ensure_aware_datetime(datetime.fromisoformat(value.replace("Z", "+00:00")))
+    return _ensure_aware_datetime(value)
+
+
+def _ensure_aware_datetime(value):
+    if value is None or not isinstance(value, datetime):
+        return value
+    if timezone.is_naive(value):
+        return timezone.make_aware(value, dt_timezone.utc)
     return value
 
 

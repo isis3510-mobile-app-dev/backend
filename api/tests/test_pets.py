@@ -129,17 +129,45 @@ class TestPetService(TestCase):
 
     @patch("api.services.pet_service.Pet")
     def test_update_pet(self, MockPet):
-        pet = _make_pet(name="OldName")
         updated = _make_pet(name="NewName")
-        MockPet.objects.get.side_effect = [pet, updated]
+        MockPet.objects.get.return_value = updated
         result = pet_service.update_pet(PET_ID, {"name": "NewName"})
-        pet.save.assert_called_once()
+        MockPet.objects.filter.assert_called_once_with(id=PET_ID)
+        MockPet.objects.filter.return_value.update.assert_called_once_with(name="NewName")
         self.assertEqual(result.name, "NewName")
 
+    @patch("api.services.pet_service.Pet")
+    def test_update_pet_rejects_direct_status_changes(self, MockPet):
+        with self.assertRaises(ValueError):
+            pet_service.update_pet(PET_ID, {"status": "lost"})
+
+        MockPet.objects.filter.assert_not_called()
+
+    @patch("api.services.pet_service.Pet")
+    def test_create_pet_ignores_direct_status(self, MockPet):
+        user = MagicMock()
+        user.id = ObjectId(USER_ID)
+        user.pets = []
+        created = _make_pet(status="healthy")
+        MockPet.objects.create.return_value = created
+        MockPet.objects.get.return_value = created
+
+        result = pet_service.create_pet(user, {
+            "name": "Buddy",
+            "species": "dog",
+            "gender": "male",
+            "status": "lost",
+        })
+
+        _, kwargs = MockPet.objects.create.call_args
+        self.assertNotIn("status", kwargs)
+        self.assertEqual(result.status, "healthy")
+
     @patch("api.services.pet_service.User")
+    @patch("api.services.pet_service.WeightLog")
     @patch("api.services.pet_service.Event")
     @patch("api.services.pet_service.Pet")
-    def test_delete_pet(self, MockPet, MockEvent, MockUser):
+    def test_delete_pet(self, MockPet, MockEvent, MockWeightLog, MockUser):
         target_pet_id = ObjectId(PET_ID)
 
         user_a = MagicMock()
@@ -150,12 +178,15 @@ class TestPetService(TestCase):
 
         MockUser.objects.filter.return_value = [user_a, user_b]
         MockEvent.objects.filter.return_value.delete.return_value = None
+        MockWeightLog.objects.filter.return_value.delete.return_value = None
         MockPet.objects.filter.return_value.delete.return_value = None
 
         pet_service.delete_pet(PET_ID)
 
         MockEvent.objects.filter.assert_called_once_with(pet_id=target_pet_id)
         MockEvent.objects.filter.return_value.delete.assert_called_once()
+        MockWeightLog.objects.filter.assert_called_once_with(pet_id=target_pet_id)
+        MockWeightLog.objects.filter.return_value.delete.assert_called_once()
 
         MockUser.objects.filter.assert_called_once_with(pets__contains=[target_pet_id])
         self.assertTrue(all(str(pid) != PET_ID for pid in user_a.pets))

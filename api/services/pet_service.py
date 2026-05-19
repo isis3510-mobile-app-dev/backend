@@ -125,6 +125,7 @@ def parse_payload_dates(data):
 def create_pet(user, data):
     data = translate_payload(data)
     data = parse_payload_dates(data)
+    data.pop("status", None)
 
     if not data.get("owners"):
         data["owners"] = [user.id]
@@ -156,6 +157,9 @@ def get_pet(pet_id):
 def update_pet(pet_id, data):
     data = translate_payload(data)
     data = parse_payload_dates(data)
+
+    if "status" in data:
+        raise ValueError("Pet status is managed by lost pet reports.")
 
     update_fields = {}
 
