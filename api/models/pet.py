@@ -35,6 +35,22 @@ class Vaccination(EmbeddedModel):
         default=list
     )
 
+class Exercise(models.Model):
+    id = ObjectIdAutoField(primary_key=True)
+    pet_id = SafeObjectIdField()
+    owner_id = SafeObjectIdField()
+    type = models.CharField(max_length=100)
+    started_at = models.DateTimeField()
+    duration_minutes = models.IntegerField()
+    intensity = models.CharField(max_length=50, help_text="Ex: low, medium, high")
+    distance_km = models.FloatField(null=True, blank=True)
+    notes = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "exercises"
+
 class Pet(models.Model):
     id = ObjectIdAutoField(primary_key=True)
     schema = models.IntegerField(default=1, help_text="Version of the document schema")
