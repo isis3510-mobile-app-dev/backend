@@ -18,7 +18,7 @@ from api.views.vaccine_views import (
 from api.views.user_views import MeView, UserDetailView
 from api.views.event_views import event_collection, event_detail, event_documents
 from api.views.medicine_views import medicine_collection, medicine_detail
-from api.views.exercise_views import exercise_collection, exercise_detail
+from api.views.exercise_views import exercise_collection, exercise_detail, exercise_goal, exercise_route
 from api.views.weight_log_views import weight_log_collection, weight_log_detail
 from api.views.notification_views import notification_collection, notification_detail
 from api.views.screen_views import screen_collection, screen_detail
@@ -51,6 +51,8 @@ urlpatterns = [
     path("pets/<str:pet_id>/mark-found/", mark_pet_found, name="pet-mark-found"),
     path("pets/<str:pet_id>/exercises/", exercise_collection, name="exercises-list"),
     path("pets/<str:pet_id>/exercises/<str:exercise_id>/", exercise_detail, name="exercise-detail"),
+    path("pets/<str:pet_id>/exercise-goal/", exercise_goal, name="exercise-goal"),
+    path("pets/<str:pet_id>/exercises/<str:exercise_id>/route/", exercise_route, name="exercise-route"),
 
     # Lost pets public board
     path("lost-pets/", public_lost_pet_collection, name="lost-pets-list"),

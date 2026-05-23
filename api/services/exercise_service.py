@@ -1,6 +1,6 @@
 from datetime import datetime, date
 
-from api.models import Pet, Exercise
+from api.models import Pet, Exercise, ExerciseGoal, ExerciseRoute
 from api.serializers.pet_serializer import _to_object_id
 
 
@@ -10,6 +10,7 @@ _CAMEL_TO_SNAKE = {
     "startedAt": "started_at",
     "durationMinutes": "duration_minutes",
     "distanceKm": "distance_km",
+    "clientMutationId": "client_mutation_id",
     "createdAt": "created_at",
     "updatedAt": "updated_at",
 }
@@ -106,6 +107,16 @@ def create_exercise(user, pet_id, data):
     data["owner_id"] = user.id
     _validate_exercise(pet, data)
 
+    client_mutation_id = data.get("client_mutation_id")
+    if client_mutation_id:
+        existing = Exercise.objects.filter(
+            owner_id=user.id,
+            pet_id=pet.id,
+            client_mutation_id=client_mutation_id,
+        ).first()
+        if existing:
+            return existing
+
     created = Exercise.objects.create(**data)
     return Exercise.objects.get(id=created.id)
 
@@ -135,4 +146,106 @@ def update_exercise(user, pet_id, exercise_id, data):
 
 def delete_exercise(user, pet_id, exercise_id):
     _get_owned_pet(user, pet_id)
+    ExerciseRoute.objects.filter(exercise_id=_to_object_id(exercise_id)).delete()
     Exercise.objects.filter(id=_to_object_id(exercise_id), pet_id=_to_object_id(pet_id)).delete()
+
+
+def get_exercise_goal(user, pet_id):
+    pet = _get_owned_pet(user, pet_id)
+    return ExerciseGoal.objects.filter(pet_id=pet.id).first()
+
+
+def update_exercise_goal(user, pet_id, data):
+    pet = _get_owned_pet(user, pet_id)
+    raw_minutes = data.get("weeklyGoalMinutes", data.get("weekly_goal_minutes"))
+    try:
+        weekly_goal_minutes = int(raw_minutes)
+    except (TypeError, ValueError):
+        raise ValueError("Weekly goal must be numeric.")
+    if weekly_goal_minutes <= 0 or weekly_goal_minutes > 10080:
+        raise ValueError("Weekly goal must be between 1 and 10080 minutes.")
+
+    existing = ExerciseGoal.objects.filter(pet_id=pet.id).first()
+    if existing:
+        existing.weekly_goal_minutes = weekly_goal_minutes
+        existing.owner_id = user.id
+        existing.save()
+        return ExerciseGoal.objects.get(id=existing.id)
+
+    created = ExerciseGoal.objects.create(
+        pet_id=pet.id,
+        owner_id=user.id,
+        weekly_goal_minutes=weekly_goal_minutes,
+    )
+    return ExerciseGoal.objects.get(id=created.id)
+
+
+def get_exercise_route(user, pet_id, exercise_id):
+    _get_owned_pet(user, pet_id)
+    Exercise.objects.get(id=_to_object_id(exercise_id), pet_id=_to_object_id(pet_id))
+    return ExerciseRoute.objects.filter(
+        exercise_id=_to_object_id(exercise_id),
+        pet_id=_to_object_id(pet_id),
+    ).first()
+
+
+def save_exercise_route(user, pet_id, exercise_id, data):
+    pet = _get_owned_pet(user, pet_id)
+    exercise = Exercise.objects.get(id=_to_object_id(exercise_id), pet_id=pet.id)
+    points = _validate_route_points(data.get("points", []))
+    route = ExerciseRoute.objects.filter(
+        exercise_id=exercise.id,
+        pet_id=pet.id,
+    ).first()
+    if route:
+        route.points = points
+        route.owner_id = user.id
+        route.save()
+        return ExerciseRoute.objects.get(id=route.id)
+
+    created = ExerciseRoute.objects.create(
+        exercise_id=exercise.id,
+        pet_id=pet.id,
+        owner_id=user.id,
+        points=points,
+    )
+    return ExerciseRoute.objects.get(id=created.id)
+
+
+def _validate_route_points(points):
+    if points is None:
+        return []
+    if not isinstance(points, list):
+        raise ValueError("Route points must be a list.")
+    if len(points) > 20000:
+        raise ValueError("Route contains too many points.")
+
+    normalized = []
+    for point in points:
+        if not isinstance(point, dict):
+            raise ValueError("Each route point must be an object.")
+        try:
+            latitude = float(point["latitude"])
+            longitude = float(point["longitude"])
+        except (KeyError, TypeError, ValueError):
+            raise ValueError("Route point coordinates are required.")
+        if not (-90 <= latitude <= 90):
+            raise ValueError("Invalid route point latitude.")
+        if not (-180 <= longitude <= 180):
+            raise ValueError("Invalid route point longitude.")
+
+        normalized_point = {
+            "latitude": latitude,
+            "longitude": longitude,
+            "recordedAt": str(point.get("recordedAt", "")).strip(),
+        }
+        if not normalized_point["recordedAt"]:
+            raise ValueError("Route point recordedAt is required.")
+        accuracy = point.get("accuracyMeters")
+        if accuracy is not None:
+            try:
+                normalized_point["accuracyMeters"] = float(accuracy)
+            except (TypeError, ValueError):
+                raise ValueError("Route point accuracy must be numeric.")
+        normalized.append(normalized_point)
+    return normalized

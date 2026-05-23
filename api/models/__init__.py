@@ -1,4 +1,4 @@
-from .pet import Pet, Vaccination, Exercise, AttachedDocument
+from .pet import Pet, Vaccination, Exercise, ExerciseGoal, ExerciseRoute, AttachedDocument
 from .lost_pet import EmergencyContact, LostPetReport, LostPetSighting
 from .user import User
 from .vaccine import Vaccine

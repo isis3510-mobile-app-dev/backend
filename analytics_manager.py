@@ -16,7 +16,7 @@ import os
 import sys
 import csv
 import argparse
-from datetime import datetime
+from datetime import datetime, date
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
 
@@ -76,6 +76,8 @@ def _safe_str(value):
         return ""
     if isinstance(value, datetime):
         return value.isoformat()
+    if isinstance(value, date):
+        return value.isoformat()
     if isinstance(value, list):
         return str(value)
     return str(value)
@@ -83,17 +85,13 @@ def _safe_str(value):
 
 def _export_model(model, fields, csv_path):
     """Export a Django model queryset to a CSV file."""
-    qs = model.objects.all()
-    count = qs.count()
+    count = model.objects.count()
 
     with open(csv_path, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
         writer.writerow(fields)
-        for obj in qs:
-            row = []
-            for field in fields:
-                val = getattr(obj, field, None)
-                row.append(_safe_str(val))
+        for obj in model.objects.values(*fields):
+            row = [_safe_str(obj.get(field)) for field in fields]
             writer.writerow(row)
 
     return count
@@ -101,20 +99,24 @@ def _export_model(model, fields, csv_path):
 
 def _export_embedded(parent_model, parent_id_field, embedded_field, embedded_fields, csv_path):
     """Export embedded sub-documents as a separate CSV with a FK column."""
-    qs = parent_model.objects.all()
-    count = 0
+    from django.db import connection
+    table = parent_model._meta.db_table
+    try:
+        coll = connection.get_collection(table)
+    except AttributeError:
+        coll = connection.database[table]
 
+    count = 0
     with open(csv_path, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
         writer.writerow([parent_id_field] + embedded_fields)
-        for parent in qs:
-            parent_id = _safe_str(parent.id)
-            items = getattr(parent, embedded_field, None) or []
+        for doc in coll.find({}, {"_id": 1, embedded_field: 1}):
+            parent_id = str(doc.get("_id", ""))
+            items = doc.get(embedded_field) or []
             for item in items:
                 row = [parent_id]
                 for field in embedded_fields:
-                    val = getattr(item, field, None)
-                    row.append(_safe_str(val))
+                    row.append(_safe_str(item.get(field)))
                 writer.writerow(row)
                 count += 1
 

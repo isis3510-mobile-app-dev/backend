@@ -164,10 +164,22 @@ class TestPetService(TestCase):
         self.assertEqual(result.status, "healthy")
 
     @patch("api.services.pet_service.User")
+    @patch("api.services.pet_service.ExerciseRoute")
+    @patch("api.services.pet_service.ExerciseGoal")
+    @patch("api.services.pet_service.Exercise")
     @patch("api.services.pet_service.WeightLog")
     @patch("api.services.pet_service.Event")
     @patch("api.services.pet_service.Pet")
-    def test_delete_pet(self, MockPet, MockEvent, MockWeightLog, MockUser):
+    def test_delete_pet(
+        self,
+        MockPet,
+        MockEvent,
+        MockWeightLog,
+        MockExercise,
+        MockExerciseGoal,
+        MockExerciseRoute,
+        MockUser,
+    ):
         target_pet_id = ObjectId(PET_ID)
 
         user_a = MagicMock()
@@ -179,6 +191,9 @@ class TestPetService(TestCase):
         MockUser.objects.filter.return_value = [user_a, user_b]
         MockEvent.objects.filter.return_value.delete.return_value = None
         MockWeightLog.objects.filter.return_value.delete.return_value = None
+        MockExercise.objects.filter.return_value.delete.return_value = None
+        MockExerciseGoal.objects.filter.return_value.delete.return_value = None
+        MockExerciseRoute.objects.filter.return_value.delete.return_value = None
         MockPet.objects.filter.return_value.delete.return_value = None
 
         pet_service.delete_pet(PET_ID)
@@ -187,6 +202,12 @@ class TestPetService(TestCase):
         MockEvent.objects.filter.return_value.delete.assert_called_once()
         MockWeightLog.objects.filter.assert_called_once_with(pet_id=target_pet_id)
         MockWeightLog.objects.filter.return_value.delete.assert_called_once()
+        MockExercise.objects.filter.assert_called_once_with(pet_id=target_pet_id)
+        MockExercise.objects.filter.return_value.delete.assert_called_once()
+        MockExerciseGoal.objects.filter.assert_called_once_with(pet_id=target_pet_id)
+        MockExerciseGoal.objects.filter.return_value.delete.assert_called_once()
+        MockExerciseRoute.objects.filter.assert_called_once_with(pet_id=target_pet_id)
+        MockExerciseRoute.objects.filter.return_value.delete.assert_called_once()
 
         MockUser.objects.filter.assert_called_once_with(pets__contains=[target_pet_id])
         self.assertTrue(all(str(pid) != PET_ID for pid in user_a.pets))
