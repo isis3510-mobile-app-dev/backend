@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from api.authentication.firebase_authentication import firebase_required, is_pet_owner
+from api.models.lost_pet import LostPetReport
 from api.serializers.lost_pet_serializer import (
     lost_pet_report_card_to_dict,
     lost_pet_report_detail_to_dict,
@@ -93,3 +94,34 @@ def mark_pet_found(request, pet_id):
             return JsonResponse({"error": str(e)}, status=400)
 
     return JsonResponse({"error": "Method not allowed"}, status=405)
+
+@csrf_exempt
+def create_sighting_view(request, report_id):
+    #POST /api/lost-pets/<report_id>/sighting/
+    
+    if request.method != "POST":
+        return JsonResponse({"error": "Method not allowed"}, status=405)
+
+    try:
+        payload = _json_payload(request)  # ✅ usar helper consistente
+
+        sighting, report, pet = lost_pet_service.create_sighting(
+            report_id,
+            payload
+        )
+
+        return JsonResponse({
+            "lostPetSightingId": str(sighting.id),
+            "reportId": str(report.id),
+            "petId": str(pet.id),
+            "message": "Sighting created successfully"
+        }, status=201)
+
+    except LostPetReport.DoesNotExist:
+        return JsonResponse({"error": "Report not found"}, status=404)
+
+    except ValueError as e:
+        return JsonResponse({"error": str(e)}, status=400)
+
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)

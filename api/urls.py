@@ -29,6 +29,7 @@ from api.views.feature_execution_log_views import feature_execution_log_collecti
 from api.views.feature_clicks_log_views import feature_clicks_log_collection
 from api.views.nfc_views import nfc_public_read, nfc_payload, nfc_scan_sighting, nfc_sync
 from api.views.lost_pet_views import (
+    create_sighting_view,
     public_lost_pet_collection,
     public_lost_pet_detail,
     pet_lost_report,
@@ -57,6 +58,7 @@ urlpatterns = [
     # Lost pets public board
     path("lost-pets/", public_lost_pet_collection, name="lost-pets-list"),
     path("lost-pets/<str:report_id>/", public_lost_pet_detail, name="lost-pet-detail"),
+    path("lost-pets/<str:report_id>/sighting/", create_sighting_view, name="create-sighting"),
 
     # Events (standalone collection)
     path("events/", event_collection, name="events-list"),
