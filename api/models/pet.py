@@ -45,11 +45,50 @@ class Exercise(models.Model):
     intensity = models.CharField(max_length=50, help_text="Ex: low, medium, high")
     distance_km = models.FloatField(null=True, blank=True)
     notes = models.TextField(blank=True)
+    # Optional retry key used by offline clients. It is deliberately not exposed
+    # by the shared exercise serializer consumed by the Flutter app.
+    client_mutation_id = models.CharField(max_length=120, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = "exercises"
+
+
+class ExerciseRoute(models.Model):
+    """Optional route payload for an exercise that tracked location."""
+
+    id = ObjectIdAutoField(primary_key=True)
+    exercise_id = SafeObjectIdField()
+    pet_id = SafeObjectIdField()
+    owner_id = SafeObjectIdField()
+    points = models.JSONField(default=list)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "exercise_routes"
+        indexes = [
+            models.Index(fields=["exercise_id"], name="idx_exercise_route_exercise"),
+            models.Index(fields=["pet_id"], name="idx_exercise_route_pet"),
+        ]
+
+
+class ExerciseGoal(models.Model):
+    """Per-pet exercise target kept outside the shared Pet serializer."""
+
+    id = ObjectIdAutoField(primary_key=True)
+    pet_id = SafeObjectIdField()
+    owner_id = SafeObjectIdField()
+    weekly_goal_minutes = models.IntegerField(default=150)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "exercise_goals"
+        indexes = [
+            models.Index(fields=["pet_id"], name="idx_exercise_goal_pet"),
+        ]
 
 class Pet(models.Model):
     id = ObjectIdAutoField(primary_key=True)

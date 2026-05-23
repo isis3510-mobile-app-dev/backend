@@ -31,3 +31,18 @@ def exercise_to_dict(exercise):
         "createdAt": format_date(exercise.created_at),
         "updatedAt": format_date(exercise.updated_at),
     }
+
+
+def exercise_goal_to_dict(pet_id, goal):
+    return {
+        "petId": str(pet_id),
+        "weeklyGoalMinutes": goal.weekly_goal_minutes if goal else 150,
+    }
+
+
+def exercise_route_to_dict(pet_id, exercise_id, route):
+    return {
+        "petId": str(pet_id),
+        "exerciseId": str(exercise_id),
+        "points": route.points if route else [],
+    }
