@@ -500,6 +500,18 @@ def _apply_location_label(payload):
     except (TypeError, ValueError):
         return
 
+def list_sightings_for_report(report_id):
+    report = LostPetReport.objects.get(id=_to_object_id(report_id))
+
+    sightings = list(
+        LostPetSighting.objects
+        .filter(report_id=_to_object_id(report.id))
+        .order_by("-seen_at", "-created_at")
+    )
+
+    return sightings, report
+
+
 
 def _nearest_bogota_zone(latitude, longitude):
     name, _, _ = min(
