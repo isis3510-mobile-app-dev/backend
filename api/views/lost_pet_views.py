@@ -95,8 +95,42 @@ def mark_pet_found(request, pet_id):
 
     return JsonResponse({"error": "Method not allowed"}, status=405)
 
+def sighting_to_dict(sighting):
+    return {
+        "id": str(sighting.id),
+        "reportId": str(sighting.report_id),
+        "petId": str(sighting.pet_id),
+        "location": sighting.location,
+        "latitude": sighting.latitude,
+        "longitude": sighting.longitude,
+        "note": sighting.note,
+        "photoUrl": sighting.photo_url,
+        "seenAt": sighting.seen_at,
+        "reporterName": sighting.reporter_name,
+        "reporterPhone": sighting.reporter_phone,
+        "reporterEmail": sighting.reporter_email,
+        "createdAt": sighting.created_at,
+    }
+
+
 @csrf_exempt
 def create_sighting_view(request, report_id):
+
+    if request.method == "GET":
+        try:
+            sightings, report = lost_pet_service.list_sightings_for_report(report_id)
+
+            return JsonResponse(
+                [sighting_to_dict(s) for s in sightings],
+                safe=False
+            )
+
+        except LostPetReport.DoesNotExist:
+            return JsonResponse({"error": "Report not found"}, status=404)
+
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+        
     #POST /api/lost-pets/<report_id>/sighting/
     
     if request.method != "POST":

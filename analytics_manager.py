@@ -26,7 +26,7 @@ django.setup()
 from api.models import (  # noqa: E402
     User, Pet, Vaccine, Event, WeightLog, Notification,
     Screen, ScreenTimeLog, Feature, FeatureRoute,
-    FeatureExecutionLog, FeatureClicksLog,
+    FeatureExecutionLog, FeatureClicksLog, Medicine, LostPetReport, LostPetSighting
 )
 
 
@@ -187,6 +187,42 @@ EXPORT_REGISTRY = [
         ["id", "schema", "userId", "routeId", "timestamp", "nClicks",
          "appType"],
     ),
+    # --- NUEVO ---
+(
+    "medicines", "Medicines", Medicine,
+    [
+        "id", "schema", "pet_id", "owner_id",
+        "medicine_name", "administration_route",
+        "dosage_value", "dosage_unit",
+        "frequency", "start_date", "end_date",
+        "photo_url", "reminder_enabled",
+        "last_administered",
+    ],
+),
+
+(
+    "lost_pet_reports", "Lost Pet Reports", LostPetReport,
+    [
+        "id", "schema", "pet_id", "owner_id",
+        "status", "lost_note",
+        "last_seen_location", "last_seen_latitude", "last_seen_longitude",
+        "last_seen_at",
+        "expose_medical_info", "nfc_notifications_enabled",
+        "created_at", "updated_at", "resolved_at",
+    ],
+),
+
+(
+    "lost_pet_sightings", "Lost Pet Sightings", LostPetSighting,
+    [
+        "id", "schema", "report_id", "pet_id",
+        "seen_at", "location",
+        "latitude", "longitude",
+        "note", "photo_url",
+        "reporter_name", "reporter_phone", "reporter_email",
+        "created_at",
+    ],
+),
 ]
 
 # Embedded sub-document registries
